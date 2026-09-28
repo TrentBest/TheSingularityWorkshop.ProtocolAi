@@ -70,7 +70,7 @@ public sealed class ProtocolDefinition
             builder.AppendLine();
             builder.Append("  [").Append(symbol.Id).Append("] ")
                 .Append(symbol.Name).Append(" = ")
-                .Append('"').Append(symbol.Value.Replace(""", "\"")).Append('"');
+                .Append('"').Append(symbol.Value.Replace("\"", "\\\"")).Append('"');
         }
         return builder.ToString();
     }
