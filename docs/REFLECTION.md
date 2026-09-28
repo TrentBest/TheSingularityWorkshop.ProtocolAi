@@ -70,6 +70,146 @@ They are the next steps in the lifecycle.
 
 ---
 
+## Immutable definitions and future dynamic registration
+
+There is an important distinction between **an immutable protocol definition** and **a vocabulary that can evolve**.
+
+The alpha chooses immutability because it makes a published definition deterministic:
+
+~~~text
+ProtocolBuilder
+      |
+      v
+ProtocolDefinition
+      |
+      +---- same definition + same value
+      |              |
+      |              v
+      |          same identity
+~~~
+
+That is a useful property for reasoning, testing, caching, diagnostics, and later serialization.
+
+It does not mean the surrounding domain is immutable.
+
+A future lifecycle can instead separate the **mutable authority** from the **immutable snapshots** it publishes:
+
+~~~text
+                 domain / host authority
+                          |
+                          v
+                 +-------------------+
+                 | registration      |
+                 | policy + allocator|
+                 +---------+---------+
+                           |
+                    publish snapshot
+                           |
+                           v
+                 +-------------------+
+                 | ProtocolDefinition|
+                 |    immutable      |
+                 +-------------------+
+                           |
+                    Describe / Encode
+                           |
+                           v
+                    protocol payload
+~~~
+
+That gives the architecture a clean place to answer the questions alpha intentionally leaves open:
+
+- Who is allowed to register a new symbol?
+- How is an integer identity allocated?
+- How does the host reject a proposed registration?
+- How is a new definition published?
+- How do existing participants learn that the vocabulary changed?
+- What does protocol version mean when a vocabulary evolves?
+- How are old integer references kept meaningful?
+- Can two participants merge compatible vocabulary updates?
+- When should a literal become an identity at all?
+
+The likely answer is **not** to make ProtocolDefinition itself mutable.
+
+Instead, a future registration layer can own mutation and publish new immutable definitions or snapshots.
+
+That preserves the strongest property of the alpha while giving the larger system somewhere to evolve.
+
+### Describe() as a future protocol boundary
+
+Describe() is currently a deterministic diagnostic representation.
+
+Conceptually, however, it points toward something larger:
+
+~~~text
+immutable definition
+       |
+       v
+   Describe()
+       |
+       v
+self-description
+       |
+       v
+future serialized protocol
+       |
+       v
+host consumes definition
+       |
+       v
+policy
+       |
+       +---- accept
+       +---- reject
+       +---- merge
+       +---- publish new snapshot
+~~~
+
+The important design constraint is that **description is not authority**.
+
+A description can tell a host what a vocabulary claims to contain.
+
+It should not, by itself, grant permission to create identities or mutate the application's domain.
+
+That policy belongs outside the immutable definition.
+
+---
+
+## The next useful boundary
+
+The next implementation step should therefore be considered a lifecycle problem rather than simply "make the dictionary mutable."
+
+A useful future decomposition is:
+
+~~~text
+ProtocolDefinition
+    = immutable vocabulary snapshot
+
+ProtocolRegistry
+    = mutable host-owned authority
+
+ProtocolRegistration
+    = proposed identity change
+
+ProtocolAllocator
+    = identity allocation policy
+
+ProtocolNegotiation
+    = compatibility between snapshots
+~~~
+
+Those names are deliberately conceptual at this stage.
+
+The alpha does not promise these types.
+
+The architectural question comes first:
+
+> **How can a changing domain publish deterministic, addressable vocabulary snapshots without allowing probabilistic model output to become authority over identity?**
+
+That is the question the next generation of ProtocolAI should answer.
+
+---
+
 ## Why LLM ownership stays outside
 
 The model is a participant.
