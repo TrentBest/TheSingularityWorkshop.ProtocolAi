@@ -18,6 +18,7 @@ public sealed class ProtocolDefinitionTests
         Assert.Equal("Bob", protocol.Decode(2001));
         Assert.Equal((ulong)2002, protocol.Reference("ryanId").SymbolId);
         Assert.Equal((ulong)2003, protocol.ReferenceByValue("Sara").SymbolId);
+        Assert.Equal("Bob", protocol.Decode(protocol.Reference("bobId")));
     }
 
     [Fact]
@@ -26,6 +27,7 @@ public sealed class ProtocolDefinitionTests
         var protocol = new ProtocolBuilder(1001, "People").Define(2001, "bobId", "Bob").Build();
         var payload = protocol.Encode(["Bob", "New Character"]);
 
+        Assert.Equal((ulong)1001, payload.ProtocolId);
         Assert.True(payload.Values[0].IsReference);
         Assert.Equal((ulong)2001, payload.Values[0].SymbolId);
         Assert.True(payload.Values[1].IsLiteral);
@@ -43,6 +45,35 @@ public sealed class ProtocolDefinitionTests
 
         Assert.Throws<ArgumentException>(() => new ProtocolBuilder(1001, "People")
             .Define(2001, "bobId", "Bob").Define(2002, "otherId", "Bob").Build());
+    }
+
+    [Fact]
+    public void Decode_rejects_a_reference_owned_by_another_protocol()
+    {
+        var protocol = new ProtocolBuilder(1001, "People").Define(2001, "bobId", "Bob").Build();
+        var other = new ProtocolReference(9001, 2001);
+
+        Assert.Throws<ArgumentException>(() => protocol.Decode(other));
+    }
+
+    [Fact]
+    public void Definition_is_an_immutable_snapshot_of_the_builder()
+    {
+        var builder = new ProtocolBuilder(1001, "People").Define(2001, "bobId", "Bob");
+        var first = builder.Build();
+
+        builder.Define(2002, "janeId", "Jane");
+
+        Assert.Single(first.Symbols);
+        Assert.Throws<KeyNotFoundException>(() => first.Decode(2002));
+    }
+
+    [Fact]
+    public void Description_escapes_embedded_quotes()
+    {
+        var protocol = new ProtocolBuilder(1001, "People").Define(2001, "quote", "Bob \\\"The Builder\\\"").Build();
+
+        Assert.Equal("[1001] People\\n  [2001] quote = \\\"Bob \\\\\\\"The Builder\\\\\\\"\\\"", protocol.Describe());
     }
 
     [Fact]
