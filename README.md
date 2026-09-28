@@ -1,10 +1,18 @@
 # TheSingularityWorkshop.ProtocolAi
 
-**Self-defining integer-backed protocol vocabularies for AI interaction.**
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![NuGet version](https://img.shields.io/nuget/v/TheSingularityWorkshop.ProtocolAi?style=flat-square&logo=nuget&logoColor=white)](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi)
+[![NuGet downloads](https://img.shields.io/nuget/dt/TheSingularityWorkshop.ProtocolAi?style=flat-square&logo=nuget&logoColor=white)](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi)
+[![Build](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.ProtocolAi/verify.yml?branch=master&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/verify.yml)
+[![Code Coverage](https://img.shields.io/codecov/c/github/TrentBest/TheSingularityWorkshop.ProtocolAi?style=flat-square)](https://codecov.io/gh/TrentBest/TheSingularityWorkshop.ProtocolAi)
 
-ProtocolAI defines the **lexicon layer** of a structured AI protocol.
+**The lexicon layer for self-defining, integer-backed AI protocols.**
 
-Instead of repeatedly asking an LLM to emit a large body of descriptive strings, a tool can define a vocabulary once:
+AI systems are becoming very good at producing structured data. ProtocolAI asks a different question:
+
+> **What happens when the vocabulary itself becomes compact, addressable, self-describing, and owned by the tool that needs it?**
+
+A tool can define:
 
 ```text
 [1001] People
@@ -17,122 +25,346 @@ Instead of repeatedly asking an LLM to emit a large body of descriptive strings,
 [2006] jillId = "Jill"
 ```
 
-The model can then operate on the integer-backed representation:
+The model-facing representation can then become:
 
 ```text
 [2001] [2004] [2006]
 ```
 
-When a value cannot be represented by the vocabulary — for example, a newly created object's name — the protocol can carry a literal string:
+And when an interaction introduces something new:
 
 ```text
 [2001] [2004] "New Character"
 ```
 
-ProtocolAI does **not** contain an LLM. It defines the vocabulary and representation that an LLM-facing host can provide to a model and decode from its response.
+The literal is not a failure. **It is a possible new semantic identity.**
 
-## Core model
+---
+
+## WHAT is this?
+
+ProtocolAI is the **WHAT layer**.
+
+It defines a self-describing lexicon without owning the LLM, prompt transport, tokenizer, model, or execution environment.
 
 ```text
-Tool defines vocabulary
-        |
-        v
-+-------------------+
-| ProtocolDefinition|
-| [1001] People     |
-+---------+---------+
-          |
-          +--> [2001] bobId  = "Bob"
-          +--> [2002] ryanId = "Ryan"
-          +--> ...
-          |
-          v
-       LLM prompt
-          |
-          v
-  integer-backed output
-          |
-          +--> [2001]
-          +--> [2004]
-          +--> "New Character"
+Tool
+ |
+ | defines vocabulary
+ v
++----------------------+
+|      ProtocolAI      |
+|        WHAT          |
+|                      |
+| [1001] People        |
+| [2001] Bob           |
+| [2002] Jane          |
++----------+-----------+
+           |
+           v
+    AI-facing host
+           |
+           v
+          LLM
 ```
 
-## The API
+The package supplies the form of the vocabulary. The tool supplies its meaning.
+
+---
+
+## Why integer-backed?
+
+A string carries meaning directly. An integer can carry **identity**.
+
+ProtocolAI separates:
+
+| Layer | Example | Role |
+|---|---|---|
+| Protocol identity | `[1001]` | Vocabulary namespace |
+| Symbol identity | `[2001]` | Entry address |
+| Symbol name | `bobId` | Human-facing identifier |
+| Value | `"Bob"` | Human/domain meaning |
+
+The integer is not the meaning.
+
+It is the **address of the meaning**.
+
+That makes it possible to describe a vocabulary once and subsequently exchange compact references to its members.
+
+---
+
+## Known values and new values
+
+The current API deliberately distinguishes known values from literals:
 
 ```csharp
 var people = new ProtocolBuilder(1001, "People")
     .Define(2001, "bobId", "Bob")
-    .Define(2002, "ryanId", "Ryan")
-    .Define(2003, "saraId", "Sara")
-    .Define(2004, "janeId", "Jane")
-    .Define(2005, "jackId", "Jack")
-    .Define(2006, "jillId", "Jill")
+    .Define(2002, "janeId", "Jane")
     .Build();
 
-var payload = people.Encode(["Bob", "Jane", "New Character"]);
+var payload = people.Encode([
+    "Bob",
+    "Jane",
+    "New Character"
+]);
+```
 
-Console.WriteLine(payload);
-// [2001] [2004] New Character
+Conceptually:
 
-Console.WriteLine(people.Decode(2001));
-// Bob
+```text
+Bob              -> [2001]
+Jane             -> [2002]
+New Character    -> "New Character"
+```
 
+This creates a useful lifecycle:
+
+```text
+known value
+    |
+    v
+integer reference
+
+unknown value
+    |
+    v
+literal
+    |
+    v
+creation / registration
+    |
+    v
+future integer reference
+```
+
+The alpha does not yet decide how permanent symbol allocation or registration should work. That is an architectural question, not something to hide inside the first version.
+
+---
+
+## Self-definition
+
+A protocol can describe itself:
+
+```csharp
 Console.WriteLine(people.Describe());
 ```
 
-The definition is deliberately **self-describing**. A tool defines its own nomenclature, symbols, and values rather than requiring ProtocolAI to know the domain beforehand.
+```text
+[1001] People
+  [2001] bobId = "Bob"
+  [2002] janeId = "Jane"
+```
 
-## Design boundaries
+The receiving side does not need a hard-coded global dictionary of every domain.
+
+A tool defines its own nomenclature.
+
+That is the key property:
+
+> **ProtocolAI defines the mechanism for defining a lexicon, not the lexicon itself.**
+
+---
+
+## WHAT before HOW
+
+ProtocolAI and GrammarAI are intentionally separate.
+
+ProtocolAI asks:
+
+> **What does this symbol mean?**
+
+GrammarAI asks:
+
+> **How may these symbols be connected?**
+
+```text
+ProtocolAI
+    |
+    | WHAT
+    v
+GrammarAI
+    |
+    | HOW
+    v
+AI-facing host
+    |
+    v
+   LLM
+```
+
+ProtocolAI does not need to own grammar construction.
+
+GrammarAI does not need to own the vocabulary it references.
+
+---
+
+## Why this matters now
+
+Current AI platforms increasingly expose structured outputs, schemas, function calling, and constrained generation. OpenAI's current documentation describes Structured Outputs as schema-adherent generation, while its function-calling documentation also describes context-free grammars as a way to constrain model output. citehttps://developers.openai.com/api/docs/guides/structured-outputshttps://developers.openai.com/api/docs/guides/function-calling
+
+ProtocolAI sits at a different semantic layer.
+
+```text
+schema / grammar
+      |
+      v
+structured representation
+      |
+      v
+ProtocolAI vocabulary
+      |
+      v
+integer-backed references
+```
+
+The goal is not to replace JSON Schema or model-specific constrained decoding.
+
+The goal is to explore what happens when **the application's own semantic vocabulary becomes an explicit, addressable protocol**.
+
+---
+
+## What belongs here
 
 ProtocolAI owns:
 
 - protocol identity;
 - symbol identity;
 - symbolic names;
-- string values;
+- human-readable values;
 - string-to-integer encoding;
 - integer-to-string decoding;
 - mixed integer/literal payloads;
-- deterministic protocol description.
+- deterministic self-description.
 
-ProtocolAI does **not** own:
+ProtocolAI does not own:
 
 - LLM clients;
 - model selection;
 - tokenization;
 - prompting policy;
+- inference;
 - transport;
+- tool execution;
+- grammar composition;
 - MicroBundle hosting;
-- grammar composition.
+- REST/OpenAPI;
+- GUI manifestation.
 
-Those are separate composition concerns.
+Those belong to other layers.
 
-## Relationship to GrammarAI
+---
 
-ProtocolAI answers:
+## Core API
 
-> **What does this symbol mean?**
+### `ProtocolBuilder`
+Defines a vocabulary before publishing its immutable definition.
 
-GrammarAI answers the next question:
+### `ProtocolDefinition`
+Immutable, self-describing protocol definition.
 
-> **How may these symbols be connected?**
+### `ProtocolSymbol`
+One named value in the vocabulary.
 
-GrammarAI can reference ProtocolAI definitions without embedding the vocabularies themselves.
+### `ProtocolReference`
+Stable reference to a symbol inside a protocol.
+
+### `ProtocolValue`
+Either an integer-backed reference or a literal string.
+
+### `ProtocolPayload`
+Ordered values suitable for model-facing protocol transport.
+
+---
+
+## The larger thesis
+
+The intended progression is:
 
 ```text
-ProtocolAI
-    |
-    | lexicon / values
-    v
-GrammarAI
-    |
-    | structure / composition
-    v
-AI-facing host
-    |
-    v
-LLM
+strings
+   |
+   v
+named symbols
+   |
+   v
+integer identities
+   |
+   v
+self-describing vocabulary
+   |
+   v
+grammar
+   |
+   v
+structured protocol
+   |
+   v
+tool / experience
 ```
+
+ProtocolAI occupies the first major boundary:
+
+**meaning becomes addressable.**
+
+GrammarAI occupies the next:
+
+**addresses become composable.**
+
+---
+
+## Current alpha boundary
+
+**Version: `0.1.0-alpha.1`**
+
+The current release establishes:
+
+- self-defining protocol vocabularies;
+- integer-backed symbol identity;
+- known-value encoding;
+- literal fallback for unknown values;
+- integer decoding;
+- deterministic protocol descriptions.
+
+It does not yet establish:
+
+- wire-level serialization;
+- dynamic symbol registration;
+- persistent allocation;
+- cross-protocol negotiation;
+- compatibility/version negotiation;
+- grammar compilation;
+- model-specific adapters;
+- constrained decoding.
+
+See:
+
+- [ProtocolAI Theory](docs/THEORY.md)
+- [ProtocolAI Reflection](docs/REFLECTION.md)
+
+---
+
+## Workshop architecture
+
+ProtocolAI is deliberately independent of FSM execution, REST transport, GUI rendering, and MicroBundle hosting.
+
+```text
+             AI / Experience
+                    |
+          +---------+---------+
+          |                   |
+      GrammarAI           tool host
+          |                   |
+      ProtocolAI <------------+
+          |
+     integer lexicon
+          |
+     domain meaning
+```
+
+The package should remain the **form of the lexicon** rather than becoming a warehouse for every AI integration.
+
+---
 
 ## Development
 
@@ -143,18 +375,30 @@ dotnet test tests/ProtocolAi.Tests/ProtocolAi.Tests.csproj --configuration Relea
 dotnet pack TheSingularityWorkshop.ProtocolAi.csproj --configuration Release --output ./artifacts
 ```
 
-## License
-
-MIT. See LICENSE.txt.
+A manual verification workflow builds, tests with coverage, and packs the NuGet artifact.
 
 ---
 
-## Resources & Support
+## Documentation
 
-- Core NuGet: https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi
-- Source Code: https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi
-- FSM_API: https://www.nuget.org/packages/TheSingularityWorkshop.FSM_API
-- MicroBundleDomain: https://github.com/TrentBest/TheSingularityWorkshop.MicroBundleDomain
+- [Theory](docs/THEORY.md)
+- [Reflection](docs/REFLECTION.md)
+
+---
+
+## License
+
+MIT. See [LICENSE.txt](LICENSE.txt).
+
+---
+
+## 🔗 Resources & Support
+
+- **NuGet:** [TheSingularityWorkshop.ProtocolAi](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi)
+- **Source:** [GitHub](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi)
+- **GrammarAI:** [TheSingularityWorkshop.GrammarAi](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi)
+- **FSM_API:** [TheSingularityWorkshop.FSM_API](https://www.nuget.org/packages/TheSingularityWorkshop.FSM_API)
+- **MicroBundleDomain:** [TheSingularityWorkshop.MicroBundleDomain](https://github.com/TrentBest/TheSingularityWorkshop.MicroBundleDomain)
 
 <p align="center">
   <a href="https://github.com/TrentBest/FSM_API">
