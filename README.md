@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![NuGet version](https://img.shields.io/nuget/v/TheSingularityWorkshop.ProtocolAi?style=flat-square&logo=nuget&logoColor=white)](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi)
 [![NuGet downloads](https://img.shields.io/nuget/dt/TheSingularityWorkshop.ProtocolAi?style=flat-square&logo=nuget&logoColor=white)](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi)
-[![Build](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.ProtocolAi/verify.yml?branch=master&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/verify.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.ProtocolAi/build.yml?branch=master&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/build.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/TrentBest/TheSingularityWorkshop.ProtocolAi?style=flat-square)](https://codecov.io/gh/TrentBest/TheSingularityWorkshop.ProtocolAi)
 
 **The lexicon layer for self-defining, integer-backed AI protocols.**
@@ -44,6 +44,32 @@ The literal is not a failure. **It is a possible new semantic identity.**
 ## WHAT is this?
 
 ProtocolAI is the **WHAT layer**.
+
+But there is a deeper reason to use it: **ProtocolAI is a funnel for probabilistic data into a nonprobabilistic application representation.**
+
+An LLM is probabilistic. The application does not have to be.
+
+```text
+                 PROBABILISTIC
+                 model output
+                       |
+                       v
+              +------------------+
+              |    ProtocolAI    |
+              |  lexical funnel  |
+              +------------------+
+                 |            |
+              known         literal
+                 |            |
+                 v            v
+          integer identity  creation
+                 |
+                 v
+          NONPROBABILISTIC
+          application state
+```
+
+ProtocolAI does not make the model deterministic. It creates a **deterministic boundary after the model**: once a value is resolved against a tool-owned vocabulary, the application can operate on the identity it owns rather than continuing to interpret free-form language.
 
 It defines a self-describing lexicon without owning the LLM, prompt transport, tokenizer, model, or execution environment.
 
@@ -375,7 +401,7 @@ dotnet test tests/ProtocolAi.Tests/ProtocolAi.Tests.csproj --configuration Relea
 dotnet pack TheSingularityWorkshop.ProtocolAi.csproj --configuration Release --output ./artifacts
 ```
 
-A manual verification workflow builds, tests with coverage, and packs the NuGet artifact.
+The public package workflow runs on every push to `master`: it restores, builds, tests with coverage, packs the NuGet artifact, and publishes it through NuGet Trusted Publishing. It can also be dispatched manually.
 
 ---
 
