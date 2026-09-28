@@ -26,6 +26,51 @@ It is the address of the meaning.
 
 ---
 
+## The probabilistic funnel
+
+The most important practical motivation for ProtocolAI is the boundary between **probabilistic generation** and **deterministic software**.
+
+An LLM can generate a useful candidate, but the application still needs an exact representation before it can safely use that candidate as state, an identifier, a command argument, or a reference to an existing object.
+
+```text
+probabilistic language
+        |
+        v
+candidate value
+        |
+        v
+ProtocolAI vocabulary lookup
+        |
+     +--+--+
+     |     |
+   known  unknown
+     |     |
+     v     v
+ integer literal
+     |     |
+     |   creation / registration
+     |     |
+     +--+--+
+        |
+        v
+ deterministic application identity
+```
+
+ProtocolAI does **not** make inference deterministic. It narrows the output at the semantic boundary where the application already owns the vocabulary.
+
+For a known value, the result can become an integer reference. For a genuinely new value, the literal remains visible so the host can decide whether and how that value becomes a new identity.
+
+This gives the architecture a useful division of responsibility:
+
+- the model proposes;
+- ProtocolAI resolves representation;
+- the host validates and decides what the value means operationally;
+- deterministic application state uses identities it controls.
+
+That is the reason to use ProtocolAI even when a provider already supports structured JSON: **schema-constrained JSON gives you deterministic shape; ProtocolAI explores deterministic semantic addressing inside that shape.**
+
+---
+
 ## A protocol is a self-describing vocabulary
 
 A ProtocolAI definition has its own identity:
