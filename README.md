@@ -60,6 +60,47 @@ It gives the **application** a deterministic vocabulary with which to interpret,
 
 ---
 
+## Try it in 60 seconds
+
+You do not need an LLM, an API key, or a framework integration to see the core idea.
+
+Run the executable example already included in this repository:
+
+~~~bash
+dotnet run --project examples/ProtocolAi.QuickStart/ProtocolAi.QuickStart.csproj
+~~~
+
+It immediately demonstrates the complete alpha boundary:
+
+~~~text
+PROTOCOL
+[1001] People
+  [2001] bobId = "Bob"
+  [2002] janeId = "Jane"
+  [2003] saraId = "Sara"
+
+PAYLOAD
+[2001] [2002] Amelia
+
+KNOWN  [2001]
+KNOWN  [2002]
+NEW    "Amelia"
+~~~
+
+That is the fastest way to understand ProtocolAI: **define what your application owns, resolve what is known, preserve what is new, and let the host decide what happens next.**
+
+If you are consuming the package rather than the repository, the same experiment begins with:
+
+~~~bash
+dotnet add package TheSingularityWorkshop.ProtocolAi --version 0.1.0-alpha.1
+~~~
+
+Then start with **ProtocolBuilder**, **Encode**, **Decode**, and **Describe**.
+
+The full executable example is at [examples/ProtocolAi.QuickStart](examples/ProtocolAi.QuickStart/README.md).
+
+---
+
 ## The idea in 30 seconds
 
 Suppose your tool already knows six people:
@@ -816,6 +857,28 @@ Instead:
 The application remains the authority over meaning.
 
 ProtocolAI gives that authority a formal address space.
+
+---
+
+# Position in the stack
+
+ProtocolAI is deliberately **not** the whole AI stack. It occupies one narrow semantic boundary.
+
+- **FSM_API** — state
+- **Warehouse** — ontology and identity
+- **ProtocolAI** — addressable terminals / WHAT
+- **GrammarAI** — structure / HOW
+- **Protocol / host / experience** — composition, execution, and behavior
+
+The important relationship is not merely vertical. Each layer owns a different question.
+
+![The Singularity Workshop ecosystem stack](https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/master/docs/images/protocol-ai-ecosystem-stack.svg)
+
+> **ProtocolAI defines the form of an application-owned lexicon. The domain still owns the meaning.**
+
+This is why the package can remain small and provider-neutral: it does not need to know which model generated the request, how the request is transported, or what the application ultimately does with the identity.
+
+> **Visual note:** the repository currently contains three Gemini-generated JPGs. The fourth requested Gemini image was not present in the repository, so the stack position above uses a clean repository-native SVG named protocol-ai-ecosystem-stack.svg rather than pretending the missing source image exists.
 
 ---
 
