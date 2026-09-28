@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#07111f"/><stop offset="1" stop-color="#111827"/></linearGradient>
+  <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>
+  <linearGradient id="violet" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#c4b5fd"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#67e8f9"/></marker>
+</defs>
+<rect width="1400" height="900" fill="url(#bg)"/>
+<circle cx="700" cy="450" r="350" fill="none" stroke="#164e63" stroke-width="1" opacity=".45"/>
+<circle cx="700" cy="450" r="280" fill="none" stroke="#1e3a5f" stroke-width="1" opacity=".35"/>
+<text x="700" y="74" text-anchor="middle" fill="#f8fafc" font-family="Arial,sans-serif" font-size="42" font-weight="700" letter-spacing="5">MEANING BECOMES ADDRESSABLE</text>
+<text x="700" y="112" text-anchor="middle" fill="#94a3b8" font-family="Arial,sans-serif" font-size="18" letter-spacing="2">THE PROTOCOLAI BOUNDARY</text>
+
+<text x="165" y="205" text-anchor="middle" fill="#94a3b8" font-family="Arial,sans-serif" font-size="17" letter-spacing="3">PROBABILISTIC LANGUAGE</text>
+<text x="165" y="250" text-anchor="middle" fill="#e2e8f0" font-family="Arial,sans-serif" font-size="31" font-weight="700">“Bob”</text>
+<text x="165" y="300" text-anchor="middle" fill="#e2e8f0" font-family="Arial,sans-serif" font-size="27">“Jane”</text>
+<text x="165" y="346" text-anchor="middle" fill="#e2e8f0" font-family="Arial,sans-serif" font-size="25">“Forge”</text>
+<text x="165" y="392" text-anchor="middle" fill="#64748b" font-family="Arial,sans-serif" font-size="20">“New Character”</text>
+
+<path d="M265 310 C365 310 365 310 465 405" fill="none" stroke="#67e8f9" stroke-width="4" marker-end="url(#arrow)" filter="url(#glow)"/>
+<path d="M265 360 C365 360 380 410 465 440" fill="none" stroke="#67e8f9" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M265 410 C365 410 390 490 465 475" fill="none" stroke="#67e8f9" stroke-width="3" marker-end="url(#arrow)"/>
+
+<rect x="465" y="205" width="470" height="490" rx="32" fill="#0b1628" stroke="url(#cyan)" stroke-width="3" filter="url(#glow)"/>
+<text x="700" y="260" text-anchor="middle" fill="#67e8f9" font-family="Arial,sans-serif" font-size="20" letter-spacing="4">PROTOCOLAI</text>
+<text x="700" y="305" text-anchor="middle" fill="#f8fafc" font-family="Arial,sans-serif" font-size="38" font-weight="700">WHAT?</text>
+<text x="700" y="340" text-anchor="middle" fill="#94a3b8" font-family="Arial,sans-serif" font-size="17">The application owns the vocabulary.</text>
+
+<rect x="535" y="380" width="330" height="72" rx="14" fill="#111f35" stroke="#22d3ee"/>
+<text x="560" y="410" fill="#67e8f9" font-family="monospace" font-size="17">[1001] People</text>
+<text x="560" y="435" fill="#cbd5e1" font-family="monospace" font-size="15">[2001] bobId = “Bob”</text>
+
+<line x1="700" y1="452" x2="700" y2="510" stroke="#475569" stroke-width="2" stroke-dasharray="6 7"/>
+<text x="700" y="542" text-anchor="middle" fill="#94a3b8" font-family="Arial,sans-serif" font-size="15" letter-spacing="2">RESOLVE</text>
+<text x="700" y="580" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="32" font-weight="700">“Bob” → [2001]</text>
+<text x="700" y="620" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="21">“Amelia” → LITERAL</text>
+
+<path d="M935 435 C1035 350 1045 310 1135 310" fill="none" stroke="#a78bfa" stroke-width="4" marker-end="url(#arrow)" filter="url(#glow)"/>
+<path d="M935 575 C1035 600 1040 650 1135 650" fill="none" stroke="#fbbf24" stroke-width="3" marker-end="url(#arrow)"/>
+
+<text x="1235" y="205" text-anchor="middle" fill="#94a3b8" font-family="Arial,sans-serif" font-size="17" letter-spacing="3">APPLICATION STATE</text>
+<rect x="1080" y="250" width="310" height="145" rx="20" fill="#0f172a" stroke="#a78bfa" stroke-width="2"/>
+<text x="1235" y="295" text-anchor="middle" fill="#c4b5fd" font-family="Arial,sans-serif" font-size="16" letter-spacing="2">KNOWN IDENTITY</text>
+<text x="1235" y="345" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="31" font-weight="700">[2001]</text>
+<text x="1235" y="374" text-anchor="middle" fill="#94a3b8" font-family="Arial,sans-serif" font-size="15">application-owned address</text>
+
+<rect x="1080" y="560" width="310" height="145" rx="20" fill="#0f172a" stroke="#fbbf24" stroke-width="2"/>
+<text x="1235" y="605" text-anchor="middle" fill="#fbbf24" font-family="Arial,sans-serif" font-size="16" letter-spacing="2">UNKNOWN VALUE</text>
+<text x="1235" y="650" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="25" font-weight="700">“Amelia”</text>
+<text x="1235" y="680" text-anchor="middle" fill="#94a3b8" font-family="Arial,sans-serif" font-size="15">host decides: create / reject / authorize</text>
+
+<text x="700" y="790" text-anchor="middle" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="21">The model may be probabilistic.</text>
+<text x="700" y="828" text-anchor="middle" fill="#67e8f9" font-family="Arial,sans-serif" font-size="28" font-weight="700">The semantic boundary does not have to be.</text>
+<text x="700" y="862" text-anchor="middle" fill="#64748b" font-family="Arial,sans-serif" font-size="14">ProtocolAI does not own the domain. It gives the domain an address space.</text>
+</svg>
