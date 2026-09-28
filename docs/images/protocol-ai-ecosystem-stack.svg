@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+<rect width="1200" height="760" fill="#08111f"/>
+<text x="600" y="62" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="30" font-weight="700">THE SINGULARITY WORKSHOP — ECOSYSTEM STACK</text>
+<text x="600" y="96" text-anchor="middle" fill="#9fb4c9" font-family="Arial, sans-serif" font-size="16">ProtocolAI defines the addressable WHAT layer between domain meaning and composable structure.</text>
+<g font-family="Arial, sans-serif" text-anchor="middle">
+<rect x="390" y="130" width="420" height="74" rx="12" fill="#14263d" stroke="#6f8eaa" stroke-width="2"/>
+<text x="600" y="161" fill="#ffffff" font-size="21" font-weight="700">FSM_API</text>
+<text x="600" y="187" fill="#b8c9d9" font-size="15">STATE</text>
+<path d="M600 204 V236" stroke="#6f8eaa" stroke-width="3"/><path d="M592 228 L600 240 L608 228" fill="#6f8eaa"/>
+<rect x="390" y="246" width="420" height="74" rx="12" fill="#14263d" stroke="#6f8eaa" stroke-width="2"/>
+<text x="600" y="277" fill="#ffffff" font-size="21" font-weight="700">Warehouse</text>
+<text x="600" y="303" fill="#b8c9d9" font-size="15">ONTOLOGY / IDENTITY</text>
+<path d="M600 320 V352" stroke="#8fb5d2" stroke-width="3"/><path d="M592 344 L600 356 L608 344" fill="#8fb5d2"/>
+<rect x="330" y="362" width="540" height="110" rx="16" fill="#0f3441" stroke="#54c7dc" stroke-width="3"/>
+<text x="600" y="400" fill="#ffffff" font-size="27" font-weight="700">ProtocolAI</text>
+<text x="600" y="429" fill="#72e5f2" font-size="18" font-weight="700">WHAT — ADDRESSABLE TERMINALS</text>
+<text x="600" y="455" fill="#c6dbe2" font-size="14">self-defining vocabulary • integer identity • literal fallback</text>
+<path d="M600 472 V504" stroke="#54c7dc" stroke-width="3"/><path d="M592 496 L600 508 L608 496" fill="#54c7dc"/>
+<rect x="390" y="514" width="420" height="74" rx="12" fill="#14263d" stroke="#6f8eaa" stroke-width="2"/>
+<text x="600" y="545" fill="#ffffff" font-size="21" font-weight="700">GrammarAI</text>
+<text x="600" y="571" fill="#b8c9d9" font-size="15">STRUCTURE / HOW</text>
+<path d="M600 588 V620" stroke="#6f8eaa" stroke-width="3"/><path d="M592 612 L600 624 L608 612" fill="#6f8eaa"/>
+<rect x="390" y="630" width="420" height="74" rx="12" fill="#14263d" stroke="#6f8eaa" stroke-width="2"/>
+<text x="600" y="661" fill="#ffffff" font-size="21" font-weight="700">Protocol / Host / Experience</text>
+<text x="600" y="687" fill="#b8c9d9" font-size="15">COMPOSITION • EXECUTION • EXPERIENCE</text>
+</g>
+<text x="1040" y="407" text-anchor="middle" fill="#72e5f2" font-family="Arial, sans-serif" font-size="15" transform="rotate(90 1040 407)">MEANING BECOMES ADDRESSABLE</text>
+</svg>
