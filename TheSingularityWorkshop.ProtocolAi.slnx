@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="../TheSingularityWorkshop.ProtocolAi.Tests/TheSingularityWorkshop.ProtocolAi.Tests.csproj" />
+  <Project Path="tests/ProtocolAi.Tests/ProtocolAi.Tests.csproj" />
   <Project Path="TheSingularityWorkshop.ProtocolAi.csproj" />
 </Solution>
