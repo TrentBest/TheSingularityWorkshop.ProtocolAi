@@ -8,6 +8,31 @@
 
 **The lexicon layer for self-defining, integer-backed AI protocols.**
 
+> **Turn probabilistic language into application-owned identity.**
+
+```mermaid
+flowchart LR
+    A["LLM / probabilistic output"] --> B["ProtocolAI"]
+    B --> C{"Known?"}
+    C -->|Yes| D["Integer identity"]
+    C -->|No| E["Literal"]
+    D --> F["Deterministic application state"]
+    E --> G["Host decides creation / registration"]
+    G --> F
+```
+
+### Start here
+
+| If you want to... | Go to |
+|---|---|
+| Install and use the package | **[Consuming ProtocolAI](docs/CONSUMING.md)** |
+| See practical patterns | **[ProtocolAI Examples](docs/EXAMPLES.md)** |
+| Understand the architecture | [Theory](docs/THEORY.md) |
+| Understand the current boundary | [Reflection](docs/REFLECTION.md) |
+
+The fastest path is **install → define a vocabulary → encode known values → handle literals → decode identities**.
+
+
 AI systems are becoming very good at producing structured data. ProtocolAI asks a different question:
 
 > **What happens when the vocabulary itself becomes compact, addressable, self-describing, and owned by the tool that needs it?**
