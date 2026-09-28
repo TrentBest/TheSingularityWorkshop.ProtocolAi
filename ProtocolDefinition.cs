@@ -49,13 +49,24 @@ public sealed class ProtocolDefinition
         _byId.TryGetValue(symbolId, out var symbol) ? symbol.Value :
         throw new KeyNotFoundException($"Protocol symbol ID '{symbolId}' is not defined.");
 
+    /// <summary>
+    /// Decodes a protocol-qualified reference and verifies that this definition owns it.
+    /// </summary>
+    public string Decode(ProtocolReference reference)
+    {
+        if (reference.ProtocolId != Id)
+            throw new ArgumentException($"Protocol reference belongs to protocol '{reference.ProtocolId}', not '{Id}'.", nameof(reference));
+
+        return Decode(reference.SymbolId);
+    }
+
     public ProtocolValue Encode(string value) =>
         _byValue.TryGetValue(value, out var symbol) ? ProtocolValue.FromId(symbol.Id) : ProtocolValue.FromLiteral(value);
 
     public ProtocolPayload Encode(IEnumerable<string> values)
     {
         ArgumentNullException.ThrowIfNull(values);
-        return new ProtocolPayload(values.Select(Encode));
+        return new ProtocolPayload(Id, values.Select(Encode));
     }
 
     /// <summary>
