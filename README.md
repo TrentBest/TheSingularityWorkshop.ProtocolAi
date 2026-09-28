@@ -201,7 +201,7 @@ GrammarAI does not need to own the vocabulary it references.
 
 ## Why this matters now
 
-Current AI platforms increasingly expose structured outputs, schemas, function calling, and constrained generation. OpenAI's current documentation describes Structured Outputs as schema-adherent generation, while its function-calling documentation also describes context-free grammars as a way to constrain model output. citehttps://developers.openai.com/api/docs/guides/structured-outputshttps://developers.openai.com/api/docs/guides/function-calling
+Current AI platforms increasingly expose structured outputs, schemas, function calling, and constrained generation. OpenAI's current documentation describes Structured Outputs as schema-adherent generation, while its function-calling documentation also describes context-free grammars as a way to constrain model output. [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs) and [Function Calling](https://developers.openai.com/api/docs/guides/function-calling)
 
 ProtocolAI sits at a different semantic layer.
 
