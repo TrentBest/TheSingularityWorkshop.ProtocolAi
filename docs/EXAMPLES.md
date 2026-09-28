@@ -63,9 +63,9 @@ var request = objects.Encode([
 ]);
 `
 
-The result conceptually separates:
-
 The payload also carries its owning protocol ID, so the integer references are not presented as globally meaningful numbers.
+
+The result conceptually separates:
 
 `text
 existing object
