@@ -65,13 +65,15 @@ public sealed class ProtocolDefinition
     {
         var builder = new StringBuilder();
         builder.Append('[').Append(Id).Append("] ").Append(Name);
+
         foreach (var symbol in _symbols)
         {
-            builder.AppendLine();
+            builder.Append('\n');
             builder.Append("  [").Append(symbol.Id).Append("] ")
                 .Append(symbol.Name).Append(" = ")
-                .Append('"').Append(symbol.Value.Replace("\"", "\\\"")).Append('"');
+                .Append('"').Append(symbol.Value.Replace(""", "\"")).Append('"');
         }
+
         return builder.ToString();
     }
 
