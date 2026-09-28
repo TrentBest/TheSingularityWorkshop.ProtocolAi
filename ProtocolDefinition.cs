@@ -71,7 +71,7 @@ public sealed class ProtocolDefinition
             builder.Append('\n');
             builder.Append("  [").Append(symbol.Id).Append("] ")
                 .Append(symbol.Name).Append(" = ")
-                .Append('"').Append(symbol.Value.Replace(""", "\"")).Append('"');
+                .Append('"').Append(symbol.Value.Replace("\"", "\\\"")).Append('"');
         }
 
         return builder.ToString();
