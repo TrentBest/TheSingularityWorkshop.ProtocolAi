@@ -156,7 +156,7 @@ The protocol definition is therefore data about a vocabulary, rather than a voca
 
 ## Relationship to structured model output
 
-Modern model platforms increasingly support schema-constrained output. OpenAI's current documentation describes Structured Outputs and constrained generation, including grammar-based constraints in tool scenarios. citehttps://developers.openai.com/api/docs/guides/structured-outputshttps://developers.openai.com/api/docs/guides/function-calling
+Modern model platforms increasingly support schema-constrained output. OpenAI's current documentation describes Structured Outputs and constrained generation, including grammar-based constraints in tool scenarios. [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs) and [Function Calling](https://developers.openai.com/api/docs/guides/function-calling)
 
 ProtocolAI does not replace those mechanisms.
 
