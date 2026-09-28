@@ -53,6 +53,8 @@ ProtocolAI supplies the form. Your application supplies the domain vocabulary.
 
 The simplest consumption path is to resolve domain strings against the definition.
 
+The resulting payload is scoped to the vocabulary that produced it. `payload.ProtocolId` identifies the protocol that owns every symbol ID in the payload.
+
 `csharp
 var payload = people.Encode([
     "Bob",
