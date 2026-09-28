@@ -390,6 +390,36 @@ That is the ownership boundary.
 
 ---
 
+# The visual idea
+
+ProtocolAI is deliberately small, but the problem it addresses is easier to understand visually.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/master/docs/images/Gemini_Generated_Image_4i6tef4i6tef4i6t.jpg" alt="ProtocolAI concept visualization" width="900">
+</p>
+
+<p align="center"><em>The semantic boundary: human language becomes addressable application meaning.</em></p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/master/docs/images/Gemini_Generated_Image_exqe9rexqe9rexqe.jpg" alt="ProtocolAI integer identity visualization" width="900">
+</p>
+
+<p align="center"><em>ProtocolAI separates human-readable values from the integer identities used to address them.</em></p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/master/docs/images/Gemini_Generated_Image_tq39tgtq39tgtq39.jpg" alt="ProtocolAI ecosystem visualization" width="900">
+</p>
+
+<p align="center"><em>The broader architectural direction: WHAT becomes the foundation for the structural layers that follow.</em></p>
+
+These images are not decoration. They are three views of the same proposition:
+
+> **Meaning becomes addressable.**
+
+If you want the executable version of that proposition instead, jump straight to **[Try it in 60 seconds](#try-it-in-60-seconds)**.
+
+---
+
 # The smallest useful example
 
 Install it:
