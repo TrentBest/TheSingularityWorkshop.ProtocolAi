@@ -52,6 +52,14 @@ ProtocolAI gives your application a way to define that identity explicitly, reso
                        application-owned state
 ~~~
 
+
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/master/docs/images/protocol-ai-money-shot.svg" alt="ProtocolAI money shot: probabilistic language becomes application-owned integer identity" width="1100">
+</p>
+
+<p align="center"><strong>Language is probabilistic. Meaning can still have an address.</strong></p>
+
 **ProtocolAI is not an LLM. It is the semantic boundary around the LLM.**
 
 It does not try to make inference deterministic.
