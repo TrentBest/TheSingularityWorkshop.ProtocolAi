@@ -25,4 +25,7 @@
     <None Include="README.md" Pack="true" PackagePath="" />
     <None Include="LICENSE.txt" Pack="true" PackagePath="" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="docs\images\" />
+  </ItemGroup>
 </Project>
