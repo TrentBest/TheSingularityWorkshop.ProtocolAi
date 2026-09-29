@@ -335,3 +335,75 @@ The likely progression is:
 
 The first five steps should happen without making ProtocolAI an AI framework.
 
+
+
+---
+
+## Semantic layering above ProtocolAI
+
+ProtocolAI is intentionally the foundation.
+
+It does not decide what a button does, how commands are assembled, or how applications cooperate. It answers a narrower question:
+
+> **What does this identifier mean?**
+
+A useful mental model is:
+
+```text
+ProtocolAI
+    WHAT exists
+    integer ↔ semantic identity
+    string ↔ semantic identity
+```
+
+The protocol is the strainer: application-owned meaning is admitted into the semantic system as stable, addressable identities; arbitrary model noise is not allowed to become meaning merely because it resembles a known word.
+
+Higher layers may consume those identities:
+
+```text
+ProtocolAI
+    ↓
+GrammarAI
+    ↓
+CommandAI
+    ↓
+OperatingSystemAI
+    ↓
+AppAI
+```
+
+These are **not mandatory execution stages**. A tool only exposes the layers its engineering requires.
+
+ProtocolAI therefore remains below all of them and remains unaware of their execution semantics.
+
+---
+
+## Operational-domain extraction
+
+When a host offers an **Extract to Clipboard** operation, it should not merely copy a natural-language prompt.
+
+It can extract a semantic snapshot of the current operational domain:
+
+- protocol identities;
+- grammar definitions;
+- available command vocabulary;
+- current context;
+- host-selected capabilities;
+- integer-backed references.
+
+A tool can introduce itself by registering facts such as:
+
+```text
+Buttons
+  A
+
+Actions
+  Click
+
+Relationship
+  Click → A
+```
+
+The exact command semantics belong above ProtocolAI. ProtocolAI's job is to provide the stable identities that make those semantics addressable.
+
+This keeps the LLM from having to infer that two strings happen to refer to the same application-owned object.
