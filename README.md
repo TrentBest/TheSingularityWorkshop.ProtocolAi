@@ -6,1136 +6,87 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.ProtocolAi/build.yml?branch=master&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/build.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/TrentBest/TheSingularityWorkshop.ProtocolAi?style=flat-square)](https://codecov.io/gh/TrentBest/TheSingularityWorkshop.ProtocolAi)
 
-# Give AI an address space for the things your application already knows.
+# ProtocolAI is **for AI**, not AI.
 
-**TheSingularityWorkshop.ProtocolAi** is a small, provider-neutral C# library for defining **self-describing, integer-backed vocabularies**.
+**TheSingularityWorkshop.ProtocolAi** is a small, provider-neutral .NET library for giving application-owned meaning a deterministic address space.
 
-It answers a deceptively simple problem:
+There is **no AI model inside this package**: no inference engine, chatbot, tokenizer, prompt runner, provider SDK, API-key handling, or network transport.
 
-> **An AI can say "Bob." Your application may need to know exactly which Bob.**
+The **AI** in the name tells you what the infrastructure is engineered *for*: software that exchanges meaning with an LLM of your choice.
 
-Strings carry meaning.
+> **Your LLM supplies probabilities. Your application owns meaning. ProtocolAI helps move from the first to the second.**
 
-**Integers can carry identity.**
+## The mental model
 
-ProtocolAI gives your application a way to define that identity explicitly, resolve known values deterministically, preserve genuinely new values as literals, and expose the vocabulary itself as protocol data.
+Think of the classic ball-drop game: a ball enters at the top, hits pegs, and probability changes where it lands. AI interaction commonly works in that direction — possibilities fan out.
+
+ProtocolAI is the opposite side of that boundary:
 
 ~~~text
-                         AI / HUMAN LANGUAGE
-                                  |
-                                  v
-                         "Bob", "Jane", "Forge"
-                                  |
-                                  v
-                    +---------------------------+
-                    |        ProtocolAI         |
-                    |                           |
-                    |     WHAT does it mean?   |
-                    +-------------+-------------+
-                                  |
-                    +-------------+-------------+
-                    |             |             |
-                    v             v             v
-                 [2001]        [2002]        [7201]
-                    |             |             |
-                    v             v             v
-                   Bob           Jane          Forge
-
-             known identity             unknown value
-                    |                         |
-                    v                         v
-              integer reference           literal
-                    |                         |
-                    +------------+------------+
-                                 |
-                                 v
-                       application-owned state
+             PROBABILISTIC
+                LLM OUTPUT
+                    |
+                    v
+              +-----------+
+              | ProtocolAI|
+              |   WHAT    |
+              +-----+-----+
+                    |
+             deterministic
+               resolution
+                    |
+                    v
+          APPLICATION IDENTITY
+                    |
+                    v
+             APPLICATION STATE
 ~~~
 
+“**The ball falls up**” is the mental model, not a claim that ProtocolAI performs reverse inference. The actual operation is deterministic: given an application-owned vocabulary and an input value, known values resolve to their defined integer identity; unknown values remain literals.
 
+## Why this boundary exists
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/master/docs/images/protocol-ai-money-shot.svg" alt="ProtocolAI money shot: probabilistic language becomes application-owned integer identity" width="1100">
-</p>
+Schemas and structured outputs solve **shape**. ProtocolAI addresses **semantic identity**.
 
-<p align="center"><strong>Language is probabilistic. Meaning can still have an address.</strong></p>
+For example:
 
-**ProtocolAI is not an LLM. It is the semantic boundary around the LLM.**
+~~~json
+{"person":"Bob","action":"inspect"}
+~~~
 
-It does not try to make inference deterministic.
+A schema can tell the host that person is a string. It does not tell the application which Bob that string identifies.
 
-It gives the **application** a deterministic vocabulary with which to interpret, address, and carry the things it already owns.
+ProtocolAI lets the application define that vocabulary:
 
----
+~~~text
+[1001] People
+  [2001] bobId  = "Bob"
+  [2002] janeId = "Jane"
+  [2003] saraId = "Sara"
+~~~
 
-## Try it in 60 seconds
+Now the application has an address space:
 
-You do not need an LLM, an API key, or a framework integration to see the core idea.
+~~~text
+"Bob"    -> [2001]
+"Jane"   -> [2002]
+"Amelia" -> "Amelia"
+~~~
 
-Run the executable example already included in this repository:
+Known values become references. Unknown values stay literal so the **host** can decide whether to create, register, reject, authorize, or otherwise handle them.
+
+## 60-second example
+
+Run the repository example:
 
 ~~~bash
 dotnet run --project examples/ProtocolAi.QuickStart/ProtocolAi.QuickStart.csproj
 ~~~
 
-It immediately demonstrates the complete alpha boundary:
-
-~~~text
-PROTOCOL
-[1001] People
-  [2001] bobId = "Bob"
-  [2002] janeId = "Jane"
-  [2003] saraId = "Sara"
-
-PAYLOAD
-[2001] [2002] Amelia
-
-KNOWN  [2001]
-KNOWN  [2002]
-NEW    "Amelia"
-~~~
-
-That is the fastest way to understand ProtocolAI: **define what your application owns, resolve what is known, preserve what is new, and let the host decide what happens next.**
-
-If you are consuming the package rather than the repository, the same experiment begins with:
+Or install the package:
 
 ~~~bash
-dotnet add package TheSingularityWorkshop.ProtocolAi --version 0.1.0-alpha.1
-~~~
-
-Then start with **ProtocolBuilder**, **Encode**, **Decode**, and **Describe**.
-
-The full executable example is at [examples/ProtocolAi.QuickStart](examples/ProtocolAi.QuickStart/README.md).
-
----
-
-## The idea in 30 seconds
-
-Suppose your tool already knows six people:
-
-~~~text
-[1001] People
-
-[2001] bobId  = "Bob"
-[2002] ryanId = "Ryan"
-[2003] saraId = "Sara"
-[2004] janeId = "Jane"
-[2005] jackId = "Jack"
-[2006] jillId = "Jill"
-~~~
-
-The important part is not that the strings exist.
-
-The important part is that **your application owns their identities**.
-
-ProtocolAI lets you resolve those values:
-
-~~~text
-"Bob"   -> [2001]
-"Jane"  -> [2004]
-"Jill"  -> [2006]
-~~~
-
-A new value remains visible:
-
-~~~text
-"Bob"            -> [2001]
-"Jane"           -> [2004]
-"Amelia"         -> "Amelia"
-~~~
-
-That last case matters.
-
-A vocabulary that cannot encounter anything new is a closed list.
-
-ProtocolAI deliberately leaves the unknown value intact so **the host can decide whether it represents creation, registration, rejection, authorization failure, or something else entirely.**
-
-The current alpha does not make that decision for you.
-
-That is intentional.
-
----
-
-# Why this exists
-
-AI systems are getting very good at producing structured data.
-
-Modern model platforms can constrain output to schemas, structured objects, and tool/function shapes. That solves an important problem: **shape**. OpenAI, for example, describes Structured Outputs as a way to make model responses adhere to a supplied JSON Schema. Google likewise provides schema-based structured output.
-
-[OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs) · [Google Gemini structured output](https://ai.google.dev/gemini-api/docs/structured-output)
-
-ProtocolAI asks the next question:
-
-> **Once the shape is correct, who owns the meaning of the values inside it?**
-
-Consider:
-
-~~~json
-{
-  "person": "Bob",
-  "action": "inspect"
-}
-~~~
-
-That may be perfectly valid JSON.
-
-It may even be perfectly valid according to a strict schema.
-
-But your application still has to answer:
-
-~~~text
-Which Bob?
-Which action?
-Which vocabulary?
-Which identity?
-Which version of the meaning?
-~~~
-
-A schema can tell you that a field is a string.
-
-It does not inherently make that string an **application-owned semantic address**.
-
-ProtocolAI explores that next layer:
-
-~~~text
-STRUCTURE
-    |
-    | schema / grammar
-    v
-VALID REPRESENTATION
-    |
-    | ProtocolAI
-    v
-OWNED VOCABULARY
-    |
-    v
-INTEGER IDENTITY
-    |
-    v
-APPLICATION STATE
-~~~
-
-So this project is not an argument against JSON Schema, function calling, or constrained generation.
-
-**It is an argument that structure and semantic identity are different problems.**
-
----
-
-# The core thesis
-
-ProtocolAI is a **funnel from probabilistic language into deterministic application representation**.
-
-Not because the model becomes deterministic.
-
-It does not.
-
-The model remains probabilistic.
-
-The boundary after the model is where the application can become exact.
-
-~~~text
-                 PROBABILISTIC
-                 model output
-                       |
-                       v
-              +------------------+
-              |    ProtocolAI    |
-              |                  |
-              |   WHAT / LEXICON |
-              +---------+--------+
-                        |
-                +-------+-------+
-                |               |
-              known           unknown
-                |               |
-                v               v
-          integer identity    literal
-                |               |
-                |               v
-                |        host-defined policy
-                |      create / register / reject
-                |               |
-                +-------+-------+
-                        |
-                        v
-                 APPLICATION STATE
-                   deterministic
-~~~
-
-The distinction is important:
-
-**ProtocolAI does not make an LLM deterministic.**
-
-Instead, it creates a deterministic **semantic resolution step** performed by software that already owns the vocabulary.
-
-That is the boundary this package is designed to make explicit.
-
----
-
-# What does "integer-backed" actually mean?
-
-The integer is not the meaning.
-
-It is the **address of the meaning**.
-
-ProtocolAI separates four things that are often collapsed into one string:
-
-| Layer | Example | Purpose |
-|---|---|---|
-| Protocol identity | [1001] | Identifies the vocabulary |
-| Symbol identity | [2001] | Addresses one entry |
-| Symbol name | bobId | Human-facing nomenclature |
-| Domain value | "Bob" | Human/domain meaning |
-
-So:
-
-~~~text
-[1001]
-  |
-  +-- [2001] bobId = "Bob"
-  +-- [2002] janeId = "Jane"
-  +-- [2003] saraId = "Sara"
-~~~
-
-The protocol ID gives the namespace.
-
-The symbol ID gives the address.
-
-The value gives the meaning.
-
-The name gives a useful human-facing label.
-
-That separation is the heart of the design.
-
----
-
-# Why not just use strings?
-
-Because a string is a value.
-
-An identity is a reference.
-
-Those are related, but they are not the same thing.
-
-Imagine an application that already owns:
-
-~~~text
-Forge
-Research Laboratory
-Conference Room
-Reception Desk
-Landing Pad
-~~~
-
-An AI interaction may repeatedly refer to those things.
-
-The application does not need to rediscover what the string means every time.
-
-It already knows.
-
-ProtocolAI lets the application establish:
-
-~~~text
-[7200] WorkshopObjects
-
-[7201] forge       = "Forge"
-[7202] laboratory  = "Research Laboratory"
-[7203] conference  = "Conference Room"
-[7204] reception   = "Reception Desk"
-[7205] landingPad  = "Landing Pad"
-~~~
-
-Then the semantic reference can be represented as:
-
-~~~text
-[7201]
-[7202]
-[7205]
-~~~
-
-The application still owns the actual object.
-
-ProtocolAI owns only the **protocol form of its identity**.
-
-That distinction keeps this library small.
-
----
-
-# Why not just use an enum?
-
-An enum is useful when the vocabulary is:
-
-- known at compile time;
-- owned by the codebase;
-- stable enough to compile into the application;
-- not expected to describe itself dynamically.
-
-ProtocolAI is aimed at a different boundary.
-
-A tool can define its vocabulary as data:
-
-~~~csharp
-var people = new ProtocolBuilder(1001, "People")
-    .Define(2001, "bobId", "Bob")
-    .Define(2002, "janeId", "Jane")
-    .Define(2003, "saraId", "Sara")
-    .Build();
-~~~
-
-The resulting definition is:
-
-- runtime data;
-- explicitly identified;
-- self-describing;
-- independently inspectable;
-- usable without a global dictionary baked into the library.
-
-The library does not tell you what "Bob" means.
-
-**You do.**
-
-That is the ownership boundary.
-
----
-
-# The visual idea
-
-ProtocolAI is deliberately small, but the problem it addresses is easier to understand visually.
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/master/docs/images/Gemini_Generated_Image_4i6tef4i6tef4i6t.jpg" alt="ProtocolAI concept visualization" width="900">
-</p>
-
-<p align="center"><em>The semantic boundary: human language becomes addressable application meaning.</em></p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/master/docs/images/Gemini_Generated_Image_exqe9rexqe9rexqe.jpg" alt="ProtocolAI integer identity visualization" width="900">
-</p>
-
-<p align="center"><em>ProtocolAI separates human-readable values from the integer identities used to address them.</em></p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/master/docs/images/Gemini_Generated_Image_tq39tgtq39tgtq39.jpg" alt="ProtocolAI ecosystem visualization" width="900">
-</p>
-
-<p align="center"><em>The broader architectural direction: WHAT becomes the foundation for the structural layers that follow.</em></p>
-
-These images are not decoration. They are three views of the same proposition:
-
-> **Meaning becomes addressable.**
-
-If you want the executable version of that proposition instead, jump straight to **[Try it in 60 seconds](#try-it-in-60-seconds)**.
-
----
-
-# The smallest useful example
-
-Install it:
-
-~~~bash
-dotnet add package TheSingularityWorkshop.ProtocolAi
-~~~
-
-Define a vocabulary:
-
-~~~csharp
-using TheSingularityWorkshop.ProtocolAi;
-
-var people = new ProtocolBuilder(1001, "People")
-    .Define(2001, "bobId", "Bob")
-    .Define(2002, "janeId", "Jane")
-    .Define(2003, "saraId", "Sara")
-    .Build();
-~~~
-
-Resolve values:
-
-~~~csharp
-var payload = people.Encode([
-    "Bob",
-    "Jane",
-    "New Character"
-]);
-
-Console.WriteLine(payload);
-~~~
-
-Conceptually:
-
-~~~text
-[2001] [2002] New Character
-~~~
-
-The API distinguishes the cases:
-
-~~~text
-"Bob"
-   |
-   +--> known --> [2001]
-
-"Jane"
-   |
-   +--> known --> [2002]
-
-"New Character"
-   |
-   +--> unknown --> literal
-~~~
-
-And the application can inspect the result:
-
-~~~csharp
-foreach (var value in payload.Values)
-{
-    if (value.IsReference)
-    {
-        Console.WriteLine($"Known identity: [{value.SymbolId}]");
-    }
-    else
-    {
-        Console.WriteLine($"Literal: {value.Literal}");
-    }
-}
-~~~
-
-That is the current alpha's central operation.
-
-Small API.
-
-Large boundary.
-
----
-
-# The interesting case is the unknown value
-
-This is where the design becomes more than a dictionary.
-
-Suppose your application knows:
-
-~~~text
-[2001] Bob
-[2002] Jane
-~~~
-
-The model or user introduces:
-
-~~~text
-"Amelia"
-~~~
-
-ProtocolAI does **not** silently invent an ID.
-
-It does not pretend Amelia already exists.
-
-It preserves:
-
-~~~text
-"Amelia"
-~~~
-
-Now the host can decide:
-
-~~~text
-                 "Amelia"
-                    |
-                    v
-              +-----------+
-              |   HOST    |
-              +-----------+
-               /    |     \
-              /     |      \
-             v      v       v
-          create  reject  authorize
-             |
-             v
-       assign identity
-             |
-             v
-           [2003]
-~~~
-
-That creates a clean lifecycle:
-
-~~~text
-unknown literal
-      |
-      v
-host policy
-      |
-      v
-new semantic identity
-      |
-      v
-future integer reference
-~~~
-
-**ProtocolAI provides the boundary.**
-
-It does not assume the policy.
-
-This is especially important for systems where creation has consequences.
-
----
-
-# Self-definition
-
-A protocol should be able to tell you what it is.
-
-ProtocolAI therefore makes its vocabulary inspectable:
-
-~~~csharp
-Console.WriteLine(people.Describe());
-~~~
-
-Produces:
-
-~~~text
-[1001] People
-  [2001] bobId = "Bob"
-  [2002] janeId = "Jane"
-  [2003] saraId = "Sara"
-~~~
-
-That gives the protocol a useful property:
-
-> **The vocabulary is data, and the vocabulary can describe itself.**
-
-This matters for:
-
-- diagnostics;
-- logging;
-- protocol inspection;
-- tooling;
-- documentation generation;
-- future serialization;
-- future model-host adapters.
-
-The current alpha intentionally stops short of implementing those future transport and persistence layers.
-
----
-
-# Protocol identity is separate from symbol identity
-
-A symbol does not exist in a vacuum.
-
-ProtocolAI models:
-
-~~~text
-protocol
-   |
-   +-- symbol
-   +-- symbol
-   +-- symbol
-~~~
-
-So a reference can carry both:
-
-~~~csharp
-var reference = people.Reference("bobId");
-
-Console.WriteLine(reference.ProtocolId);
-Console.WriteLine(reference.SymbolId);
-~~~
-
-Conceptually:
-
-~~~text
-[1001:2001]
-~~~
-
-Which means:
-
-~~~text
-protocol [1001]
-    symbol [2001]
-        = "Bob"
-~~~
-
-This gives independently defined vocabularies a namespace boundary.
-
-A "Bob" in one protocol does not have to be the same semantic object as a "Bob" in another.
-
----
-
-# The WHAT layer
-
-This package has a very deliberate job.
-
-**ProtocolAI answers:**
-
-> **WHAT is this?**
-
-It defines the vocabulary.
-
-It establishes identity.
-
-It resolves known values.
-
-It preserves unknown values.
-
-It describes the vocabulary.
-
-It does not decide what the application does with those identities.
-
-That is the next layer up.
-
----
-
-# WHAT before HOW
-
-ProtocolAI is designed to sit beside **GrammarAI**.
-
-The separation is intentional:
-
-~~~text
-             DOMAIN
-               |
-               v
-        +--------------+
-        |  ProtocolAI  |
-        |     WHAT     |
-        +------+-------+
-               |
-       owned identities
-               |
-               v
-        +--------------+
-        |  GrammarAI   |
-        |     HOW      |
-        +------+-------+
-               |
-        legal structure
-               |
-               v
-          AI HOST / TOOL
-               |
-               v
-              LLM
-~~~
-
-ProtocolAI asks:
-
-> **What does this symbol mean?**
-
-GrammarAI asks:
-
-> **How may these symbols be connected?**
-
-The host asks:
-
-> **What should the application do with the result?**
-
-Those are three different responsibilities.
-
-Keeping them separate is a feature, not a limitation.
-
----
-
-# ProtocolAI is deliberately not an AI framework
-
-There is no LLM client in this package.
-
-There is no model selection.
-
-There is no tokenizer.
-
-There is no prompt engine.
-
-There is no inference loop.
-
-There is no vendor SDK.
-
-There is no REST transport.
-
-There is no OpenAPI implementation.
-
-There is no grammar compiler.
-
-There is no tool execution engine.
-
-There is no MicroBundle host.
-
-There is no GUI.
-
-And there should not be.
-
-The purpose of ProtocolAI is to make one boundary extremely clear:
-
-~~~text
-        application-owned meaning
-                  |
-                  v
-        +-------------------+
-        |    ProtocolAI     |
-        |                   |
-        |       WHAT        |
-        +-------------------+
-                  |
-                  v
-          integer identity
-~~~
-
-Everything above and below that boundary can evolve independently.
-
-That is what makes the package useful as infrastructure.
-
----
-
-# What ProtocolAI gives you
-
-### A self-defining vocabulary
-
-Your application defines the nomenclature.
-
-### Integer-backed identity
-
-Known values can resolve to compact integer references.
-
-### Deterministic resolution
-
-Given the same definition and input value, the same known symbol resolves to the same ID.
-
-### Literal escape hatch
-
-Unknown values remain visible instead of being silently invented.
-
-### Explicit namespaces
-
-Protocol identity and symbol identity can be carried together.
-
-### Mixed payloads
-
-A payload can contain both integer-backed references and literals.
-
-### Provider neutrality
-
-Nothing in the package requires OpenAI, Anthropic, Google, Ollama, or any other model provider.
-
-### A small surface
-
-The package solves the vocabulary problem without becoming an AI framework.
-
----
-
-# What ProtocolAI does not give you
-
-You still decide:
-
-- how an LLM is called;
-- how the vocabulary is presented to a model;
-- whether a model is constrained to emit integer references;
-- how model output is validated;
-- how literals become new identities;
-- who is authorized to create identities;
-- how identities are persisted;
-- how identities are versioned;
-- how protocols negotiate compatibility;
-- how payloads are serialized on the wire;
-- how a resolved identity is executed.
-
-Those are host and ecosystem concerns.
-
-The package is intentionally honest about that boundary.
-
----
-
-# A useful mental model
-
-Think of ProtocolAI as a **runtime address book for application meaning**.
-
-Not:
-
-~~~text
-LLM framework
-~~~
-
-Not:
-
-~~~text
-database
-~~~
-
-Not:
-
-~~~text
-JSON replacement
-~~~
-
-Not:
-
-~~~text
-prompt library
-~~~
-
-Instead:
-
-~~~text
-                  YOUR DOMAIN
-                       |
-                       v
-              "Bob", "Jane", "Forge"
-                       |
-                       v
-              +-------------------+
-              |    ProtocolAI     |
-              |                   |
-              |  vocabulary + ID  |
-              +---------+---------+
-                        |
-                        v
-                 [2001] [2002]
-                        |
-                        v
-                 model / host
-                        |
-                        v
-                 application
-~~~
-
-The application remains the authority over meaning.
-
-ProtocolAI gives that authority a formal address space.
-
----
-
-# Position in the stack
-
-ProtocolAI is deliberately **not** the whole AI stack. It occupies one narrow semantic boundary.
-
-- **FSM_API** — state
-- **Warehouse** — ontology and identity
-- **ProtocolAI** — addressable terminals / WHAT
-- **GrammarAI** — structure / HOW
-- **Protocol / host / experience** — composition, execution, and behavior
-
-The important relationship is not merely vertical. Each layer owns a different question.
-
-![The Singularity Workshop ecosystem stack](https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/master/docs/images/protocol-ai-ecosystem-stack.svg)
-
-> **ProtocolAI defines the form of an application-owned lexicon. The domain still owns the meaning.**
-
-This is why the package can remain small and provider-neutral: it does not need to know which model generated the request, how the request is transported, or what the application ultimately does with the identity.
-
-> **Visual note:** the repository currently contains three Gemini-generated JPGs. The fourth requested Gemini image was not present in the repository, so the stack position above uses a clean repository-native SVG named protocol-ai-ecosystem-stack.svg rather than pretending the missing source image exists.
-
----
-
-# The larger architectural experiment
-
-The intended progression is:
-
-~~~text
-human/domain language
-          |
-          v
-    self-defining
-       lexicon
-          |
-          v
-   integer identity
-          |
-          v
-      grammar
-          |
-          v
-     protocol
-          |
-          v
-   tool execution
-          |
-          v
-      experience
-~~~
-
-ProtocolAI occupies the first major semantic boundary:
-
-> **Meaning becomes addressable.**
-
-GrammarAI occupies the next:
-
-> **Addresses become composable.**
-
-The eventual protocol layer can then answer:
-
-> **What is the complete interaction?**
-
-And the host can finally answer:
-
-> **What should happen?**
-
-That progression is the reason this package exists.
-
----
-
-# A note about structured outputs
-
-If you are already using structured output, you do not need to throw it away.
-
-In fact, ProtocolAI can sit inside a structured-output architecture.
-
-For example, a host could conceptually expose:
-
-~~~text
-schema
-  |
-  +-- action
-  +-- target
-  +-- value
-          |
-          v
-      ProtocolAI
-          |
-          +-- action vocabulary
-          +-- target vocabulary
-          +-- value vocabulary
-~~~
-
-The schema defines the shape.
-
-ProtocolAI defines the application's vocabulary.
-
-A future GrammarAI layer can define how those vocabulary elements may be arranged.
-
-This distinction is the important part:
-
-~~~text
-SHAPE
-  -> schema
-
-WHAT
-  -> ProtocolAI
-
-HOW
-  -> GrammarAI
-
-WHAT TO DO
-  -> application / tool
-~~~
-
-ProtocolAI is therefore complementary to structured generation rather than a replacement for it. Current model platforms already provide strong mechanisms for schema-constrained output; this library explores the semantic identity layer that can exist inside or beside those structures.
-
----
-
-# The current alpha is intentionally small
-
-**Current version: 0.1.0-alpha.1**
-
-The release establishes:
-
-- self-defining protocol vocabularies;
-- protocol identity;
-- symbol identity;
-- symbolic names;
-- human-readable values;
-- known-value encoding;
-- integer-backed references;
-- literal fallback for unknown values;
-- integer decoding;
-- deterministic protocol descriptions;
-- ordered mixed reference/literal payloads.
-
-It intentionally does **not** yet establish:
-
-- wire-level serialization;
-- dynamic symbol registration;
-- persistent identity allocation;
-- protocol version negotiation;
-- compatibility negotiation;
-- cross-protocol negotiation;
-- grammar compilation;
-- constrained decoding;
-- model-specific adapters;
-- automatic LLM integration.
-
-Those are future layers, not promises hidden behind the alpha label.
-
----
-
-# The core API
-
-The public surface is deliberately small.
-
-### ProtocolBuilder
-
-Defines a vocabulary before publishing its immutable definition.
-
-### ProtocolDefinition
-
-The immutable, self-describing vocabulary.
-
-### ProtocolSymbol
-
-One named value in the vocabulary.
-
-### ProtocolReference
-
-The explicit relationship between a protocol identity and a symbol identity.
-
-### ProtocolValue
-
-One payload value: either an integer-backed reference or a literal.
-
-### ProtocolPayload
-
-An ordered collection of protocol values.
-
-The complete consumption path is essentially:
-
-~~~text
-ProtocolBuilder
-      |
-      v
-ProtocolDefinition
-      |
-      +--> Encode(...) --> ProtocolPayload
-      |
-      +--> Reference(...) --> ProtocolReference
-      |
-      +--> Decode(...) --> domain value
-      |
-      +--> Describe() --> self-description
-~~~
-
-That is the package.
-
-The architecture around it is where the larger experiment begins.
-
----
-
-# When should you use ProtocolAI?
-
-ProtocolAI is worth exploring when your application:
-
-- already owns a domain vocabulary;
-- needs AI to interact with that domain;
-- wants identities separated from human-readable values;
-- wants runtime-defined vocabularies rather than only compile-time enums;
-- needs known values and genuinely new values to be distinguishable;
-- wants the vocabulary to describe itself;
-- wants a provider-neutral semantic layer;
-- expects that vocabulary to eventually participate in a larger protocol.
-
-You probably do **not** need ProtocolAI if you simply need:
-
-- ordinary JSON serialization;
-- a conventional DTO;
-- a compile-time enum;
-- a one-off LLM prompt;
-- a model client;
-- a standard schema validator.
-
-ProtocolAI is for the boundary where those mechanisms stop answering the deeper question:
-
-> **Who owns the identity of the thing the model is talking about?**
-
----
-
-# Start using it
-
-Install:
-
-~~~bash
-dotnet add package TheSingularityWorkshop.ProtocolAi
+dotnet add package TheSingularityWorkshop.ProtocolAi --version 0.1.0-alpha.2
 ~~~
 
 Then:
@@ -1149,177 +100,228 @@ var people = new ProtocolBuilder(1001, "People")
     .Define(2003, "saraId", "Sara")
     .Build();
 
-var payload = people.Encode([
-    "Bob",
-    "Jane",
-    "New Character"
-]);
+var payload = people.Encode(["Bob", "Jane", "New Character"]);
 
 Console.WriteLine(payload);
+// [2001] [2002] New Character
 ~~~
 
-Explore the definition:
+Inspect the vocabulary:
 
 ~~~csharp
 Console.WriteLine(people.Describe());
 ~~~
 
-Resolve an identity:
+Resolve a mixed payload:
 
 ~~~csharp
-var bob = people.Decode(2001);
+var resolved = people.Resolve(payload);
+// ["Bob", "Jane", "New Character"]
 ~~~
 
-Or obtain an explicit reference:
+Validate incoming data before consuming it:
 
 ~~~csharp
-var reference = people.Reference("bobId");
+people.Validate(payload);
 ~~~
 
-For a longer consumption walkthrough:
+A payload is scoped to its protocol, and every reference must target a symbol owned by that protocol.
 
-**[Consuming ProtocolAI](docs/CONSUMING.md)**
+## What alpha.2 adds
 
-For patterns and examples:
+Alpha.2 makes the boundary useful on the **receive** side of an eventual copy/paste or connected AI exchange:
 
-**[ProtocolAI Examples](docs/EXAMPLES.md)**
+- **Payload validation** — reject payloads from another protocol or references to undefined symbols.
+- **Mixed-value resolution** — resolve references while preserving literals in their original order.
+- **Deterministic host boundary** — validation happens before the application consumes model-facing data.
+- **Provider neutrality remains intact** — API keys, HTTP, model selection, and provider SDKs remain outside ProtocolAI.
 
-For the deeper architectural argument:
+The package still does **not** implement an LLM client, exchange transport, grammar compiler, or command execution engine.
 
-**[ProtocolAI Theory](docs/THEORY.md)**
+## Core API
 
-For the current alpha boundary:
+| Type | Responsibility |
+|---|---|
+| ProtocolBuilder | Define a vocabulary before publishing it |
+| ProtocolDefinition | Own the immutable vocabulary and resolution rules |
+| ProtocolSymbol | Define one named domain value and integer identity |
+| ProtocolReference | Carry protocol + symbol identity together |
+| ProtocolValue | Represent either a reference or a literal |
+| ProtocolPayload | Carry ordered values under one protocol ID |
 
-**[ProtocolAI Reflection](docs/REFLECTION.md)**
-
----
-
-# The question ProtocolAI is asking
-
-The interesting question is not:
-
-> "Can an LLM output JSON?"
-
-It clearly can, and modern AI platforms provide increasingly strong mechanisms for schema-constrained output.
-
-The interesting question is:
-
-> **What happens when the application stops treating language as the identity of the things it owns?**
-
-What if:
+The central flow is:
 
 ~~~text
-"Bob"
+ProtocolBuilder
+      |
+      v
+ProtocolDefinition
+      |
+      +--> Encode(...)   --> ProtocolPayload
+      +--> Validate(...)
+      +--> Resolve(...)   --> domain values
+      +--> Reference(...) --> ProtocolReference
+      +--> Decode(...)    --> domain value
+      +--> Describe(...)  --> self-description
 ~~~
 
-becomes:
+## The ownership rule
+
+ProtocolAI does **not** own your domain objects. It owns their **protocol identities**.
 
 ~~~text
-[2001]
+application object
+      |
+      | application-owned meaning
+      v
+Research Laboratory
+      |
+      | ProtocolAI identity
+      v
+    [7202]
 ~~~
 
-What if:
+The application remains responsible for persistence, authorization, creation, execution, and whatever the identity ultimately controls.
+
+## ProtocolAI + GrammarAI
+
+ProtocolAI answers:
+
+> **WHAT does this identifier mean?**
+
+GrammarAI answers:
+
+> **HOW may these identifiers be organized?**
+
+The packages are deliberately separate:
 
 ~~~text
-[2001]
+LLM / human interaction
+          |
+          v
+       GrammarAI       HOW
+          |
+          v
+      ProtocolAI       WHAT
+          |
+          v
+ application-owned meaning
 ~~~
 
-is meaningful because:
+Higher layers can consume those identities later. Command execution, operating-system routing, application orchestration, GUI selection, and MicroBundle composition do not belong in this package.
+
+## Clipboard and connected AI exchange
+
+The intended host experience is one semantic artifact with two transports:
 
 ~~~text
-[1001] People
+                 semantic exchange
+                       |
+              +--------+--------+
+              |                 |
+          clipboard          provider
+              |                 |
+              v                 v
+             LLM / human interaction
+                       |
+                       v
+                 ProtocolAI
+                       |
+                 validate + resolve
+                       |
+                       v
+                application state
 ~~~
 
-defines the vocabulary?
+Clipboard mode is first-class: a developer can copy a semantic snapshot into an LLM of their choice and paste the response back.
 
-What if the vocabulary can describe itself?
+Connected mode can later add a provider adapter. The adapter owns credentials, endpoints, model selection, and transport. ProtocolAI does not.
 
-What if a new value remains a literal until the host deliberately gives it identity?
+See **[AI Exchange](docs/AI_EXCHANGE.md)** for the exchange boundary and future host contract.
 
-What if those identities can later become the terminals of a grammar?
+## What ProtocolAI is not
 
-What if the resulting grammar becomes a protocol?
+ProtocolAI is not:
 
-That is the direction.
+- an LLM;
+- an AI provider;
+- a prompt framework;
+- a schema validator;
+- a JSON replacement;
+- a database;
+- a grammar compiler;
+- a command executor;
+- a GUI framework;
+- a MicroBundle host.
 
-**ProtocolAI is the first boundary.**
+That restraint is intentional. The package is the deterministic semantic layer **for AI**.
 
----
+## When to use it
 
-# The Singularity Workshop
+ProtocolAI is useful when your application:
 
-ProtocolAI is part of a larger family of deliberately separated infrastructure packages.
+- already owns a domain vocabulary;
+- needs AI to refer to that vocabulary;
+- wants runtime-defined identities rather than only compile-time enums;
+- needs known and genuinely new values to remain distinguishable;
+- wants deterministic validation before acting on model-facing data;
+- wants a provider-neutral semantic foundation.
 
-~~~text
-                    EXPERIENCE
-                        |
-                        v
-                  protocol layer
-                        |
-                        v
-                    GrammarAI
-                        |
-                        v
-                   ProtocolAI
-                        |
-             +----------+----------+
-             |                     |
-        domain meaning        integer identity
-             |                     |
-             +----------+----------+
-                        |
-                        v
-                   application
-~~~
+It is probably unnecessary for a conventional DTO, enum, JSON serializer, schema validator, or one-off prompt.
 
-The principle is consistent:
+## Release boundary
 
-> **Infrastructure provides the form. The domain provides the meaning.**
+**Current target: 0.1.0-alpha.2**
 
-ProtocolAI provides the form of an application-owned lexicon.
+Alpha.2 establishes:
 
-Your tool provides the meaning.
+- self-defining integer-backed vocabularies;
+- protocol-qualified identity;
+- known-value encoding;
+- literal preservation;
+- deterministic descriptions;
+- ordered mixed payloads;
+- payload validation;
+- mixed reference/literal resolution.
 
-That separation is the point.
+Still outside the package:
 
----
+- LLM inference;
+- provider APIs and credentials;
+- wire serialization;
+- dynamic identity allocation;
+- protocol negotiation;
+- grammar compilation;
+- command execution;
+- GUI or platform integration.
+
+Those belong to higher layers.
 
 ## Documentation
 
-- **[Consuming ProtocolAI](docs/CONSUMING.md)** — installation and practical use
-- **[ProtocolAI Examples](docs/EXAMPLES.md)** — concrete patterns
-- **[ProtocolAI Theory](docs/THEORY.md)** — the semantic boundary and architectural thesis
-- **[ProtocolAI Reflection](docs/REFLECTION.md)** — current limitations and open questions
-- **[GrammarAI](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi)** — the structural HOW layer
-
----
+- **[Consuming ProtocolAI](docs/CONSUMING.md)** — practical installation and use
+- **[ProtocolAI Examples](docs/EXAMPLES.md)** — patterns
+- **[ProtocolAI Theory](docs/THEORY.md)** — architectural thesis
+- **[ProtocolAI Reflection](docs/REFLECTION.md)** — limitations and open questions
+- **[AI Exchange](docs/AI_EXCHANGE.md)** — clipboard/connected exchange boundary
+- **[GrammarAI](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi)** — structural HOW layer
 
 ## Development
 
 ~~~bash
 dotnet restore TheSingularityWorkshop.ProtocolAi.slnx
 dotnet build TheSingularityWorkshop.ProtocolAi.slnx --configuration Release
-dotnet test tests/ProtocolAi.Tests/ProtocolAi.Tests.csproj --configuration Release
+dotnet test TheSingularityWorkshop.ProtocolAi.slnx --configuration Release
 dotnet pack TheSingularityWorkshop.ProtocolAi.csproj --configuration Release --output ./artifacts
 ~~~
 
-The public workflow restores, builds, tests with coverage, packs the NuGet artifact, and publishes through NuGet Trusted Publishing. It can also be dispatched manually.
-
----
+The public workflow builds, tests with coverage, packs the NuGet artifact, and publishes through NuGet Trusted Publishing on master or manual dispatch.
 
 ## License
 
 MIT. See [LICENSE.txt](LICENSE.txt).
 
 ---
-
-## Resources
-
-- **[NuGet](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi)** — install the package
-- **[GitHub](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi)** — source and issues
-- **[GrammarAI](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi)** — structural composition
-- **[FSM_API](https://www.nuget.org/packages/TheSingularityWorkshop.FSM_API)** — state abstraction
-- **[MicroBundleDomain](https://github.com/TrentBest/TheSingularityWorkshop.MicroBundleDomain)** — compositional domain infrastructure
 
 <p align="center">
   <a href="https://github.com/TrentBest/FSM_API">
