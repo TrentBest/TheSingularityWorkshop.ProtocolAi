@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
     <PackageId>TheSingularityWorkshop.ProtocolAi</PackageId>
-    <Version>0.1.0-alpha.1</Version>
+    <Version>0.1.0-alpha.2</Version>
     <Authors>Trent Best</Authors>
     <Company>The Singularity Workshop</Company>
     <Description>Deterministic, integer-backed semantic vocabularies for software built to interact with LLMs.</Description>
@@ -15,7 +15,7 @@
     <PackageProjectUrl>https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Initial alpha: self-defining protocol vocabularies, integer references, mixed integer/literal payloads, and deterministic protocol descriptions.</PackageReleaseNotes>
+    <PackageReleaseNotes>Alpha 2: deterministic payload validation and mixed-value resolution for provider-neutral AI exchange.</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
