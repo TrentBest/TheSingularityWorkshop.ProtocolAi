@@ -1284,6 +1284,12 @@ That separation is the point.
 
 ---
 
+<p align="center">
+  <img src="docs/images/ai-exchange-stack.svg" alt="ProtocolAI AI Exchange architecture: ProtocolAI, GrammarAI, clipboard and provider transports" width="1100">
+</p>
+
+<p align="center"><strong>One semantic exchange. Clipboard when you want it. Direct provider interaction when you want it.</strong></p>
+
 ## Documentation
 
 - **[Consuming ProtocolAI](docs/CONSUMING.md)** — installation and practical use
@@ -1291,6 +1297,7 @@ That separation is the point.
 - **[ProtocolAI Theory](docs/THEORY.md)** — the semantic boundary and architectural thesis
 - **[ProtocolAI Reflection](docs/REFLECTION.md)** — current limitations and open questions
 - **[GrammarAI](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi)** — the structural HOW layer
+- **[AI Exchange](docs/AI_EXCHANGE.md)** — provider-neutral clipboard and connected interaction boundary
 
 ---
 
