@@ -60,6 +60,40 @@ public sealed class ProtocolDefinition
         return Decode(reference.SymbolId);
     }
 
+    /// <summary>
+    /// Resolves one payload value. References are decoded through this definition;
+    /// literals pass through unchanged.
+    /// </summary>
+    public string Resolve(ProtocolValue value) =>
+        value.IsReference ? Decode(value.SymbolId!.Value) : value.Literal!;
+
+    /// <summary>
+    /// Resolves every value in a payload after verifying that the payload belongs to this protocol.
+    /// </summary>
+    public IReadOnlyList<string> Resolve(ProtocolPayload payload)
+    {
+        ArgumentNullException.ThrowIfNull(payload);
+        Validate(payload);
+        return payload.Values.Select(Resolve).ToArray();
+    }
+
+    /// <summary>
+    /// Verifies that a payload belongs to this protocol and that every reference targets a defined symbol.
+    /// </summary>
+    public void Validate(ProtocolPayload payload)
+    {
+        ArgumentNullException.ThrowIfNull(payload);
+
+        if (payload.ProtocolId != Id)
+            throw new ArgumentException($"Protocol payload belongs to protocol '{payload.ProtocolId}', not '{Id}'.", nameof(payload));
+
+        foreach (var value in payload.Values)
+        {
+            if (value.IsReference && !_byId.ContainsKey(value.SymbolId!.Value))
+                throw new ArgumentException($"Protocol payload references undefined symbol ID '{value.SymbolId.Value}'.", nameof(payload));
+        }
+    }
+
     public ProtocolValue Encode(string value) =>
         _byValue.TryGetValue(value, out var symbol) ? ProtocolValue.FromId(symbol.Id) : ProtocolValue.FromLiteral(value);
 
