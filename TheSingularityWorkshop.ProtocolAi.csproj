@@ -8,7 +8,7 @@
     <Version>0.1.0-alpha.1</Version>
     <Authors>Trent Best</Authors>
     <Company>The Singularity Workshop</Company>
-    <Description>Self-defining integer-backed protocol vocabularies for compact, structured AI interaction.</Description>
+    <Description>Deterministic, integer-backed semantic vocabularies for software built to interact with LLMs.</Description>
     <PackageTags>AI;LLM;protocol;lexicon;integer;structured-output;TheSingularityWorkshop</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
