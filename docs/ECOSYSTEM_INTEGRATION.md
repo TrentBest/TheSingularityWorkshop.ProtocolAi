@@ -349,3 +349,33 @@ FSM_UserIO is already a good demonstration of why this works: it can carry a pro
 4. Build the first real ProtocolAI + GrammarAI + FSM_UserIO exchange in a higher-level host.
 5. Revisit FSM_REST, GUI, Experiences, and MicroBundles only when an actual semantic use case appears.
 6. Keep FSM_COS neutral: it carries and composes; it does not become the AI semantics layer.
+
+---
+
+## Ontology: optional semantic address space
+
+[TheSingularityWorkshop.Ontology](https://github.com/TrentBest/TheSingularityWorkshop.Ontology) is the Workshop's independent semantic-address layer.
+
+The dependency direction is deliberately:
+
+```text
+ProtocolAI                 Ontology
+   |                          |
+   | optional vocabulary      | semantic address space
+   v                          v
+integer identity  -------> OntologyIndex
+                                  |
+                                  v
+                           OntologyAddress
+```
+
+Ontology does **not** depend on ProtocolAI. ProtocolAI can be used by a consumer to map application vocabulary to deterministic integer identities before those identities are placed into an OntologyIndex.
+
+This keeps the responsibilities distinct:
+
+- ProtocolAI owns deterministic protocol vocabulary and symbol identity.
+- Ontology owns semantic structure, coordinates, addresses, relationships, and address-space mathematics.
+- MicroBundleDomain remains the neutral capability boundary.
+- FSM_COS composes the participating MicroBundles without interpreting their domain semantics.
+
+The Ontology package also supports N-dimensional coordinates and exact address-space cardinality calculations, so a consumer can organize semantic layers as arrays without making a particular layer count or vocabulary system mandatory.
