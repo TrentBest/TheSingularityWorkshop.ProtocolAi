@@ -47,7 +47,7 @@ var intents = new ProtocolBuilder(4200, "WorkshopIntents")
 
 var intent = new SemanticIntent(
     "open.workshop",
-    intents.ProtocolId);
+    intents.Id);
 ~~~
 
 The important point is ownership:
@@ -234,6 +234,71 @@ Do not add ProtocolAI merely because MicroBundles contain IDs.
 
 A useful future relationship is to associate a published capability with a ProtocolAI semantic identity at the composition or Experience layer when that capability actually participates in semantic exchange.
 
+
+## 10. First concrete host: AnyApp
+
+The first higher-level host now exercises the complete boundary without adding inverse dependencies to the foundation packages.
+
+AnyApp owns an Experience vocabulary:
+
+~~~csharp
+var protocol = new ProtocolBuilder(4200, "WorkshopExperienceIntents")
+    .Define(4201, "openForge", "open.forge")
+    .Define(4202, "exploreExperiences", "explore.experiences")
+    .Build();
+
+var intent = new SemanticIntent("open.forge", protocol.Id);
+var reference = protocol.ReferenceByValue(intent.Name);
+~~~
+
+GrammarAI then describes which protocol symbols are structurally admitted:
+
+~~~csharp
+var grammar = new GrammarBuilder(
+        4300,
+        "WorkshopExperienceIntent",
+        4301)
+    .Rule(
+        4302,
+        4301,
+        GrammarSymbol.Terminal(
+            new GrammarProtocolReference(4200, 4201)))
+    .Rule(
+        4303,
+        4301,
+        GrammarSymbol.Terminal(
+            new GrammarProtocolReference(4200, 4202)))
+    .Build();
+~~~
+
+The Experience manifest carries the SemanticIntent, and AnyApp validates it through the host-owned grammar before composing the selected Experience.
+
+The resulting ownership is:
+
+~~~text
+ProtocolAI
+  owns deterministic vocabulary
+        |
+        v
+GrammarAI
+  owns allowed structure
+        |
+        v
+FSM_UserIO
+  carries semantic intent
+        |
+        v
+AnyApp / Experience
+  gives the intent application meaning
+        |
+        v
+FSM_COS
+  composes the runtime
+~~~
+
+This is the intended vertical slice: **WHAT + HOW + INTENT meet at the host**, rather than being collapsed into one foundation package.
+
+See the implementation in [AnyApp](https://github.com/TrentBest/AnyApp) and its `WorkshopSemanticExchange` host boundary.
 ## Integration map
 
 | Package / boundary | ProtocolAI | GrammarAI | Direct dependency now? |
