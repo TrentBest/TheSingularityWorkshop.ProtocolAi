@@ -1,36 +1,14 @@
 # ProtocolAI Theory
 
-## The semantic compression boundary
+## The semantic boundary between probability and identity
 
-ProtocolAI starts with a simple observation:
+ProtocolAI starts with a deceptively small observation:
 
-A model may need to identify something that the application already knows.
+> A model may be probabilistic, while the application it is talking to already has deterministic knowledge.
 
-If the application already knows that `Bob` is symbol `2001`, then repeatedly transmitting the entire human-readable value is not the only possible representation.
+If the application already knows that `Bob` is symbol `2001`, then an AI response does not need to become application meaning merely because a model produced a plausible string.
 
-The architecture can separate:
-
-```text
-meaning
-  |
-  v
-symbol
-  |
-  v
-integer identity
-```
-
-The integer is not the meaning.
-
-It is the address of the meaning.
-
----
-
-## The probabilistic funnel
-
-The most important practical motivation for ProtocolAI is the boundary between **probabilistic generation** and **deterministic software**.
-
-An LLM can generate a useful candidate, but the application still needs an exact representation before it can safely use that candidate as state, an identifier, a command argument, or a reference to an existing object.
+ProtocolAI introduces an explicit semantic boundary:
 
 ```text
 probabilistic language
@@ -39,35 +17,216 @@ probabilistic language
 candidate value
         |
         v
-ProtocolAI vocabulary lookup
+application-owned vocabulary
         |
-     +--+--+
-     |     |
-   known  unknown
-     |     |
-     v     v
- integer literal
-     |     |
-     |   creation / registration
-     |     |
-     +--+--+
+   +----+----+
+   |         |
+ known    unknown
+   |         |
+   v         v
+identity   literal
+   |         |
+   +----+----+
         |
         v
- deterministic application identity
+deterministic application decision
 ```
 
-ProtocolAI does **not** make inference deterministic. It narrows the output at the semantic boundary where the application already owns the vocabulary.
+The model proposes.
 
-For a known value, the result can become an integer reference. For a genuinely new value, the literal remains visible so the host can decide whether and how that value becomes a new identity.
+The protocol resolves representation.
 
-This gives the architecture a useful division of responsibility:
+The host decides what is allowed to happen.
 
-- the model proposes;
-- ProtocolAI resolves representation;
-- the host validates and decides what the value means operationally;
-- deterministic application state uses identities it controls.
+That separation is the central idea.
 
-That is the reason to use ProtocolAI even when a provider already supports structured JSON: **schema-constrained JSON gives you deterministic shape; ProtocolAI explores deterministic semantic addressing inside that shape.**
+---
+
+## Deprobabilization
+
+**Deprobabilization** is a useful name for the architectural pattern explored here:
+
+> Move a piece of meaning from an open-ended probabilistic language space into an application-owned deterministic address space as early as the application can legitimately do so.
+
+This is not a claim that ProtocolAI makes an LLM deterministic.
+
+It does not.
+
+It is also not a claim that integer identifiers inherently improve model reasoning.
+
+Instead, ProtocolAI reduces the amount of semantic interpretation that must remain probabilistic **after the model has produced an answer**.
+
+For a known value:
+
+```text
+"Bob"
+  |
+  v
+known vocabulary entry
+  |
+  v
+[2001]
+```
+
+For an unknown value:
+
+```text
+"Amelia"
+  |
+  v
+not in vocabulary
+  |
+  v
+literal
+  |
+  v
+host decides:
+create / register / reject / clarify
+```
+
+For an invalid reference:
+
+```text
+[9999]
+  |
+  v
+not defined by this protocol
+  |
+  v
+validation failure
+```
+
+Those are three different states. A conventional string-only interface can easily blur them together.
+
+ProtocolAI makes them explicit.
+
+---
+
+## Why this may matter for hallucination
+
+A hallucination is not a single technical failure mode. A model can invent a name, confuse two names, emit a stale identifier, or produce something syntactically valid but semantically inappropriate.
+
+ProtocolAI does not prevent the model from generating any of those things.
+
+What it can do is prevent **mere resemblance to a known value from becoming application identity automatically**.
+
+The important boundary is:
+
+```text
+MODEL OUTPUT
+    |
+    v
+candidate
+    |
+    +--> known, valid identity ----> reference
+    |
+    +--> unknown literal ----------> host decision
+    |
+    +--> invalid reference --------> reject
+```
+
+This changes the failure surface.
+
+Instead of:
+
+> “The model said Bob, therefore this is Bob.”
+
+the architecture can say:
+
+> “The model produced a value. Does this value correspond to an identity owned by this application?”
+
+That is a much narrower question.
+
+So the careful claim is:
+
+> **ProtocolAI may reduce certain classes of semantic hallucination reaching deterministic application state by requiring application-owned identity to be resolved explicitly.**
+
+That is an architectural hypothesis, not a measured hallucination-reduction result. It should be tested empirically with controlled model evaluations.
+
+---
+
+## The probabilistic funnel
+
+The pattern can be viewed as a funnel:
+
+```text
+                 many possible strings
+                         |
+                         v
+                 probabilistic model
+                         |
+                         v
+                    candidate
+                         |
+                         v
+              +---------------------+
+              |     ProtocolAI      |
+              | application-owned   |
+              | semantic vocabulary |
+              +----------+----------+
+                         |
+             +-----------+-----------+
+             |                       |
+          recognized              unrecognized
+             |                       |
+             v                       v
+       deterministic             literal
+         identity                   |
+             |                       v
+             |                host policy
+             |                       |
+             +-----------+-----------+
+                         |
+                         v
+                  application state
+```
+
+The funnel does not run backward through the model.
+
+It runs forward from probability toward deterministic software.
+
+That is why the “ball falls up” metaphor is useful as intuition but dangerous as a literal description. ProtocolAI is not reverse inference. It is deterministic resolution after inference.
+
+---
+
+## Schema is not semantic identity
+
+Structured output can make a response conform to a shape.
+
+For example:
+
+```json
+{"person":"Bob","action":"inspect"}
+```
+
+A schema can establish that `person` is a string.
+
+It does not establish which application object that string identifies.
+
+ProtocolAI explores a different layer:
+
+```text
+shape
+  |
+  v
+structured value
+  |
+  v
+semantic identity
+  |
+  v
+application state
+```
+
+This produces a useful division:
+
+- **Schema** describes shape.
+- **GrammarAI** describes structural relationships.
+- **ProtocolAI** describes application-owned semantic identity.
+- **Host policy** decides what an identity permits.
+- **Execution** performs the operation.
+
+The layers can cooperate without becoming the same system.
 
 ---
 
@@ -82,56 +241,60 @@ A ProtocolAI definition has its own identity:
 and symbols within that identity:
 
 ```text
-[2001] bobId = "Bob"
+[2001] bobId  = "Bob"
 [2002] janeId = "Jane"
 ```
-
-The resulting address can be understood as:
-
-```text
-protocol [1001]
-    |
-    +-- symbol [2001] -> Bob
-    +-- symbol [2002] -> Jane
-```
-
-This separation matters because a symbol ID without its protocol context is incomplete.
 
 The protocol provides the namespace.
 
 The symbol provides the address.
 
-The value provides the meaning.
+The application provides the meaning.
+
+This means ProtocolAI is not a global dictionary. Each application or capability can define the vocabulary it actually owns.
+
+```text
+Tool A -> People
+Tool B -> Buildings
+Tool C -> Materials
+Tool D -> Commands
+```
+
+The infrastructure supplies the form.
+
+The domain supplies the meaning.
 
 ---
 
-## Meaning, identity, representation
+## Meaning, identity, and representation
 
 ProtocolAI deliberately separates three concerns:
 
-1. **Meaning** — what the domain value represents.
+1. **Meaning** — what a domain value represents.
 2. **Identity** — the integer used to address it.
 3. **Representation** — how that identity appears in a payload.
 
 Example:
 
 ```text
-Meaning:        Bob
-Symbol name:    bobId
-Symbol ID:      2001
-Protocol ID:    1001
-Payload form:   [2001]
+Meaning:       Bob
+Symbol name:   bobId
+Symbol ID:     2001
+Protocol ID:   1001
+Payload form:  [2001]
 ```
 
-This is an architectural pattern found in many systems that use compact identities to refer to richer data. ProtocolAI does not claim those systems are equivalent; it isolates the useful property:
+The integer is not the meaning.
 
-> **A reference can be smaller than the thing it identifies.**
+It is the address of the meaning.
+
+That distinction allows the same semantic identity to participate in later serialization, storage, grammar, comparison, composition, or transport without forcing every layer to own the underlying domain object.
 
 ---
 
 ## The literal escape hatch
 
-A closed vocabulary would make creation awkward.
+A completely closed vocabulary would make new information awkward.
 
 Suppose the protocol knows:
 
@@ -140,107 +303,63 @@ Suppose the protocol knows:
 [2002] Jane
 ```
 
-and the model needs to create:
+and the model produces:
 
 ```text
 "Amelia"
 ```
 
-ProtocolAI therefore permits a literal.
+ProtocolAI preserves the literal.
 
 ```text
 [2001] [2002] "Amelia"
 ```
 
-This establishes a semantic boundary:
+This is important because **unknown does not mean invalid**.
 
-```text
-known
-  |
-  +--> integer reference
+The host may decide to:
 
-unknown
-  |
-  +--> literal
-        |
-        +--> creation
-        |
-        +--> registration
-        |
-        +--> future reference
-```
+- create a new object;
+- register a new symbol;
+- reject the value;
+- ask for clarification;
+- retain it as transient data.
 
-The literal is therefore not intended to compete with the vocabulary.
+ProtocolAI does not silently choose.
 
-It is how the vocabulary can encounter something new.
+That preserves the application's authority over its own vocabulary.
 
 ---
 
-## Self-definition is the point
+## Determinism is deliberately local
 
-The package must not become a global dictionary.
+ProtocolAI's deterministic behavior is narrow.
 
-Instead:
+Given:
 
-```text
-Tool A -> defines People
-Tool B -> defines Buildings
-Tool C -> defines Materials
-Tool D -> defines Commands
-```
+- a protocol definition;
+- an input value;
+- the protocol's existing symbols;
 
-All use the same protocol form.
+the library can deterministically resolve known values and preserve unknown literals.
 
-This follows a larger Workshop principle:
+That does not make the surrounding interaction deterministic.
 
-> **Infrastructure provides the form. Domain packages provide the meaning.**
+The model remains probabilistic.
 
-The protocol definition is therefore data about a vocabulary, rather than a vocabulary imposed by the library.
+The host remains responsible for policy.
 
----
+The application remains responsible for execution.
 
-## Relationship to structured model output
+The useful property is therefore not:
 
-Modern model platforms increasingly support schema-constrained output. OpenAI's current documentation describes Structured Outputs and constrained generation, including grammar-based constraints in tool scenarios. [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs) and [Function Calling](https://developers.openai.com/api/docs/guides/function-calling)
+> “AI becomes deterministic.”
 
-ProtocolAI does not replace those mechanisms.
+It is:
 
-It explores a semantic layer that can sit beneath them:
+> **“The application can choose exactly where probabilistic output stops being allowed to define identity.”**
 
-```text
-schema / grammar
-      |
-      v
-structured representation
-      |
-      v
-ProtocolAI vocabulary
-      |
-      v
-integer references
-```
-
-A schema can describe the shape of data.
-
-A grammar can describe legal structure.
-
-ProtocolAI describes **the vocabulary of the things being referenced**.
-
-That gives the Workshop a clean conceptual split:
-
-```text
-WHAT
- |
- +-- ProtocolAI
-
-HOW
- |
- +-- GrammarAI
-
-WHAT TO DO
- |
- +-- host / tool / experience
-```
+That is a much more general architectural idea.
 
 ---
 
@@ -248,7 +367,7 @@ WHAT TO DO
 
 A prompt is transient.
 
-A protocol identity can be reused:
+A protocol identity can persist:
 
 ```text
 Prompt A
@@ -268,15 +387,82 @@ Prompt B
 
 The host retains the semantic mapping.
 
-The model receives the compact reference.
+The model receives a compact reference.
 
-This does not imply that integer references automatically improve model reasoning. It is an architectural hypothesis that should be evaluated empirically.
+The protocol therefore creates a stable semantic address space around otherwise transient language interactions.
+
+Whether this improves token usage, latency, model reliability, or reasoning quality is an empirical question.
 
 ---
 
-## Local protocols, not one universal vocabulary
+## Relationship to GrammarAI
 
-There is no need for a universal dictionary.
+ProtocolAI answers:
+
+> **WHAT does this identifier mean?**
+
+GrammarAI answers:
+
+> **HOW may these identifiers be organized?**
+
+Together:
+
+```text
+probabilistic language
+        |
+        v
+ProtocolAI
+    WHAT / identity
+        |
+        v
+GrammarAI
+    HOW / structure
+        |
+        v
+host validation
+        |
+        v
+application execution
+```
+
+Neither package needs to become an AI provider or execution engine.
+
+That separation is what makes the concepts composable.
+
+---
+
+## Relationship to structured model output
+
+Modern model platforms provide structured outputs and constrained generation.
+
+ProtocolAI does not replace those mechanisms.
+
+It explores a semantic layer that can sit beneath them:
+
+```text
+provider constraint
+      |
+      v
+structured representation
+      |
+      v
+ProtocolAI vocabulary
+      |
+      v
+application identity
+```
+
+A provider may constrain syntax.
+
+ProtocolAI can constrain semantic identity according to a vocabulary the application owns.
+
+That distinction is the interesting part.
+
+---
+
+## Local protocols, not universal dictionaries
+
+There is no requirement for one universal vocabulary.
 
 A workshop tool might define:
 
@@ -288,73 +474,55 @@ A workshop tool might define:
 [7104] delete
 ```
 
-Another tool can use completely different IDs.
+Another capability can define completely different identities.
 
 Protocol identity separates those namespaces.
 
-That property becomes increasingly useful as independently authored capabilities are composed.
+This becomes increasingly useful as independently authored capabilities are composed.
 
 ---
 
-## Questions the alpha intentionally leaves open
+## The security boundary
 
-### Symbol allocation
-Who assigns a new symbol ID?
+Integer identity is not authorization.
 
-### Persistence
-How does an identity survive process restarts?
+Knowing that `[7103]` means `create` does not grant permission to create anything.
 
-### Registration
-When does a literal become a permanent symbol?
+The host must still apply policy:
 
-### Versioning
-How do definitions evolve without breaking consumers?
+```text
+model output
+    |
+    v
+ProtocolAI resolution
+    |
+    v
+identity
+    |
+    v
+authorization / policy
+    |
+ +--+--+
+ |     |
+allow deny
+ |     |
+ v     v
+execute reject
+```
 
-### Compatibility
-How can two protocol definitions determine whether they can interoperate?
-
-### Negotiation
-How does one participant request the vocabulary it needs?
-
-### Security
-Who is allowed to define, reserve, or invoke a symbol?
-
-### Model behavior
-Do models reliably use a supplied integer vocabulary?
-
-These are not implementation omissions to hide.
-
-They are the next architectural questions.
-
----
-
-## Architectural invariant
-
-The strongest current invariant is:
-
-> **ProtocolAI defines what symbols mean without defining how an AI model reasons about them.**
-
-The package therefore remains a semantic substrate.
-
-It does not own:
-
-- the model;
-- the prompt;
-- the tokenizer;
-- the transport;
-- the grammar;
-- the tool runtime.
-
-It owns the lexicon boundary.
+This is another reason the protocol must remain separate from execution.
 
 ---
 
 ## The larger experiment
 
-The long-term progression is:
+The Workshop's longer-term progression is:
 
 ```text
 human/domain language
+        |
+        v
+probabilistic generation
         |
         v
 self-defining lexicon
@@ -366,19 +534,58 @@ integer identity
 grammar / structure
         |
         v
-protocol
+validated protocol
         |
         v
-tool execution
+tool / application policy
+        |
+        v
+execution
         |
         v
 experience
 ```
 
-ProtocolAI is the first semantic compression boundary.
+ProtocolAI is the first semantic deprobabilization boundary.
 
-GrammarAI is the next.
+GrammarAI is the structural boundary that follows it.
 
-The goal is not to eliminate human language.
+The goal is not to eliminate natural language.
 
-The goal is to give software a precise address space for meanings it already owns.
+The goal is to stop asking natural language to remain the authoritative representation after the application already knows something more precise.
+
+---
+
+## Questions the alpha intentionally leaves open
+
+- Who allocates new symbol IDs?
+- How are identities persisted across processes?
+- When does a literal become a permanent symbol?
+- How do definitions evolve without breaking consumers?
+- How do two protocol definitions establish compatibility?
+- How are vocabularies negotiated?
+- Who is authorized to define or invoke symbols?
+- Do models reliably use supplied integer vocabularies?
+- Does semantic deprobabilization measurably reduce hallucination classes?
+- What are the token, latency, and context-window effects?
+
+These are not holes to hide.
+
+They are the experiment.
+
+---
+
+## Architectural invariant
+
+> **ProtocolAI defines what symbols mean without defining how an AI model reasons about them, and without granting those symbols operational authority.**
+
+In one line:
+
+```text
+LLM          = probabilistic proposal
+ProtocolAI   = deterministic semantic identity
+GrammarAI    = deterministic structure
+Host         = policy and execution
+```
+
+That boundary is the point.
