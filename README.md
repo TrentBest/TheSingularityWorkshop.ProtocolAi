@@ -312,6 +312,7 @@ Those belong to higher layers.
 - **[ProtocolAI Theory](docs/THEORY.md)** — architectural thesis
 - **[ProtocolAI Reflection](docs/REFLECTION.md)** — limitations and open questions
 - **[AI Exchange](docs/AI_EXCHANGE.md)** — clipboard/connected exchange boundary
+- **[Ecosystem Integration](docs/ECOSYSTEM_INTEGRATION.md)** — FSM_UserIO usage and boundaries with GrammarAI, FSM_COS, Experiences, GUI, REST, and serialization
 - **[GrammarAI](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi)** — structural HOW layer
 
 ## Development
