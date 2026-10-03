@@ -239,6 +239,14 @@ Connected mode can later add a provider adapter. The adapter owns credentials, e
 
 See **[AI Exchange](docs/AI_EXCHANGE.md)** for the exchange boundary and future host contract.
 
+## Deprobabilization in one sentence
+
+**ProtocolAI does not make the model deterministic; it makes the application's semantic boundary deterministic.**
+
+When a model produces a value, the application can distinguish a known identity from a genuinely new literal and from an invalid reference. That makes the transition from probabilistic language to application state explicit rather than implicit.
+
+See **[ProtocolAI Theory](docs/THEORY.md)** for the deeper argument, including the deliberately cautious hypothesis about hallucination reduction.
+
 ## What ProtocolAI is not
 
 ProtocolAI is not:
