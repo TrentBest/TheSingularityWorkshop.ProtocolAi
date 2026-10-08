@@ -1,6 +1,4 @@
-# ProtocolAI Theory
-
-## The semantic boundary between probability and identity
+# ProtocolAI Theory\n\n> **The theory is not a claim that AI becomes deterministic. It is a study of where deterministic application ownership can begin.**\n\n## The semantic boundary between probability and identity
 
 ProtocolAI starts with a deceptively small observation:
 

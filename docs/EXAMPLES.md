@@ -1,12 +1,10 @@
 # ProtocolAI Examples
 
-These examples focus on the practical consumption pattern: **define what your application already knows, encode references, preserve unknown literals, and resolve identities deterministically.**
+These examples progress from a simple vocabulary to a complete semantic boundary.
 
-## Example 1 — A command vocabulary
+## Example 1 — Commands
 
-A tool can define commands as a local protocol:
-
-`csharp
+```csharp
 var commands = new ProtocolBuilder(7100, "WorkshopCommands")
     .Define(7101, "inspect", "inspect")
     .Define(7102, "move", "move")
@@ -14,25 +12,20 @@ var commands = new ProtocolBuilder(7100, "WorkshopCommands")
     .Define(7104, "delete", "delete")
     .Build();
 
-var request = commands.Encode([
-    "inspect",
-    "move"
-]);
-`
+var request = commands.Encode(["inspect", "move"]);
+```
 
 Conceptually:
 
-`text
+```
 [7101] [7102]
-`
+```
 
-The command meaning remains owned by the tool.
+ProtocolAI identifies the commands. It does not execute them.
 
 ## Example 2 — Existing objects
 
-Suppose a host knows the IDs of objects in its own domain:
-
-`csharp
+```csharp
 var objects = new ProtocolBuilder(7200, "WorkshopObjects")
     .Define(7201, "forge", "Forge")
     .Define(7202, "laboratory", "Research Laboratory")
@@ -42,149 +35,161 @@ var request = objects.Encode([
     "Forge",
     "Research Laboratory"
 ]);
-`
+```
 
-The model-facing representation can refer to known objects by identity:
+Known objects become application-owned identities.
 
-`text
-[7201] [7202]
-`
+## Example 3 — Existing versus new
 
-ProtocolAI does not execute either object. It only gives the host a compact, explicit representation of the vocabulary.
-
-## Example 3 — Creation is different from reference
-
-Consider:
-
-`csharp
+```csharp
 var request = objects.Encode([
     "Forge",
     "Avengers Landing Pad"
 ]);
-`
-
-The payload also carries its owning protocol ID, so the integer references are not presented as globally meaningful numbers.
-
-The result conceptually separates:
-
-`text
-existing object
-    Forge
-      |
-      v
-   [7201]
-
-new value
-    Avengers Landing Pad
-      |
-      v
-   "Avengers Landing Pad"
-`
-
-The host can now distinguish an existing identity from a candidate new value.
-
-The alpha does not decide how a new object receives its permanent identity. That belongs to the host or a future registration layer.
-
-## Example 4 — Self-description
-
-A tool can expose its protocol definition:
-
-`csharp
-Console.WriteLine(objects.Describe());
-`
-
-Output:
-
-`text
-[7200] WorkshopObjects
-  [7201] forge = "Forge"
-  [7202] laboratory = "Research Laboratory"
-`
-
-This makes the vocabulary inspectable without requiring the consumer to reconstruct it from source code.
-
-## Example 5 — Explicit references
-
-The protocol identity and symbol identity can be carried together:
-
-`csharp
-var forge = objects.Reference("forge");
-
-Console.WriteLine($"Protocol: {forge.ProtocolId}");
-Console.WriteLine($"Symbol:   {forge.SymbolId}");
-`
+```
 
 Conceptually:
 
-`text
-[7200:7201]
-`
+```
+Forge
+  -> [7201]
 
-This form is useful at boundaries where another subsystem needs to refer to the owned symbol without taking ownership of its meaning.
+Avengers Landing Pad
+  -> literal
+```
 
-## Example 6 — The full WHAT boundary
+The host can decide whether the new value should become a domain object, be rejected, or remain transient.
 
-A useful mental model for an AI-facing tool is:
+## Example 4 — Self-description
 
-`text
-              DOMAIN
-                |
-        "Forge", "Laboratory"
-                |
-                v
-        +---------------+
-        |  ProtocolAI   |
-        |     WHAT      |
-        +-------+-------+
-                |
-         [7201] [7202]
-                |
-                v
-          model-facing
-         representation
-                |
-                v
-               LLM
-                |
-                v
-          returned data
-                |
-                v
-        +---------------+
-        |  ProtocolAI   |
-        |    resolve    |
-        +-------+-------+
-                |
-                v
-        deterministic host
-`
+```csharp
+Console.WriteLine(objects.Describe());
+```
 
-The package is most useful when the application already has authoritative meaning and wants an explicit identity layer around it.
+A human-readable description makes the vocabulary inspectable without reconstructing it from source code.
 
-## Example 7 — Pairing with GrammarAI
+## Example 5 — Explicit references
 
-Once a vocabulary exists, GrammarAI can refer to its symbols:
+```csharp
+var forge = objects.Reference("forge");
 
-`text
+Console.WriteLine(forge.ProtocolId);
+Console.WriteLine(forge.SymbolId);
+```
+
+Conceptually:
+
+```
+[7200 : 7201]
+```
+
+This is useful when another subsystem needs identity without owning the domain object.
+
+## Example 6 — JSON transport
+
+```csharp
+var payload = objects.Encode(["Forge", "New Building"]);
+
+var json = ProtocolPayloadJson.Serialize(payload);
+
+var received = ProtocolPayloadJson.Deserialize(json);
+
+objects.Validate(received);
+
+var values = objects.Resolve(received);
+```
+
+The transport boundary is:
+
+```
+ProtocolPayload
+      |
+      v
+JSON
+      |
+      v
+ProtocolPayload
+      |
+      v
+validate
+      |
+      v
+resolve
+```
+
+See [PROTOCOL_PAYLOAD_JSON.md](PROTOCOL_PAYLOAD_JSON.md) for the wire contract.
+
+## Example 7 — Full WHAT boundary
+
+```
+DOMAIN
+  |
+  | "Forge", "Laboratory"
+  v
 ProtocolAI
+  |
+  | deterministic identity
+  v
+semantic representation
+  |
+  v
+LLM / human / another application
+  |
+  v
+returned data
+  |
+  v
+ProtocolAI
+  |
+  | validation + resolution
+  v
+host policy
+```
 
+This is the core architectural pattern.
+
+## Example 8 — Pairing with GrammarAI
+
+ProtocolAI can own identities while GrammarAI owns relationships.
+
+```
+ProtocolAI
 [1001] People
 [2001] Bob
 [2002] Jane
-
-        |
-        | externally owned references
-        v
-
+       |
+       | external identity
+       v
 GrammarAI
+relationship / structure
+       |
+       v
+host policy
+```
 
-[4001] Greeting
-  [5001] [4001] -> [1001:2001]
-  [5002] [4001] -> [1001:2002]
-`
+The two packages cooperate without needing to become one package.
 
-ProtocolAI still owns Bob and Jane.
+## Example 9 — The non-AI case
 
-GrammarAI owns the relationships.
+ProtocolAI does not require an LLM.
 
-That is the intended separation between the two packages.
+A deterministic application can use the same vocabulary:
+
+```csharp
+var protocol = new ProtocolBuilder(8000, "EditorCommands")
+    .Define(8001, "save", "save")
+    .Define(8002, "publish", "publish")
+    .Build();
+
+var payload = protocol.Encode(["save"]);
+
+protocol.Validate(payload);
+
+var command = protocol.Resolve(payload).Single();
+```
+
+The semantic identity remains useful because the application owns it.
+
+That is an important test of the architecture:
+
+> **AI is a participant, not the reason the vocabulary exists.**

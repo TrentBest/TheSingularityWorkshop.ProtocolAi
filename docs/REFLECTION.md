@@ -1,278 +1,164 @@
 # ProtocolAI Reflection
 
-## Why the package is deliberately small
+ProtocolAI is an alpha experiment with a deliberately narrow center.
 
-ProtocolAI is an alpha experiment.
+The question is not:
 
-It would be easy to turn it into an AI integration framework containing model clients, prompt templates, token accounting, tool calling, serialization, grammars, transport, memory, orchestration, and provider-specific behavior.
+> “How much AI functionality can we put into this package?”
 
-That would make the package larger while making its central idea harder to see.
+The question is:
 
-The current implementation instead asks one question:
+> **Can application-owned vocabulary become stable, addressable identity at the boundary between probabilistic language and deterministic software?**
 
-> **Can a tool define its own vocabulary and represent known values by stable integer identities?**
+## What Alpha 3 demonstrates
 
-Everything else can compose around that boundary.
+The current implementation demonstrates:
 
----
+1. application-owned protocol definitions;
+2. stable symbol identities;
+3. known-value encoding;
+4. unknown-value preservation;
+5. protocol validation;
+6. deterministic resolution;
+7. deterministic self-description;
+8. provider-neutral JSON transport;
+9. structural JSON validation;
+10. round-trip preservation of mixed references and literals.
 
-## What the current implementation demonstrates
+That is enough to establish a meaningful semantic and transport boundary.
 
-The current tests establish that a tool can:
+It is not a complete AI protocol.
 
-1. define a protocol;
-2. define named symbols;
-3. reject duplicate identities;
-4. encode known values as integer references;
-5. preserve unknown values as literals;
-6. decode integer references;
-7. emit a deterministic self-description.
+## Why immutability matters
 
-That is enough to demonstrate the lexicon boundary.
+The alpha creates immutable ProtocolDefinition instances.
 
-It is not yet a complete AI protocol.
+That gives a useful property:
 
----
+```
+same definition
++
+same input
+=
+same semantic result
+```
+
+It also makes caching, testing, diagnostics, and transport easier to reason about.
+
+It does **not** mean the surrounding application cannot evolve.
+
+A future host can own mutation while ProtocolAI continues to consume immutable snapshots.
 
 ## The missing lifecycle
 
-The likely semantic lifecycle is:
+The likely larger lifecycle is:
 
-```text
+```
 DEFINE
   |
   v
 DESCRIBE
   |
   v
-PROMPT
+EXCHANGE
   |
   v
 REFERENCE
   |
-  +---- known --> integer
+  +---- known ----> identity
   |
-  +---- unknown -> literal
+  +---- unknown --> literal
                     |
                     v
-                  CREATE
+               host decision
                     |
                     v
-                 REGISTER
+              future registration
                     |
                     v
-              future reference
+             new immutable snapshot
 ```
 
-The missing pieces are therefore not arbitrary features.
+The missing pieces are deliberate design questions:
 
-They are the next steps in the lifecycle.
+- Who allocates new IDs?
+- Who is authorized to register them?
+- How are definitions persisted?
+- How are versions identified?
+- How are participants notified?
+- How are old identities kept meaningful?
+- How are compatible snapshots negotiated?
 
----
+Those features should not be rushed into the immutable core.
 
-## Immutable definitions and future dynamic registration
+## Describe() as a boundary
 
-There is an important distinction between **an immutable protocol definition** and **a vocabulary that can evolve**.
+Describe() currently provides deterministic, human-readable information.
 
-The alpha chooses immutability because it makes a published definition deterministic:
+A future system may serialize richer protocol definitions.
 
-~~~text
-ProtocolBuilder
-      |
-      v
-ProtocolDefinition
-      |
-      +---- same definition + same value
-      |              |
-      |              v
-      |          same identity
-~~~
+But:
 
-That is a useful property for reasoning, testing, caching, diagnostics, and later serialization.
+> **Description is information, not authority.**
 
-It does not mean the surrounding domain is immutable.
+Knowing that a symbol exists does not grant permission to create, modify, or execute anything.
 
-A future lifecycle can instead separate the **mutable authority** from the **immutable snapshots** it publishes:
+## JSON as a transport boundary
 
-~~~text
-                 domain / host authority
-                          |
-                          v
-                 +-------------------+
-                 | registration      |
-                 | policy + allocator|
-                 +---------+---------+
-                           |
-                    publish snapshot
-                           |
-                           v
-                 +-------------------+
-                 | ProtocolDefinition|
-                 |    immutable      |
-                 +-------------------+
-                           |
-                    Describe / Encode
-                           |
-                           v
-                    protocol payload
-~~~
+Alpha 3 deliberately adds JSON without adding provider semantics.
 
-That gives the architecture a clean place to answer the questions alpha intentionally leaves open:
+That means the same payload can be carried by:
 
-- Who is allowed to register a new symbol?
-- How is an integer identity allocated?
-- How does the host reject a proposed registration?
-- How is a new definition published?
-- How do existing participants learn that the vocabulary changed?
-- What does protocol version mean when a vocabulary evolves?
-- How are old integer references kept meaningful?
-- Can two participants merge compatible vocabulary updates?
-- When should a literal become an identity at all?
+- HTTP;
+- WebSocket framing;
+- queues;
+- files;
+- databases;
+- clipboard artifacts;
+- test fixtures.
 
-The likely answer is **not** to make ProtocolDefinition itself mutable.
+The representation does not become a new source of meaning.
 
-Instead, a future registration layer can own mutation and publish new immutable definitions or snapshots.
+## What remains outside
 
-That preserves the strongest property of the alpha while giving the larger system somewhere to evolve.
+ProtocolAI intentionally does not own:
 
-### Describe() as a future protocol boundary
+- LLM inference;
+- provider SDKs;
+- API keys;
+- prompt orchestration;
+- HTTP clients;
+- dynamic identity allocation;
+- protocol negotiation;
+- grammar compilation;
+- command execution;
+- authorization;
+- GUI behavior.
 
-Describe() is currently a deterministic diagnostic representation.
+This is not a list of missing features to immediately implement.
 
-Conceptually, however, it points toward something larger:
+It is the boundary that protects the package.
 
-~~~text
-immutable definition
-       |
-       v
-   Describe()
-       |
-       v
-self-description
-       |
-       v
-future serialized protocol
-       |
-       v
-host consumes definition
-       |
-       v
-policy
-       |
-       +---- accept
-       +---- reject
-       +---- merge
-       +---- publish new snapshot
-~~~
+## The important experiment
 
-The important design constraint is that **description is not authority**.
+The interesting hypothesis is not “integer IDs make AI smarter.”
 
-A description can tell a host what a vocabulary claims to contain.
+The more careful hypothesis is:
 
-It should not, by itself, grant permission to create identities or mutate the application's domain.
+> **If application-owned identity is resolved explicitly after model output, certain classes of semantic ambiguity may be prevented from becoming deterministic application state automatically.**
 
-That policy belongs outside the immutable definition.
+That is testable.
 
----
+It should eventually be evaluated with controlled experiments rather than treated as a proven AI performance claim.
 
-## The next useful boundary
+## The next useful question
 
-The next implementation step should therefore be considered a lifecycle problem rather than simply "make the dictionary mutable."
+The next generation of ProtocolAI should probably answer:
 
-A useful future decomposition is:
+> **How can independently evolving participants exchange immutable vocabulary snapshots without allowing probabilistic output to become identity authority?**
 
-~~~text
-ProtocolDefinition
-    = immutable vocabulary snapshot
-
-ProtocolRegistry
-    = mutable host-owned authority
-
-ProtocolRegistration
-    = proposed identity change
-
-ProtocolAllocator
-    = identity allocation policy
-
-ProtocolNegotiation
-    = compatibility between snapshots
-~~~
-
-Those names are deliberately conceptual at this stage.
-
-The alpha does not promise these types.
-
-The architectural question comes first:
-
-> **How can a changing domain publish deterministic, addressable vocabulary snapshots without allowing probabilistic model output to become authority over identity?**
-
-That is the question the next generation of ProtocolAI should answer.
-
----
-
-## Why LLM ownership stays outside
-
-The model is a participant.
-
-It should not become the package boundary.
-
-That keeps ProtocolAI usable by:
-
-- hosted models;
-- local models;
-- future model architectures;
-- deterministic tools;
-- non-LLM agents;
-- test harnesses;
-- generated interfaces.
-
-A protocol definition can exist even when no model is present.
-
-That is desirable because the vocabulary belongs to the application, not to the inference provider.
-
----
-
-## Relationship to GrammarAI
-
-ProtocolAI owns the lexicon.
-
-GrammarAI owns structure.
-
-```text
-ProtocolAI
-"What exists?"
-
-GrammarAI
-"How can it be arranged?"
-
-Host
-"What should happen?"
-```
-
-This separation gives each package a crisp architectural boundary.
-
----
-
-## Alpha assessment
-
-The current implementation is foundational rather than complete.
-
-Its strongest property is the boundary.
-
-Its largest unanswered question is lifecycle:
-
-> **How does a self-defining vocabulary become a durable protocol between independently evolving participants?**
-
-That should guide the next design work.
-
----
+That points toward composition rather than a larger monolithic package.
 
 ## Workshop principle
 
-The package should continue to follow the Workshop pattern:
-
 > **Keep the foundation small. Let composition create the complexity.**
-
-ProtocolAI should provide the form.
-
-Concrete AI applications should provide the meaning, policy, model, and execution around it.

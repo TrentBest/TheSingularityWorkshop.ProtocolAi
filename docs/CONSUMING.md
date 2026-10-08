@@ -1,27 +1,44 @@
 # Consuming ProtocolAI
 
-This guide is for the person who has a working .NET application and wants to **use ProtocolAI**, not build ProtocolAI.
-
-If you remember only one thing, remember this:
-
 > **Your application owns meaning. ProtocolAI gives that meaning deterministic, addressable identity.**
 
-The package does not call an LLM for you. It gives your application a semantic boundary that can sit before and after model interaction.
+This is the practical guide for someone who has a .NET application and wants to use ProtocolAI without becoming a ProtocolAI maintainer.
 
----
+## 1. What you are adding
 
-## 1. Install the package
+```
+define vocabulary
+      |
+      v
+encode known values
+      |
+      v
+validate received identity
+      |
+      v
+resolve identity into application values
+```
+
+Alpha 3 adds a fifth boundary:
+
+```
+ProtocolPayload
+      |
+      v
+provider-neutral JSON
+      |
+      v
+another process / service / application
+```
+
+It does not add an AI provider.
+
+## 2. Install
 
 For the current alpha:
 
 ```bash
-dotnet add package TheSingularityWorkshop.ProtocolAi --version 0.1.0-alpha.2
-```
-
-Or:
-
-```xml
-<PackageReference Include="TheSingularityWorkshop.ProtocolAi" Version="0.1.0-alpha.2" />
+dotnet add package TheSingularityWorkshop.ProtocolAi --version 0.1.0-alpha.3
 ```
 
 Then:
@@ -30,21 +47,9 @@ Then:
 using TheSingularityWorkshop.ProtocolAi;
 ```
 
-You do **not** need an LLM SDK to use ProtocolAI.
+No LLM SDK, GrammarAI package, or FSM_COS package is required.
 
-You do **not** need GrammarAI to use ProtocolAI.
-
-You do **not** need FSM_COS to use ProtocolAI.
-
-Those are higher-level concerns.
-
----
-
-## 2. Define the vocabulary your application owns
-
-Start with something your application already understands.
-
-For example, a tool that works with people might define:
+## 3. Define a vocabulary
 
 ```csharp
 var people = new ProtocolBuilder(1001, "People")
@@ -54,297 +59,143 @@ var people = new ProtocolBuilder(1001, "People")
     .Build();
 ```
 
-The numbers are application-owned identities.
+Think of it as a dictionary with addresses:
 
-Conceptually:
-
-```text
-Protocol [1001] People
-    |
-    +-- [2001] bobId  = "Bob"
-    +-- [2002] janeId = "Jane"
-    +-- [2003] saraId = "Sara"
+```
+protocol 1001 = People
+    2001 = Bob
+    2002 = Jane
+    2003 = Sara
 ```
 
-ProtocolAI does not decide what Bob means in your application.
+The numbers are not global truth. They are addresses inside an application-owned vocabulary.
 
-Your application does.
-
----
-
-## 3. Encode values
-
-Give ProtocolAI ordinary application values:
+## 4. Encode
 
 ```csharp
 var payload = people.Encode([
     "Bob",
     "Jane",
-    "Sara"
-]);
-```
-
-Known values become references to the symbols you defined.
-
-Conceptually:
-
-```text
-"Bob"  -> [2001]
-"Jane" -> [2002]
-"Sara" -> [2003]
-```
-
-The payload also carries the protocol identity, so the symbol IDs are not pretending to be globally meaningful numbers.
-
----
-
-## 4. Unknown values stay visible
-
-This is one of the most important behaviors.
-
-Suppose the application knows Bob and Jane, but the incoming value is Amelia:
-
-```csharp
-var payload = people.Encode([
-    "Bob",
-    "Amelia"
+    "New Character"
 ]);
 ```
 
 Conceptually:
 
-```text
-[2001] "Amelia"
+```
+Bob           -> [2001]
+Jane          -> [2002]
+New Character -> literal
 ```
 
-ProtocolAI does **not** invent an identity for Amelia.
+The order is preserved. Unknown values are not silently assigned identities.
 
-The host decides what an unknown value means.
+## 5. Validate external data
 
-For example, the host could:
-
-1. create a new domain object;
-2. propose a new protocol symbol;
-3. reject the value;
-4. ask for clarification;
-5. retain it as transient data.
-
-This distinction matters when the input originated from an LLM. A model producing a plausible new name does not automatically receive authority to create application identity.
-
----
-
-## 5. Validate before consuming received data
-
-When data crosses an application boundary, validate it before acting on it:
+When a payload crosses a trust or process boundary:
 
 ```csharp
 people.Validate(payload);
 ```
 
-Validation checks the protocol scope and the validity of references.
+This asks:
 
-That gives the host a clean boundary:
+> Does this payload belong to this vocabulary, and do its references exist?
 
-```text
-external/model data
-        |
-        v
-    validation
-        |
-   +----+----+
-   |         |
- valid     invalid
-   |         |
-   v         v
-resolve    reject
-   |
-   v
-host policy
-```
+It does **not** ask whether the sender is authenticated or whether an action is authorized.
 
-**Validation is not authorization.**
+Those are host concerns.
 
-A valid ProtocolAI reference means the reference exists in the vocabulary. It does not mean the current user, model, or operation is allowed to use it.
-
-Authorization remains a host responsibility.
-
----
-
-## 6. Resolve mixed values
-
-Once validated, resolve the payload:
+## 6. Resolve
 
 ```csharp
 var values = people.Resolve(payload);
 ```
 
-Known references resolve back through the vocabulary. Literals remain literals.
+A useful mental model:
 
-That means the application can distinguish:
-
-```text
-known identity
-    Bob -> [2001] -> "Bob"
-
-new literal
-    Amelia -> "Amelia"
-
-invalid identity
-    [9999] -> validation failure
+```
+[2001]        -> known application identity
+"Amelia"      -> unknown literal
+[9999]        -> invalid reference if undefined
 ```
 
-Those are deliberately different states.
+Unknown is not invalid.
 
----
-
-## 7. Decode a single identity
-
-When you already have a symbol ID:
+## 7. Transport with Alpha 3 JSON
 
 ```csharp
-var value = people.Decode(2001);
+var json = ProtocolPayloadJson.Serialize(payload);
+
+// transport json however your application needs
+
+var received = ProtocolPayloadJson.Deserialize(json);
+
+people.Validate(received);
+
+var values = people.Resolve(received);
 ```
 
-The integer is an address into the vocabulary owned by your application.
+The JSON layer is intentionally provider-neutral. It can travel through HTTP, a queue, a file, a database, WebSocket framing, or a clipboard artifact.
 
-It is not a globally meaningful “Bob number.”
+Read [PROTOCOL_PAYLOAD_JSON.md](PROTOCOL_PAYLOAD_JSON.md) for the exact representation.
 
-The protocol ID supplies the namespace; the symbol ID supplies the address within that namespace.
-
----
-
-## 8. Carry an explicit reference
-
-When a boundary needs both protocol and symbol identity:
-
-```csharp
-var reference = people.Reference("bobId");
-
-Console.WriteLine(reference.ProtocolId);
-Console.WriteLine(reference.SymbolId);
-```
-
-Conceptually:
-
-```text
-protocol = [1001]
-symbol   = [2001]
-```
-
-This is useful when another subsystem needs to carry the identity without taking ownership of the domain object.
-
----
-
-## 9. Inspect a definition
-
-ProtocolAI definitions can describe themselves:
+## 8. Inspect a vocabulary
 
 ```csharp
 Console.WriteLine(people.Describe());
 ```
 
-Conceptually:
+Self-description is useful for diagnostics, documentation, generated context, and exchange tooling.
 
-```text
-[1001] People
-  [2001] bobId = "Bob"
-  [2002] janeId = "Jane"
-  [2003] saraId = "Sara"
+It is not authorization.
+
+## 9. Explicit references
+
+```csharp
+var bob = people.Reference("bobId");
+
+Console.WriteLine(bob.ProtocolId);
+Console.WriteLine(bob.SymbolId);
 ```
 
-Self-description is useful for:
+Conceptually:
 
-- diagnostics;
-- debugging;
-- generated documentation;
-- AI-facing context;
-- future exchange formats;
-- inspecting what a protocol actually contains.
+```
+[1001 : 2001]
+```
 
-The description is **information, not authority**. Reading a protocol description does not grant permission to mutate the application.
+The protocol supplies the namespace. The symbol supplies the address.
 
----
+## 10. Put AI outside the core
 
-## 10. Put the LLM outside the boundary
-
-ProtocolAI does not need to know which model you use.
-
-A host can build an AI-facing request from the vocabulary, send it through whatever model integration the user chooses, then validate and resolve the response.
-
-```text
-YOUR APPLICATION
-      |
-      | authoritative vocabulary
-      v
-  ProtocolAI
-      |
-      | semantic representation
-      v
-   AI host
-      |
-      v
-     LLM
-      |
-      v
- model response
-      |
-      v
-   AI host
-      |
-      v
-  ProtocolAI
-      |
-      | validate + resolve
-      v
- host policy
-      |
-      v
+```
+application
+    |
+    v
+ProtocolAI
+    |
+    v
+provider / clipboard / local model
+    |
+    v
+model response
+    |
+    v
+ProtocolAI
+    |
+    v
+host policy
+    |
+    v
 application state
 ```
 
-The provider can change.
+The provider owns credentials, endpoints, model selection, and transport.
 
-The model can change.
+ProtocolAI owns semantic identity.
 
-The application vocabulary remains application-owned.
-
----
-
-## 11. Clipboard and connected AI are the same semantic boundary
-
-ProtocolAI can participate in either:
-
-**Clipboard mode**
-
-1. Generate a semantic exchange.
-2. Copy it into the LLM interface of your choice.
-3. Copy the response back.
-4. Validate and resolve it.
-
-**Connected mode**
-
-1. Generate the same semantic exchange.
-2. Send it through a provider adapter.
-3. Receive the response.
-4. Validate and resolve it.
-
-The transport changes. The semantic boundary does not.
-
-Provider adapters should own:
-
-- credentials;
-- endpoints;
-- model selection;
-- HTTP or other transport;
-- provider-specific request/response formatting.
-
-ProtocolAI should not.
-
-See **[AI Exchange](AI_EXCHANGE.md)** for the larger exchange design.
-
----
-
-## 12. A complete small example
+## 11. A complete example
 
 ```csharp
 using TheSingularityWorkshop.ProtocolAi;
@@ -354,78 +205,63 @@ var people = new ProtocolBuilder(1001, "People")
     .Define(2002, "janeId", "Jane")
     .Build();
 
-var request = people.Encode([
-    "Bob",
-    "Jane",
-    "New Character"
-]);
+var outgoing = people.Encode(["Bob", "Jane", "New Character"]);
 
-people.Validate(request);
+var json = ProtocolPayloadJson.Serialize(outgoing);
 
-foreach (var value in request.Values)
+// Imagine another process received json.
+var incoming = ProtocolPayloadJson.Deserialize(json);
+
+people.Validate(incoming);
+
+foreach (var value in people.Resolve(incoming))
 {
-    if (value.IsReference)
-    {
-        Console.WriteLine($"Known symbol: {value.SymbolId}");
-    }
-    else
-    {
-        Console.WriteLine($"Literal requires host handling: {value.Literal}");
-    }
+    Console.WriteLine(value);
 }
-
-var resolved = people.Resolve(request);
 ```
 
-The important result is:
+The result is:
 
-```text
-"Bob"           -> known identity
-"Jane"          -> known identity
-"New Character" -> literal
+```
+Bob
+Jane
+New Character
 ```
 
-The model may be probabilistic.
+## 12. Common mistakes
 
-The vocabulary resolution performed by your application is not.
+### Treating IDs as global
 
----
+An integer such as 2001 means nothing by itself. It is meaningful in the context of its protocol.
 
-## What ProtocolAI gives you
+### Treating unknown as failure
 
-- application-owned integer identities;
-- protocol-qualified references;
-- known-value encoding;
-- literal preservation;
-- deterministic validation;
-- deterministic resolution;
-- single-value decoding;
-- self-description.
+An unknown literal can be useful information.
 
-## What you still provide
+### Resolving before validating
 
-- model client;
-- prompting;
-- transport;
-- validation policy beyond protocol validity;
-- authorization;
-- creation/registration policy;
-- persistence;
-- execution semantics;
-- provider-specific constrained-generation behavior.
+Validate externally received references first.
 
-That division of responsibility is intentional.
+### Treating validation as authorization
 
----
+A valid symbol does not grant permission.
 
-## Where to go next
+### Putting provider code into ProtocolAI
 
-If you want practical patterns, read **[Examples](EXAMPLES.md)**.
+Keep provider credentials and transport above the semantic foundation.
 
-If you want to understand the architectural argument, read **[Theory](THEORY.md)**.
+### Using ProtocolAI for every string
 
-If you are designing a provider-neutral AI exchange, read **[AI Exchange](AI_EXCHANGE.md)**.
+ProtocolAI is useful when deterministic vocabulary ownership matters. It is not a replacement for ordinary application data.
 
-If you are integrating ProtocolAI into the Workshop ecosystem, read **[Ecosystem Integration](ECOSYSTEM_INTEGRATION.md)**.
+## 13. Where next?
 
-**You should be able to use ProtocolAI without reading the theory. The theory exists to explain why the boundary is shaped this way.**
+- Want plain English? Read the [Idiot's Guide](IDIOTS_GUIDE.md).
+- Want to build? Read the [Beginner's Guide](BEGINNERS_GUIDE.md).
+- Want C# details? Read the [C# Developer's Guide](CSHARP_GUIDE.md).
+- Want architecture? Read the [Developer's Guide](DEVELOPERS_GUIDE.md).
+- Want AI exchange design? Read [AI Exchange](AI_EXCHANGE.md).
+- Want the reasoning? Read [Theory](THEORY.md).
+- Want Workshop boundaries? Read [Ecosystem Integration](ECOSYSTEM_INTEGRATION.md).
+
+**You can use ProtocolAI without learning the whole Workshop.**
