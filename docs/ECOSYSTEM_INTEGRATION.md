@@ -299,6 +299,63 @@ FSM_COS
 This is the intended vertical slice: **WHAT + HOW + INTENT meet at the host**, rather than being collapsed into one foundation package.
 
 See the implementation in [AnyApp](https://github.com/TrentBest/AnyApp) and its `WorkshopSemanticExchange` host boundary.
+
+## Verified implementation reference: AnyApp
+
+The discussion above is not merely theoretical. **AnyApp currently contains the first concrete Workshop implementation of the ProtocolAI + GrammarAI + FSM_UserIO relationship.**
+
+See [`WorkshopSemanticExchange.cs`](https://github.com/TrentBest/AnyApp/blob/development/WorkshopSemanticExchange.cs) in the AnyApp `development` branch.
+
+It demonstrates all three roles in one host-owned boundary:
+
+- **ProtocolAI** defines the `WorkshopExperienceIntents` vocabulary and deterministic symbols.
+- **FSM_UserIO** carries `SemanticIntent` without taking a dependency on ProtocolAI.
+- **GrammarAI** describes which ProtocolAI symbols are structurally admitted.
+- **AnyApp** owns the actual application policy: whether an intent such as `open.forge` is allowed and what the host does with it.
+
+The concrete identifiers currently used there are:
+
+```text
+ProtocolAI
+  protocol 4200 = WorkshopExperienceIntents
+  symbol   4201 = open.forge
+  symbol   4202 = explore.experiences
+
+GrammarAI
+  grammar  4300 = WorkshopExperienceIntent
+  start    4301
+  rule     4302 = open.forge
+  rule     4303 = explore.experiences
+```
+
+That is an important example because **ProtocolAI is being used for ordinary application semantics, not merely to talk to an AI model**. The same deterministic vocabulary can validate a host-owned application intent whether the originating actor is an LLM, a human, a GUI, a deep link, another application, or deterministic code.
+
+### Keeping this example synchronized
+
+This page intentionally links to the actual implementation rather than copying the complete implementation into ProtocolAI documentation.
+
+When the AnyApp semantic vocabulary changes, the corresponding ProtocolAI documentation should be reviewed at the same time. When ProtocolAI changes the vocabulary/reference APIs, AnyApp's `WorkshopSemanticExchange` and its tests must be reviewed as a consumer.
+
+The ownership boundary is therefore:
+
+```text
+ProtocolAI documentation
+        |
+        | explains the contract
+        v
+AnyApp WorkshopSemanticExchange
+        |
+        | proves the contract in a real host
+        v
+AnyApp tests
+        |
+        | protect the integration
+        v
+future consumers
+```
+
+The **source of truth for the concrete implementation is AnyApp**. The **source of truth for the ProtocolAI API contract is this repository**. Neither repository should silently duplicate the other's implementation.
+
 ## Integration map
 
 | Package / boundary | ProtocolAI | GrammarAI | Direct dependency now? |
