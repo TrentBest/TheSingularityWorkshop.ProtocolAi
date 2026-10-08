@@ -27,7 +27,7 @@ That makes ProtocolAI useful anywhere software needs to move from probabilistic 
 Current alpha:
 
 ```bash
-dotnet add package TheSingularityWorkshop.ProtocolAi --version 0.1.0-alpha.2
+dotnet add package TheSingularityWorkshop.ProtocolAi --version 0.1.0-alpha.3
 ```
 
 ### 2. Define what your application already knows
@@ -88,7 +88,7 @@ A definition can describe itself, which is useful for diagnostics, AI-facing con
 
 **That is the core of ProtocolAI.** You do not need to understand the theory, GrammarAI, FSM_COS, or an AI provider to use this part.
 
-For a practical walkthrough, read **[Consuming ProtocolAI](docs/CONSUMING.md)**.
+For a practical walkthrough, read **[Consuming ProtocolAI](docs/CONSUMING.md)**. For the complete learning path, start with **[ProtocolAI Guides](docs/GUIDES.md)**.
 
 ---
 
@@ -184,6 +184,7 @@ That is why ProtocolAI is deliberately narrower than an AI framework.
 | `ProtocolReference` | Protocol + symbol identity together |
 | `ProtocolValue` | Either a reference or a literal |
 | `ProtocolPayload` | Ordered values belonging to one protocol |
+| `ProtocolPayloadJson` | Provider-neutral JSON transport for payloads |
 
 The central flow is:
 
@@ -387,6 +388,23 @@ Still outside the package:
 - command execution;
 - GUI or platform integration.
 
+Alpha.3 additionally establishes:
+
+- provider-neutral JSON payload serialization;
+- JSON payload deserialization with structural validation;
+- round-trip preservation of references and literals.
+
+Still outside the package:
+
+- LLM inference;
+- provider APIs and credentials;
+- HTTP or WebSocket transport clients;
+- dynamic identity allocation;
+- protocol negotiation;
+- grammar compilation;
+- command execution;
+- GUI or platform integration.
+
 Those belong to higher layers.
 
 ---
@@ -395,6 +413,7 @@ Those belong to higher layers.
 
 Start with the practical material:
 
+- **[ProtocolAI Guides](docs/GUIDES.md)** — the complete learning path, from plain-English introduction through architecture.
 - **[Consuming ProtocolAI](docs/CONSUMING.md)** — installation, first vocabulary, encoding, validation, resolution, and AI-host integration.
 - **[ProtocolAI Examples](docs/EXAMPLES.md)** — practical domain examples.
 - **[AI Exchange](docs/AI_EXCHANGE.md)** — clipboard and provider-neutral exchange design.
