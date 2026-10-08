@@ -1,5 +1,9 @@
 # ProtocolAI AI Exchange
 
+> **One semantic boundary, multiple transports.**
+
+Alpha 3 gives the exchange a concrete payload carrier through `ProtocolPayloadJson`. The exchange itself remains a higher-level host concern.
+
 ## Purpose
 
 ProtocolAI already defines the **WHAT** side of an AI interaction: application-owned vocabulary, stable symbol identity, known-value resolution, and literal handling.
@@ -87,7 +91,7 @@ version: 1
 === END AI EXCHANGE ===
 ```
 
-The exact wire syntax is intentionally **not frozen by this document**. The important architectural property is that the artifact has explicit semantic sections and can survive a copy/paste round trip without requiring a live connection.
+A ProtocolPayload can now be carried as provider-neutral JSON. The exact exchange envelope remains intentionally **not frozen by this document**. The important architectural property is that the artifact has explicit semantic sections and can survive a copy/paste round trip without requiring a live connection.
 
 A future machine representation may be compact and serialized. The human-facing representation should remain inspectable.
 
@@ -407,3 +411,4 @@ Relationship
 The exact command semantics belong above ProtocolAI. ProtocolAI's job is to provide the stable identities that make those semantics addressable.
 
 This keeps the LLM from having to infer that two strings happen to refer to the same application-owned object.
+\n\n## Alpha 3 payload boundary\n\nWhen an exchange needs to carry ProtocolAI payload data across a process or provider boundary, the host can use [the Alpha 3 JSON representation](PROTOCOL_PAYLOAD_JSON.md).\n\n```text\nProtocolDefinition\n      |\n      v\nProtocolPayload\n      |\n      v\nProtocolPayloadJson\n      |\n      v\nexchange transport\n      |\n      v\nProtocolPayloadJson\n      |\n      v\nProtocolPayload\n      |\n      v\nvalidate + resolve\n```\n\nThe JSON representation carries semantic identity. The exchange envelope carries the larger interaction context. Those are deliberately different responsibilities.\n
