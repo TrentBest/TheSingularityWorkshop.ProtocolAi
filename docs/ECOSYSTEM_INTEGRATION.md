@@ -1,4 +1,4 @@
-# ProtocolAI Ecosystem Integration
+# ProtocolAI Ecosystem Integration\n\n> **ProtocolAI owns semantic identity. Neighboring packages may carry, structure, compose, render, or execute that identity—but they do not inherit its ownership merely by referencing it.**
 
 ProtocolAI is deliberately small: it owns deterministic semantic identity, while neighboring packages decide how those identities are carried, structured, rendered, transported, or executed.
 
@@ -370,7 +370,7 @@ The **source of truth for the concrete implementation is AnyApp**. The **source 
 | FSM_Serialization | serialized representation | serialized representation | No |
 | MicroBundleDomain/Repository | possible semantic capability identity | possible structure | Not justified |
 
-## Architectural conclusion
+## Alpha 3 JSON transport\n\n`ProtocolPayloadJson` is a representation adapter inside ProtocolAI. It lets higher-level hosts carry ProtocolPayload data without adding a provider dependency to the core library.\n\n```text\nProtocolAI\n  meaning + identity + payload\n        |\n        v\nProtocolPayloadJson\n  transport representation\n        |\n        v\nAI Exchange / Web / Queue / File / App boundary\n```\n\nThe adapter does not replace FSM_Serialization, HTTP, provider SDKs, or host authorization. It simply gives the semantic payload a small, portable JSON representation.\n\nSee [PROTOCOL_PAYLOAD_JSON.md](PROTOCOL_PAYLOAD_JSON.md).\n\n## Architectural conclusion
 
 The useful pattern is not that everything depends on ProtocolAI or GrammarAI.
 
