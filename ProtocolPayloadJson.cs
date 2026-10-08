@@ -18,8 +18,12 @@ public static class ProtocolPayloadJson
         [property: JsonPropertyName("values")] IReadOnlyList<WireValue> Values);
 
     private sealed record WireValue(
-        [property: JsonPropertyName("symbolId")] ulong? SymbolId = null,
-        [property: JsonPropertyName("literal")] string? Literal = null);
+        [property: JsonPropertyName("symbolId")]
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        ulong? SymbolId = null,
+        [property: JsonPropertyName("literal")]
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        string? Literal = null);
 
     private static readonly JsonSerializerOptions Options = new()
     {
@@ -60,6 +64,9 @@ public static class ProtocolPayloadJson
 
         if (wire.ProtocolId == 0)
             throw new ArgumentException("The protocol payload must contain a non-zero protocol ID.", nameof(json));
+
+        if (wire.Values is null)
+            throw new ArgumentException("The protocol payload must contain a values array.", nameof(json));
 
         var values = wire.Values.Select((value, index) =>
         {
