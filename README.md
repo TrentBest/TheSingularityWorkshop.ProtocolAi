@@ -20,7 +20,7 @@ That makes ProtocolAI useful anywhere software needs to move from probabilistic 
 
 ---
 
-## Start here: use ProtocolAI in 60 seconds
+## 🔺 03 — See It Work in 60 Seconds
 
 ### 1. Install it
 
