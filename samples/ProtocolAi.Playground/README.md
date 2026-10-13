@@ -17,6 +17,16 @@
 
 These diagrams are living documentation, not the interactive app. GitHub displays the SVG animations in the README; to change inputs, step the state machine, trigger the invalid-reference case, and inspect actual payload data, run the playground below.
 
+## Start with SVG Hello World
+
+For the smallest hands-on example, run the playground and open **[`/hello`](http://localhost:5000/hello)** using the local origin printed by `dotnet run` (the port may differ):
+
+~~~powershell
+dotnet run --project samples/ProtocolAi.Playground/ProtocolAi.Playground.csproj
+~~~
+
+The **SVG Hello World** page uses a separate, real FSM_API two-state flow. Advance between `Hello` and `Moving` to change the circle's position. The width and height sliders change the SVG's rendered viewport while its `viewBox` keeps the geometry's internal coordinate system stable. This is the first size-aware SVG GUI experiment—not a production renderer and not an SVG that executes FSM_API itself.
+
 ## Run the interactive playground
 
 Requires the **.NET 8 SDK**. From the repository root:
