@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="tests/ProtocolAi.Tests/ProtocolAi.Tests.csproj" />
+  <Project Path="tests/ProtocolAi.Playground.Tests/ProtocolAi.Playground.Tests.csproj" />
   <Project Path="examples/ProtocolAi.QuickStart/ProtocolAi.QuickStart.csproj" />
   <Project Path="samples/ProtocolAi.Playground/ProtocolAi.Playground.csproj" />
   <Project Path="TheSingularityWorkshop.ProtocolAi.csproj" />
