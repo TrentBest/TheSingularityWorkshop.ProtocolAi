@@ -159,3 +159,6 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .measurement-caveat{grid-column:1/-1;margin:0;color:var(--muted);font-size:.78rem;border-top:1px solid #294155;padding-top:12px}
 .measurement-caveat strong{color:var(--amber)}
 @media(max-width:760px){.representation-compare{grid-template-columns:1fr}.response-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.response-card.selected-response{border-color:var(--teal);box-shadow:inset 0 0 0 1px #53d6d044,0 0 22px #53d6d014;background:linear-gradient(150deg,#102b34,#0a1622)}
+.response-card.selected-response .call-number{color:var(--teal)}
