@@ -28,7 +28,9 @@ public sealed class DemoFlow
             .State("Encoded", onEnter: ctx =>
             {
                 var state = AsFlow(ctx);
-                var encoded = state.Protocol.Encode([state.CandidateValue]);
+                var candidate = string.IsNullOrWhiteSpace(state.CandidateValue) ? "Bob" : state.CandidateValue.Trim();
+                state.CandidateValue = candidate;
+                var encoded = state.Protocol.Encode([candidate]);
                 state.Payload = state.InjectInvalidReference
                     ? new ProtocolPayload(state.Protocol.Id, [ProtocolValue.FromId(9999)])
                     : encoded;
