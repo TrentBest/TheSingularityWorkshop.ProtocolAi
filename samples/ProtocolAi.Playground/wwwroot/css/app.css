@@ -68,6 +68,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .invalid-slot rect{fill:#351f2a;stroke:#ff7b87;stroke-width:1.6}
 .invalid-slot text{fill:#ff9ca5;text-anchor:middle;font-size:11px;font-weight:850;letter-spacing:.08em}
 .travelling-ball{fill:var(--teal);stroke:#d8fffa;stroke-width:2;filter:drop-shadow(0 0 8px #53d6d0);transition:cx .55s cubic-bezier(.22,.7,.2,1),cy .55s cubic-bezier(.22,.7,.2,1),fill .25s ease}
+.travelling-ball.literal{fill:var(--amber);stroke:#fff0d0;filter:drop-shadow(0 0 8px #ffc879)}.travelling-ball.invalid{fill:var(--red);stroke:#ffe1e5;filter:drop-shadow(0 0 8px #ff7b87)}
 .machine-legend{display:flex;flex-wrap:wrap;gap:14px;padding:12px 18px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted)}
 .legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}.legend-dot.teal{background:var(--teal)}.legend-dot.amber{background:var(--amber)}.legend-dot.red{background:var(--red)}
 .control-card{padding:22px;display:flex;flex-direction:column;gap:12px}
@@ -88,7 +89,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .state-pill.visited{color:#b6d9d8;border-color:#326568}
 .state-pill.visited span{background:#164342;color:var(--teal)}
 .state-pill.active{background:#10353b;color:#f1ffff;border-color:var(--teal);box-shadow:0 0 0 1px #53d6d022}
-.state-pill.active span{background:var(--teal);color:#062027}
+.state-pill.active span{background:var(--teal);color:#062027}.state-pill.active.rejected{background:#351f2a;color:#ffe5e8;border-color:var(--red)}.state-pill.active.rejected span{background:var(--red);color:#2b1118}
 .machine-readout{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .machine-readout article{min-width:0;padding:15px;border:1px solid #263e52;border-radius:12px;background:#0b1926}
 .machine-readout strong{display:block;overflow-wrap:anywhere;margin:8px 0;color:#edf7fc;font-size:.95rem}
