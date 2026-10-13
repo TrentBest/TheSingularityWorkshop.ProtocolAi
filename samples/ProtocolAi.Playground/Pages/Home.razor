@@ -39,20 +39,38 @@
             <p>“Select Bob and inspect the forge.”</p>
             <div class="prompt-foot">The intent stays fixed. The candidate output may vary.</div>
         </div>
-        <div class="branch-visual" role="img" aria-label="One intent branches into several different candidate representations.">
-            <svg viewBox="0 0 900 190" preserveAspectRatio="xMidYMid meet">
+        <div class="branch-visual" role="img" aria-label="Animated illustrative language cloud. Interwoven paths connect drifting words such as Bob, Robert, inspect, examine, Forge, and workshop. One candidate is highlighted as it is pulled from the cloud. This is a conceptual animation, not a live model call.">
+            <svg viewBox="0 0 900 270" preserveAspectRatio="xMidYMid meet">
                 <defs>
-                    <linearGradient id="branchLine" x1="0" x2="1"><stop offset="0" stop-color="#53d6d0" /><stop offset="1" stop-color="#a78bfa" /></linearGradient>
+                    <linearGradient id="branchLine" x1="0" x2="1"><stop offset="0" stop-color="#53d6d0" /><stop offset=".55" stop-color="#a78bfa" /><stop offset="1" stop-color="#ffc879" /></linearGradient>
+                    <radialGradient id="cloudGlow"><stop offset="0" stop-color="#263c65" stop-opacity=".8"/><stop offset="1" stop-color="#0a1622" stop-opacity="0"/></radialGradient>
                 </defs>
-                <circle cx="450" cy="22" r="9" fill="#53d6d0" />
-                <path d="M450 31 C450 66 105 55 105 112 M450 31 C450 65 335 65 335 112 M450 31 L450 112 M450 31 C450 65 565 65 565 112 M450 31 C450 66 795 55 795 112" fill="none" stroke="url(#branchLine)" stroke-width="3" stroke-linecap="round" />
-                <circle cx="105" cy="112" r="7" fill="#a78bfa" />
-                <circle cx="335" cy="112" r="7" fill="#a78bfa" />
-                <circle cx="450" cy="112" r="7" fill="#a78bfa" />
-                <circle cx="565" cy="112" r="7" fill="#a78bfa" />
-                <circle cx="795" cy="112" r="7" fill="#a78bfa" />
-                <path d="M105 120v24 M335 120v24 M450 120v24 M565 120v24 M795 120v24" stroke="#64748b" stroke-width="2" stroke-dasharray="3 4" />
-                <text x="450" y="177" text-anchor="middle" fill="#9bb0c5" font-size="14">Illustrative variation · not a live model call or statistical measurement</text>
+                <ellipse cx="325" cy="128" rx="300" ry="118" fill="url(#cloudGlow)"/>
+                <g class="spaghetti-lines" fill="none" stroke="url(#branchLine)" stroke-width="1.7" opacity=".52">
+                    <path d="M30 56 C130 220 230 12 340 130 S500 230 620 76"/>
+                    <path d="M18 180 C140 22 230 232 330 74 S500 34 620 196"/>
+                    <path d="M45 120 C165 38 220 190 360 185 S480 40 612 126"/>
+                    <path d="M68 225 C170 85 280 45 370 145 S500 225 606 52"/>
+                    <path d="M35 90 C155 155 205 215 320 96 S475 115 612 218"/>
+                    <path d="M40 150 C180 235 265 20 385 105 S490 185 614 100"/>
+                    <path d="M70 35 C155 110 250 160 365 52 S490 70 612 160"/>
+                    <path d="M55 205 C170 120 240 110 350 220 S500 145 612 35"/>
+                </g>
+                <g class="word-cloud">
+                    <text x="54" y="46">Bob</text><text x="147" y="81">Robert</text><text x="260" y="42">inspect</text>
+                    <text x="370" y="78">examine</text><text x="470" y="43">Forge</text><text x="84" y="118">person</text>
+                    <text x="196" y="142">target</text><text x="308" y="113">workshop</text><text x="431" y="147">inspect</text>
+                    <text x="521" y="110">the forge</text><text x="80" y="190">operator</text><text x="190" y="218">Robert</text>
+                    <text x="312" y="202">look at</text><text x="430" y="225">Bob</text><text x="515" y="188">examine</text>
+                </g>
+                <path class="selected-thread" d="M54 46 C145 4 250 20 340 130 S510 180 650 128" fill="none" stroke="#53d6d0" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="9 10"/>
+                <circle class="thread-pulse" cx="650" cy="128" r="7" fill="#53d6d0"/>
+                <path d="M624 106 L660 128 L624 150" fill="none" stroke="#53d6d0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="668" y="82" width="210" height="92" rx="14" fill="#102337" stroke="#53d6d0" stroke-width="1.5"/>
+                <text x="773" y="105" text-anchor="middle" class="pull-label">ONE CANDIDATE PULLED</text>
+                <text x="773" y="133" text-anchor="middle" class="pull-value">“Bob · inspect · Forge”</text>
+                <text x="773" y="153" text-anchor="middle" class="pull-foot">one sample, not certainty</text>
+                <text x="450" y="258" text-anchor="middle" fill="#9bb0c5" font-size="13">Conceptual language cloud · illustrative fixtures, not live model output or measured probabilities</text>
             </svg>
         </div>
         <div class="experiment-controls">
