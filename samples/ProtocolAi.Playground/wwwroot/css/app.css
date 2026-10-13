@@ -181,3 +181,28 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .transition-explainer p{margin:4px 0 0;color:var(--muted);font-size:.86rem;overflow-wrap:anywhere}
 .invalid-slot.slot-active rect{stroke-width:3;filter:drop-shadow(0 0 9px #ff7b8788)}
 .invalid-slot.slot-active text{fill:#fff0f2}
+
+
+/* Minimal, host-sized SVG Hello World experiment */
+.hello-world-page{padding:54px 0 80px}
+.hello-world-page h1{font-size:clamp(2.5rem,6vw,4.6rem);line-height:1;letter-spacing:-.05em;margin:12px 0}
+.hello-world-page h1 span{color:var(--teal)}
+.hello-intro{max-width:800px;color:var(--muted);font-size:1.1rem;margin-bottom:30px}
+.hello-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,.7fr);gap:16px;align-items:start}
+.hello-stage-card,.hello-size-card{min-width:0;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#0d1b2a,#0a1724);padding:20px}
+.hello-stage-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.hello-stage-heading h2,.hello-size-card h2{margin:5px 0 0;font-size:1.35rem}
+.hello-svg-host{margin:18px 0;padding:14px;min-width:0;overflow:auto;border:1px dashed #34536a;border-radius:12px;background:#081522}
+.hello-svg-host svg{display:block;max-width:none;transition:width .18s ease,height .18s ease}
+.hello-circle{transition:cx .45s cubic-bezier(.22,.7,.2,1)}
+.hello-controls{display:flex;gap:9px;flex-wrap:wrap}
+.hello-size-card{display:flex;flex-direction:column;gap:10px}
+.hello-size-card p{color:var(--muted);font-size:.9rem;margin:0 0 8px}
+.hello-size-card label{font-size:.85rem;font-weight:750;color:#dce7ef}
+.hello-size-card input[type=range]{width:100%;accent-color:var(--teal)}
+.hello-size-card output{font:700 .82rem ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--teal);margin-top:-8px}
+.hello-boundary{display:flex;flex-direction:column;gap:8px;margin-top:16px;padding:20px;border:1px solid #32666d;border-left:4px solid var(--teal);border-radius:12px;background:#0d222e}
+.hello-boundary strong{font-size:1.05rem}
+.hello-boundary span{color:var(--teal);font-weight:750}
+.hello-boundary p{margin:0;color:var(--muted);font-size:.9rem}
+@media(max-width:800px){.hello-layout{grid-template-columns:minmax(0,1fr)}.hello-world-page{padding-top:32px}}
