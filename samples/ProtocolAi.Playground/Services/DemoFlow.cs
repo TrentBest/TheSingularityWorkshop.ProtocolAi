@@ -24,57 +24,12 @@ public sealed class DemoFlow
 
         _context = new FlowContext(protocol);
         FSM_API.Create.CreateFiniteStateMachine(DefinitionName, processRate: 0, processingGroup: ProcessingGroup)
-            .State("Ready", onEnter: ctx => Enter(ctx, "Ready"), onUpdate: null, onExit: null)
-            .State("Encoded", onEnter: ctx =>
-            {
-                var state = AsFlow(ctx);
-                var candidate = string.IsNullOrWhiteSpace(state.CandidateValue) ? "Bob" : state.CandidateValue.Trim();
-                state.CandidateValue = candidate;
-                var encoded = state.Protocol.Encode([candidate]);
-                state.Payload = state.InjectInvalidReference
-                    ? new ProtocolPayload(state.Protocol.Id, [ProtocolValue.FromId(9999)])
-                    : encoded;
-                state.Stage = "Encoded";
-                state.AdvanceRequested = false;
-            }, onUpdate: null, onExit: null)
-            .State("Validated", onEnter: ctx =>
-            {
-                var state = AsFlow(ctx);
-                try
-                {
-                    state.Protocol.Validate(state.Payload!);
-                    state.ValidationError = null;
-                }
-                catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
-                {
-                    state.ValidationError = ex.Message;
-                }
-                state.Stage = "Validated";
-                state.AdvanceRequested = false;
-            }, onUpdate: null, onExit: null)
-            .State("Resolved", onEnter: ctx =>
-            {
-                var state = AsFlow(ctx);
-                state.ResolvedValues = state.Protocol.Resolve(state.Payload!);
-                state.Stage = "Resolved";
-                state.AdvanceRequested = false;
-            }, onUpdate: null, onExit: null)
-            .State("HostDecision", onEnter: ctx =>
-            {
-                var state = AsFlow(ctx);
-                state.Stage = "HostDecision";
-                state.HostDecision = state.ResolvedValues.Any(value =>
-                    !state.Protocol.Symbols.Any(symbol => StringComparer.Ordinal.Equals(symbol.Value, value)))
-                    ? "A literal remains. The host must decide whether to accept it, ask for clarification, or propose a new identity."
-                    : "The value resolved to a known identity. The host still decides whether any requested action is allowed.";
-                state.AdvanceRequested = false;
-            }, onUpdate: null, onExit: null)
-            .State("Rejected", onEnter: ctx =>
-            {
-                var state = AsFlow(ctx);
-                state.Stage = "Rejected";
-                state.AdvanceRequested = false;
-            }, onUpdate: null, onExit: null)
+            .State("Ready", onEnter: ctx => Enter(ctx, "Ready"), onUpdate: null, onExit: Encode)
+            .State("Encoded", onEnter: ctx => Enter(ctx, "Encoded"), onUpdate: null, onExit: Validate)
+            .State("Validated", onEnter: ctx => Enter(ctx, "Validated"), onUpdate: null, onExit: ResolveOrReject)
+            .State("Resolved", onEnter: ctx => Enter(ctx, "Resolved"), onUpdate: null, onExit: Decide)
+            .State("HostDecision", onEnter: ctx => Enter(ctx, "HostDecision"), onUpdate: null, onExit: null)
+            .State("Rejected", onEnter: ctx => Enter(ctx, "Rejected"), onUpdate: null, onExit: null)
             .WithInitialState("Ready")
             .Transition("Ready", "Encoded", ctx => AsFlow(ctx).AdvanceRequested)
             .Transition("Encoded", "Validated", ctx => AsFlow(ctx).AdvanceRequested)
@@ -129,14 +84,71 @@ public sealed class DemoFlow
 
     public void Reset()
     {
+        // ForceTransition invokes the outgoing state's exit action. Reset the data after
+        // the transition so that any final outgoing action cannot leave stale display data.
+        _handle.TransitionTo("Ready");
+        _context.CandidateValue = string.IsNullOrWhiteSpace(_context.CandidateValue) ? "Bob" : _context.CandidateValue.Trim();
         _context.Stage = "Ready";
         _context.Payload = null;
         _context.ValidationError = null;
         _context.ResolvedValues = Array.Empty<string>();
         _context.HostDecision = "The host has not made a decision.";
         _context.AdvanceRequested = false;
-        _handle.TransitionTo("Ready");
-        _context.Stage = "Ready";
+    }
+
+    private static void Encode(IStateContext context)
+    {
+        var state = AsFlow(context);
+        var candidate = string.IsNullOrWhiteSpace(state.CandidateValue) ? "Bob" : state.CandidateValue.Trim();
+        state.CandidateValue = candidate;
+        var encoded = state.Protocol.Encode([candidate]);
+        state.Payload = state.InjectInvalidReference
+            ? new ProtocolPayload(state.Protocol.Id, [ProtocolValue.FromId(9999)])
+            : encoded;
+        state.Stage = "Encoded";
+        state.AdvanceRequested = false;
+    }
+
+    private static void Validate(IStateContext context)
+    {
+        var state = AsFlow(context);
+        try
+        {
+            state.Protocol.Validate(state.Payload!);
+            state.ValidationError = null;
+        }
+        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+        {
+            state.ValidationError = ex.Message;
+        }
+        state.Stage = "Validated";
+        state.AdvanceRequested = false;
+    }
+
+    private static void ResolveOrReject(IStateContext context)
+    {
+        var state = AsFlow(context);
+        if (state.ValidationError is null)
+        {
+            state.ResolvedValues = state.Protocol.Resolve(state.Payload!);
+            state.Stage = "Resolved";
+        }
+        else
+        {
+            state.Stage = "Rejected";
+        }
+        state.AdvanceRequested = false;
+    }
+
+    private static void Decide(IStateContext context)
+    {
+        var state = AsFlow(context);
+        state.HostDecision = state.ResolvedValues.Any(value =>
+            !state.Protocol.Symbols.Any(symbol => StringComparer.Ordinal.Equals(symbol.Value, value)))
+            ? "A literal remains. The host must decide whether to accept it, ask for clarification, or propose a new identity."
+            : "The value resolved to a known identity. The host still decides whether any requested action is allowed.";
+        state.Stage = "HostDecision";
+        state.AdvanceRequested = false;
     }
 
     private static void Enter(IStateContext context, string stage)
