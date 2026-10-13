@@ -24,8 +24,11 @@
     <None Remove="tests\**" />
     <Compile Remove="examples\**" />
     <None Remove="examples\**" />
+    <Compile Remove="samples\**" />
+    <None Remove="samples\**" />
     <None Include="README.md" Pack="true" PackagePath="" />
     <None Include="LICENSE.txt" Pack="true" PackagePath="" />
+    <None Update="docs\images\**\*" Pack="true" PackagePath="docs/images/" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="docs\images\" />

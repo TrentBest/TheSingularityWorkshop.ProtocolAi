@@ -1,5 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
 <defs>
+<style>
+@keyframes signal-flow { to { stroke-dashoffset: -44; } }
+@keyframes protocol-breathe { 0%,100% { stroke-opacity: .8; } 50% { stroke-opacity: 1; } }
+@keyframes stage-pulse { 0%,100% { opacity: .45; } 45%,65% { opacity: 1; } }
+.flow-signal { stroke-dasharray: 8 14; animation: signal-flow 2.4s linear infinite; }
+.protocol-frame { animation: protocol-breathe 4s ease-in-out infinite; }
+.stage-label { animation: stage-pulse 4.8s ease-in-out infinite; }
+.stage-validate { animation-delay: 1.2s; }
+.stage-resolve { animation-delay: 2.4s; }
+@media (prefers-reduced-motion: reduce) {
+  .flow-signal, .protocol-frame, .stage-label { animation: none !important; }
+}
+</style>
+
   <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#07111f"/><stop offset="1" stop-color="#111827"/></linearGradient>
   <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>
   <linearGradient id="violet" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#c4b5fd"/></linearGradient>
@@ -19,10 +33,14 @@
 <text x="165" y="392" text-anchor="middle" fill="#64748b" font-family="Arial,sans-serif" font-size="20">“New Character”</text>
 
 <path d="M265 310 C365 310 365 310 465 405" fill="none" stroke="#67e8f9" stroke-width="4" marker-end="url(#arrow)" filter="url(#glow)"/>
-<path d="M265 360 C365 360 380 410 465 440" fill="none" stroke="#67e8f9" stroke-width="3" marker-end="url(#arrow)"/>
+<circle r="7" fill="#e0fbff" stroke="#22d3ee" stroke-width="3" filter="url(#glow)" aria-label="Animated candidate signal">
+  <animateMotion dur="3.6s" repeatCount="indefinite" path="M265 310 C365 310 365 310 465 405"/>
+  <animate attributeName="opacity" values="0;1;1;0.9" dur="3.6s" repeatCount="indefinite"/>
+</circle>
+<path class="flow-signal" d="M265 360 C365 360 380 410 465 440" fill="none" stroke="#67e8f9" stroke-width="3" marker-end="url(#arrow)"/>
 <path d="M265 410 C365 410 390 490 465 475" fill="none" stroke="#67e8f9" stroke-width="3" marker-end="url(#arrow)"/>
 
-<rect x="465" y="205" width="470" height="490" rx="32" fill="#0b1628" stroke="url(#cyan)" stroke-width="3" filter="url(#glow)"/>
+<rect class="protocol-frame" x="465" y="205" width="470" height="490" rx="32" fill="#0b1628" stroke="url(#cyan)" stroke-width="3" filter="url(#glow)"/>
 <text x="700" y="260" text-anchor="middle" fill="#67e8f9" font-family="Arial,sans-serif" font-size="20" letter-spacing="4">PROTOCOLAI</text>
 <text x="700" y="305" text-anchor="middle" fill="#f8fafc" font-family="Arial,sans-serif" font-size="38" font-weight="700">WHAT?</text>
 <text x="700" y="340" text-anchor="middle" fill="#94a3b8" font-family="Arial,sans-serif" font-size="17">The application owns the vocabulary.</text>
@@ -32,6 +50,20 @@
 <text x="560" y="435" fill="#cbd5e1" font-family="monospace" font-size="15">[2001] bobId = “Bob”</text>
 
 <line x1="700" y1="452" x2="700" y2="510" stroke="#475569" stroke-width="2" stroke-dasharray="6 7"/>
+<text class="stage-label" x="700" y="476" text-anchor="middle" fill="#67e8f9" font-family="Arial,sans-serif" font-size="13" letter-spacing="2">ENCODE</text>
+<text class="stage-label stage-validate" x="700" y="497" text-anchor="middle" fill="#a78bfa" font-family="Arial,sans-serif" font-size="13" letter-spacing="2">VALIDATE</text>
+<circle r="6" fill="#e0fbff" stroke="#22d3ee" stroke-width="2" filter="url(#glow)" aria-label="Signal propagating through ProtocolAi stages">
+  <animateMotion dur="4.8s" repeatCount="indefinite" path="M465 405 C500 405 510 416 535 416 L700 416 L700 476 L700 497 L700 520"/>
+  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.08;.85;1" dur="4.8s" repeatCount="indefinite"/>
+</circle>
+<circle r="5" fill="#c4b5fd" filter="url(#glow)" aria-label="Resolved identity signal">
+  <animateMotion dur="4.8s" begin="2.4s" repeatCount="indefinite" path="M700 520 L700 575 C800 575 860 435 935 435 C1035 350 1045 310 1135 310"/>
+  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.1;.8;1" dur="4.8s" begin="2.4s" repeatCount="indefinite"/>
+</circle>
+<circle r="5" fill="#fbbf24" filter="url(#glow)" aria-label="Unknown literal signal to host decision">
+  <animateMotion dur="4.8s" begin="3.1s" repeatCount="indefinite" path="M700 620 C810 620 860 575 935 575 C1035 600 1040 650 1135 650"/>
+  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.1;.8;1" dur="4.8s" begin="3.1s" repeatCount="indefinite"/>
+</circle>
 <text x="700" y="542" text-anchor="middle" fill="#94a3b8" font-family="Arial,sans-serif" font-size="15" letter-spacing="2">RESOLVE</text>
 <text x="700" y="580" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="32" font-weight="700">“Bob” → [2001]</text>
 <text x="700" y="620" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="21">“Amelia” → LITERAL</text>
