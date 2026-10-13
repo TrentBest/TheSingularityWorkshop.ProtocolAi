@@ -40,6 +40,8 @@ The host decides what is allowed to happen.
 
 That separation is the central idea.
 
+> **For the formal version, see [Mathematical Foundations](MATHEMATICAL_FOUNDATIONS.md).** It defines the protocol-qualified address space and proves the narrow determinism and validation properties, then distinguishes them from model correctness, authorization, and execution.
+
 ---
 
 ## Deprobabilization
