@@ -151,7 +151,7 @@
                 <g class='stage-node @StageNodeClass("Resolved")'><rect x="448" y="190" width="84" height="34" rx="8"/><text x="490" y="212">RESOLVE</text></g>
                 <g class='slot known-slot @(Flow.Stage == "HostDecision" && Flow.IsKnownValue ? "slot-active" : "")'><rect x="594" y="40" width="136" height="72" rx="12"/><text x="662" y="65">KNOWN ID</text><text class="slot-value" x="662" y="91">@SlotValue</text></g>
                 <g class='slot literal-slot @(Flow.Stage == "HostDecision" && !Flow.IsKnownValue ? "slot-active" : "")'><rect x="594" y="220" width="136" height="62" rx="12"/><text x="662" y="243">LITERAL LANE</text><text class="slot-value" x="662" y="265">@LiteralSlotValue</text></g>
-                <g class="slot invalid-slot @(Flow.Stage == "Rejected" ? "slot-active" : "")"><rect x="405" y="252" width="128" height="42" rx="9"/><text x="469" y="278">REJECTED</text></g>
+                <g class='slot invalid-slot @(Flow.Stage == "Rejected" ? "slot-active" : "")'><rect x="405" y="252" width="128" height="42" rx="9"/><text x="469" y="278">REJECTED</text></g>
                 <circle class="@(Flow.Stage == "Rejected" ? "travelling-ball invalid" : Flow.Stage == "HostDecision" && !Flow.IsKnownValue ? "travelling-ball literal" : "travelling-ball")" cx="@Flow.BallPosition.X" cy="@Flow.BallPosition.Y" r="12" />
                 <text x="28" y="306" fill="#7994aa" font-size="12">THE PATH IS EXPLANATORY; THE RESULT COMES FROM THE REAL C# API.</text>
             </svg>
