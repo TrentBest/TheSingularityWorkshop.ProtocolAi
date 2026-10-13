@@ -115,7 +115,7 @@
                 <g class="slot known-slot"><rect x="594" y="40" width="136" height="72" rx="12"/><text x="662" y="65">KNOWN ID</text><text class="slot-value" x="662" y="91">@SlotValue</text></g>
                 <g class="slot literal-slot"><rect x="594" y="220" width="136" height="62" rx="12"/><text x="662" y="243">LITERAL LANE</text><text class="slot-value" x="662" y="265">@LiteralSlotValue</text></g>
                 <g class="slot invalid-slot"><rect x="405" y="252" width="128" height="42" rx="9"/><text x="469" y="278">REJECTED</text></g>
-                <circle class="travelling-ball" cx="@Flow.BallPosition.X" cy="@Flow.BallPosition.Y" r="12" />
+                <circle class="@(Flow.Stage == "Rejected" ? "travelling-ball invalid" : Flow.Stage == "HostDecision" && !Flow.IsKnownValue ? "travelling-ball literal" : "travelling-ball")" cx="@Flow.BallPosition.X" cy="@Flow.BallPosition.Y" r="12" />
                 <text x="28" y="306" fill="#7994aa" font-size="12">THE PATH IS EXPLANATORY; THE RESULT COMES FROM THE REAL C# API.</text>
             </svg>
             <div class="machine-legend">
@@ -128,17 +128,17 @@
         <aside class="control-card">
             <span class="small-label">CHANGE THE INPUT</span>
             <label for="candidateValue">Candidate concept</label>
-            <input id="candidateValue" @bind="Flow.CandidateValue" @bind:event="oninput" maxlength="100" />
+            <input id="candidateValue" @bind="Flow.CandidateValue" @bind:event="oninput" @bind:after="CandidateChanged" disabled="@_isAnimating" maxlength="100" />
             <div class="quick-values">
                 <button class="chip" @onclick='() => SetCandidate("Bob")'>Bob</button>
                 <button class="chip" @onclick='() => SetCandidate("Jane")'>Jane</button>
                 <button class="chip" @onclick='() => SetCandidate("Amelia")'>Amelia (unknown)</button>
             </div>
-            <label class="check-row"><input type="checkbox" @bind="Flow.InjectInvalidReference" /> Inject an invalid symbol ID</label>
+            <label class="check-row"><input type="checkbox" @bind="Flow.InjectInvalidReference" @bind:after="CandidateChanged" disabled="@_isAnimating" /> Inject an invalid symbol ID</label>
             <p class="control-note">The invalid-reference switch is a deliberate test fixture. It lets you see that an undefined integer reference is not the same thing as an unknown literal.</p>
             <div class="action-row">
                 <button class="button primary" @onclick="RunDemoAsync" disabled="@_isAnimating">Release ball <span aria-hidden="true">↗</span></button>
-                <button class="button secondary" @onclick="ResetDemo">Reset</button>
+                <button class="button secondary" @onclick="ResetDemo" disabled="@_isAnimating">Reset</button>
             </div>
             <button class="button step-button" @onclick="AdvanceDemo" disabled="@(Flow.IsTerminal || _isAnimating)">Step one FSM transition <span aria-hidden="true">→</span></button>
         </aside>
@@ -149,6 +149,10 @@
             <div class="state-pill @(Flow.Stage == state.Name ? "active" : FlowStates.TakeWhile(s => s.Name != Flow.Stage).Any(s => s.Name == state.Name) ? "visited" : "")">
                 <span>@state.Number</span><strong>@state.Name</strong>
             </div>
+        }
+        @if (Flow.Stage == "Rejected")
+        {
+            <div class="state-pill active rejected"><span>!</span><strong>Rejected</strong></div>
         }
     </div>
     <div class="machine-readout">
@@ -321,6 +325,8 @@ var resolved = people.Resolve(payload);</pre>
     }
 
     private void AdvanceDemo() => Flow.Advance();
+
+    private void CandidateChanged() => Flow.Reset();
 
     private void ResetDemo()
     {
