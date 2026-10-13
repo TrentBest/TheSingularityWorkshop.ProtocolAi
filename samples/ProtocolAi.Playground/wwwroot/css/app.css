@@ -172,3 +172,12 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .slot.slot-active rect{stroke-width:3;filter:drop-shadow(0 0 9px #53d6d088)}
 .literal-slot.slot-active rect{filter:drop-shadow(0 0 9px #ffc87988)}
 @media(prefers-reduced-motion:reduce){.stage-node rect{transition:none}}
+
+
+/* The live explanation changes with the FSM_API state and ProtocolAi result. */
+.transition-explainer{margin:0 16px 12px;padding:13px 16px 14px;border:1px solid #2c5364;border-left:4px solid var(--teal);border-radius:10px;background:linear-gradient(110deg,#0d2733,#0b1926)}
+.transition-explainer .small-label{display:block;margin-bottom:5px}
+.transition-explainer strong{display:block;color:#f0fbff;font-size:.96rem}
+.transition-explainer p{margin:4px 0 0;color:var(--muted);font-size:.86rem;overflow-wrap:anywhere}
+.invalid-slot.slot-active rect{stroke-width:3;filter:drop-shadow(0 0 9px #ff7b8788)}
+.invalid-slot.slot-active text{fill:#fff0f2}
