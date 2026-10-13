@@ -20,7 +20,7 @@ public sealed class DemoFlowTests
 
         flow.Advance();
         Assert.Equal("Resolved", flow.Stage);
-        Assert.Equal(["Bob"], flow.ResolvedValues);
+        Assert.Equal(new[] { "Bob" }, flow.ResolvedValues);
 
         flow.Advance();
         Assert.Equal("HostDecision", flow.Stage);
@@ -40,7 +40,7 @@ public sealed class DemoFlowTests
         Assert.Null(flow.ValidationError);
 
         flow.Advance();
-        Assert.Equal(["Amelia"], flow.ResolvedValues);
+        Assert.Equal(new[] { "Amelia" }, flow.ResolvedValues);
 
         flow.Advance();
         Assert.Equal("HostDecision", flow.Stage);
