@@ -23,7 +23,7 @@ flowchart TD
 
 ## 🟦 01 What
 
-Language models can propose names or values; an application still needs a deterministic way to decide what those values mean and whether they are recognized.
+It defines deterministic identity and vocabulary contracts for application-owned symbols. It does not provide an AI model, provider SDK, prompt engine, or command executor.
 
 ## 🟣 02 Why
 
