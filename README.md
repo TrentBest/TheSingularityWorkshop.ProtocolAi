@@ -8,35 +8,43 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.ProtocolAi/build.yml?branch=master&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/build.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/TrentBest/TheSingularityWorkshop.ProtocolAi?style=flat-square)](https://codecov.io/gh/TrentBest/TheSingularityWorkshop.ProtocolAi)
 
-> **Language can wander. Application-owned identity needs an address.**
+> **An LLM can propose a program. Your application must own what its instructions mean.**
 
-An LLM can produce several plausible expressions for one intent. Those differences are not automatically hallucinations; the engineering problem appears when an application mistakes variable language for stable identity. ProtocolAi gives known concepts deterministic integer-backed addresses and preserves unknown values as literals for the host to decide.
+LLMs are powerful at proposing ideas and structures, but their output is not a stable application contract. A name can drift, an identifier can be invented, and a plausible-looking response can still ask for the wrong thing.
+
+**ProtocolAi gives known concepts application-owned integer addresses.** Unknown values stay visible as literals; undefined references can be rejected. Compose those stable semantic primitives with [GrammarAi](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi), then let your host validate, authorize, and interpret the resulting program.
 
 <p align="center">
   <img src="docs/images/protocol-ai-money-shot.svg" alt="ProtocolAi maps known vocabulary values to application-owned integer identities and keeps unknown values as literals for host policy." width="100%">
 </p>
 
-The picture is a first glance, not the whole lesson: the animated flow in **03 How** makes the decision boundary visible, and **04 See it in a minute** lets you step through the actual C# behavior.
+The idea in one line:
+
+**The model proposes. ProtocolAi identifies. GrammarAi structures. Your host decides and executes.**
 
 ## 🟦 01 What
 
 **TheSingularityWorkshop.ProtocolAi** is a small, provider-neutral .NET library for defining application-owned vocabularies.
 
-- A known string maps to its declared symbol ID.
-- A reference identifies both a protocol and a symbol.
-- Unknown values remain literals rather than silently receiving identities.
-- Validation rejects payloads that use the wrong protocol or undefined references.
-- Resolution converts valid references back to application-facing values.
+- A recognized value maps to a stable, protocol-qualified integer reference.
+- A reference is checked against the vocabulary that owns its meaning.
+- An unknown value remains a literal instead of silently becoming a known identity.
+- A reference to an undefined symbol—or to the wrong protocol—can be rejected.
+- Valid references resolve through the application's definition.
 
-The package contains no model, provider SDK, prompt engine, grammar compiler, transport client, or command executor.
+The integer is an **address**, not the meaning itself. The application owns the mapping and must preserve the meaning of an identity once published.
+
+ProtocolAi does not contain a model, provider SDK, prompt engine, grammar compiler, authorization system, or command executor.
 
 ## 🟣 02 Why
 
-The model proposes. **ProtocolAi identifies. The host decides.**
+A language model may return different wording for the same intent. Sometimes it may even return an invented or incorrect identifier. We cannot assume what it will say next.
 
-A string is language. An integer reference is an address in a vocabulary the application owns. That boundary makes identity explicit without claiming that the model itself becomes deterministic or that hallucinations disappear.
+We *can* control the semantic contract on our side.
 
-An unknown literal is not automatically invalid. The host may accept it, reject it, ask for clarification, or propose a registration workflow. ProtocolAi deliberately does not choose that policy.
+Give the model a vocabulary of application-owned identities. When a candidate comes back, resolve known references against the expected definition, keep unknown literals explicit, and reject undefined references. The model remains probabilistic; the application's interpretation boundary becomes deterministic.
+
+This does **not** prove the model understood the user, guarantee it will choose the correct integer, or make an authorized command safe. Those require additional validation, host policy, and testing.
 
 ## 🔺 03 How
 
@@ -44,13 +52,17 @@ An unknown literal is not automatically invalid. The host may accept it, reject 
 
 *Follow the moving signals from language to identity. The animation is illustrative; the encoding, validation, and resolution below are real library operations.*
 
-#### Three outcomes, made visible
+### Three outcomes, not one vague “AI result”
 
 ![Animated comparison of a known value becoming a reference, an unknown value remaining a literal, and an undefined reference failing validation.](docs/images/protocol-ai-three-outcomes.svg)
 
-This second view separates three cases that are easy to blur together: **known identity**, **unknown input**, and **invalid reference**. Only the host decides what to do with an unknown literal; validation protects the reference contract.
+| Candidate | ProtocolAi outcome | What happens next |
+|---|---|---|
+| Known value | Qualified integer reference | Validate and resolve using the expected definition |
+| Unknown value | Literal | Host policy decides: retain, clarify, register, or reject |
+| Undefined or wrong-protocol reference | Validation failure | Do not treat it as an owned identity |
 
-The vocabulary is defined by the application:
+A minimal example:
 
 ~~~csharp
 using TheSingularityWorkshop.ProtocolAi;
@@ -66,10 +78,28 @@ people.Validate(payload);
 
 var resolved = people.Resolve(payload);
 // ["Bob", "Jane", "Amelia"]
-// Bob and Jane were references; Amelia remained a literal.
+// Bob and Jane are known references; Amelia remains a literal.
 ~~~
 
-**ProtocolAi answers WHAT a known identity is.** [GrammarAi](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi) is the companion for composing semantic primitives into structured grammar. The host owns policy and execution.
+### From integer primitives to an executable program
+
+ProtocolAi is the identity layer, not the whole execution engine. The larger composition is:
+
+~~~text
+LLM proposal
+    ↓
+parse the returned representation
+    ↓
+GrammarAi checks structure
+    ↓
+ProtocolAi checks semantic identities
+    ↓
+host policy checks permissions and context
+    ↓
+bounded interpreter performs approved operations
+~~~
+
+This is the design direction: the model can propose an integer-addressed program, while your ecosystem retains the definitions, validation rules, permissions, and code that determine what the program actually does. Integer indexing alone is not a safety proof; every stage needs its own contract.
 
 ## 🟢 04 See it in a minute
 
@@ -85,30 +115,28 @@ dotnet run --project samples/ProtocolAi.Playground/ProtocolAi.Playground.csproj
 
 The playground lets you:
 
-- compare multiple illustrative candidate responses to the same intent;
-- replay a second fixture batch and inspect wording, semantic, and shape variation;
-- release a concept through the encoding, validation, and resolution stages;
+- compare illustrative candidate responses and see how wording can drift;
+- release a candidate through encoding, validation, and resolution;
 - compare a known value, an unknown literal, and an intentionally invalid reference;
-- step the actual FSM_API-driven flow one transition at a time;
+- step the FSM_API-driven flow one transition at a time;
 - inspect the live ProtocolPayload and resolved value;
-- explore the conceptual relationship between ProtocolAi and GrammarAi.
+- explore the conceptual relationship between ProtocolAi and GrammarAi;
+- try the size-aware SVG Hello World at `/hello`.
 
-The candidate responses are clearly labelled fixtures—not live model output or measured probabilities. The visual experiment uses inspectable SVG, following the educational approach in [Visualize](https://github.com/TrentBest/TheSingularityWorkshop.Visualize); it does not claim to execute Visualize's C# backend or a production GPU renderer.
+The candidate responses are labelled fixtures—not live model output or measured probabilities. The SVGs are living documentation, not a claim that a production GPU renderer is executing.
 
-### The smallest useful example
+## 🟪 05 The math and the next layer
 
-Install the current published version listed on [NuGet](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi), then define a vocabulary, encode values, validate the payload, and resolve it. Unknown values remain literals. See [Consuming ProtocolAi](docs/CONSUMING.md) for a complete guide.
+The guarantees are deliberately narrow and useful: for a fixed, unambiguous vocabulary, encoding is deterministic; a reference passes validation only if its protocol and symbol are defined; and resolution uses the application-owned definition.
 
-## 🟪 05 Documentation and theory
+Read [Mathematical Foundations](docs/MATHEMATICAL_FOUNDATIONS.md) for definitions, proofs, limits, and a test plan. Read [ProtocolAi Theory](docs/THEORY.md) for the broader argument and [ProtocolAi Reflection](docs/REFLECTION.md) for open questions.
 
-- [Consuming ProtocolAi](docs/CONSUMING.md) — installation, first vocabulary, encoding, validation, resolution, and host integration.
+- [Consuming ProtocolAi](docs/CONSUMING.md) — installation and first integration.
 - [ProtocolAi Examples](docs/EXAMPLES.md) — practical domain examples.
 - [AI Exchange](docs/AI_EXCHANGE.md) — provider-neutral exchange boundaries.
-- [ProtocolAi Theory](docs/THEORY.md) — the semantic and architectural argument.
-- [ProtocolAi Reflection](docs/REFLECTION.md) — limitations, lifecycle questions, and future directions.
 - [Ecosystem Integration](docs/ECOSYSTEM_INTEGRATION.md) — boundaries with FSM_UserIO, GrammarAi, FSM_COS, GUI, serialization, and ontology.
-- [Semantic Payload JSON](docs/PROTOCOL_PAYLOAD_JSON.md) — the dependency-free JSON wire representation, including what transport does and does not validate.
-- [Guides for every starting point](docs/GUIDES.md) — a plain-language introduction, beginner walkthrough, C# integration guide, and deeper developer guide.
+- [Semantic Payload JSON](docs/PROTOCOL_PAYLOAD_JSON.md) — dependency-free wire representation and transport limits.
+- [Guides for every starting point](docs/GUIDES.md) — plain-language, beginner, C# integration, and developer guides.
 - [NuGet package](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi) · [Source](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi) · [Issues](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/issues)
 
 ### Build, test, and pack
