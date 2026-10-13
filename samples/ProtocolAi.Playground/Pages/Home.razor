@@ -1,0 +1,348 @@
+@page "/"
+@inject DemoFlow Flow
+
+<PageTitle>ProtocolAi — from drift to identity</PageTitle>
+
+<header class="hero">
+    <div class="eyebrow">THE SINGULARITY WORKSHOP · A LIVING DOCUMENT</div>
+    <h1>Language can wander.<br /><span>Identity needs an address.</span></h1>
+    <p class="hero-copy">Explore the boundary between probabilistic language and deterministic application meaning. Watch candidate answers diverge, then release a value into a protocol vocabulary and inspect what the real C# library does with it.</p>
+    <div class="hero-meta">
+        <span class="status-dot"></span><span>Real ProtocolAi calls</span>
+        <span class="meta-divider">·</span>
+        <span>Transitions driven by FSM_API</span>
+        <span class="meta-divider">·</span>
+        <span>Inspectable SVG experiment</span>
+    </div>
+</header>
+
+<nav class="act-nav" aria-label="Experiment sections">
+    <a href="#probability"><span>01</span> The drift</a>
+    <a href="#protocol"><span>02</span> The protocol</a>
+    <a href="#machinery"><span>03</span> Inspect the machinery</a>
+    <a href="#grammar"><span>04</span> Compose grammar</a>
+</nav>
+
+<section id="probability" class="act-section">
+    <div class="section-heading">
+        <div class="section-number">01</div>
+        <div>
+            <p class="eyebrow">THE PROBLEM</p>
+            <h2>One intent. Several plausible answers.</h2>
+            <p>An LLM generates likely language, not a guaranteed canonical spelling for every concept. Different wording is not automatically a hallucination—but downstream code can drift when it treats similar strings as authoritative identity.</p>
+        </div>
+    </div>
+
+    <div class="probability-panel">
+        <div class="prompt-card">
+            <span class="small-label">SAME INTENT</span>
+            <p>“Select Bob and inspect the forge.”</p>
+            <div class="prompt-foot">The intent stays fixed. The candidate output may vary.</div>
+        </div>
+        <div class="branch-visual" role="img" aria-label="One intent branches into several different candidate representations.">
+            <svg viewBox="0 0 900 190" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                    <linearGradient id="branchLine" x1="0" x2="1"><stop offset="0" stop-color="#53d6d0" /><stop offset="1" stop-color="#a78bfa" /></linearGradient>
+                </defs>
+                <circle cx="450" cy="22" r="9" fill="#53d6d0" />
+                <path d="M450 31 C450 66 105 55 105 112 M450 31 C450 65 335 65 335 112 M450 31 L450 112 M450 31 C450 65 565 65 565 112 M450 31 C450 66 795 55 795 112" fill="none" stroke="url(#branchLine)" stroke-width="3" stroke-linecap="round" />
+                <circle cx="105" cy="112" r="7" fill="#a78bfa" />
+                <circle cx="335" cy="112" r="7" fill="#a78bfa" />
+                <circle cx="450" cy="112" r="7" fill="#a78bfa" />
+                <circle cx="565" cy="112" r="7" fill="#a78bfa" />
+                <circle cx="795" cy="112" r="7" fill="#a78bfa" />
+                <path d="M105 120v24 M335 120v24 M450 120v24 M565 120v24 M795 120v24" stroke="#64748b" stroke-width="2" stroke-dasharray="3 4" />
+                <text x="450" y="177" text-anchor="middle" fill="#9bb0c5" font-size="14">Illustrative variation · not a live model call or statistical measurement</text>
+            </svg>
+        </div>
+        <div class="experiment-controls">
+            <div>
+                <span class="small-label">CANDIDATE BATCH</span>
+                <h3>@(ResponseBatchIndex == 0 ? "Batch A · equivalent-looking fields" : "Batch B · extra ambiguity")</h3>
+                <p>Replay to compare a different illustrative set. These are fixtures—not claims about measured model probabilities.</p>
+            </div>
+            <button class="button secondary" @onclick="ReplayResponses">Replay candidate batch <span aria-hidden="true">↻</span></button>
+        </div>
+        <div class="response-grid">
+            @foreach (var response in Responses)
+            {
+                <article class="response-card">
+                    <div class="response-top"><span class="call-number">CALL 0@(response.Index + 1)</span><span class="response-kind @response.KindClass">@response.Kind</span></div>
+                    <pre>@response.Text</pre>
+                    <p>@response.Note</p>
+                </article>
+            }
+        </div>
+        <div class="lesson-strip">
+            <strong>What needs to stay stable?</strong>
+            <span>Not every sentence. Not every token. The application's identity for a concept.</span>
+        </div>
+    </div>
+</section>
+
+<section id="protocol" class="act-section">
+    <div class="section-heading">
+        <div class="section-number">02</div>
+        <div>
+            <p class="eyebrow">THE PROTOCOL</p>
+            <h2>Drop a value. Give known meaning a stable address.</h2>
+            <p>The vocabulary belongs to the application. ProtocolAi maps a known string to its declared symbol ID; a value it does not know remains a literal. The animation follows the same stages that the sample's FSM_API flow and ProtocolAi calls execute.</p>
+        </div>
+    </div>
+
+    <div class="protocol-layout">
+        <div class="machine-card">
+            <div class="machine-header">
+                <div><span class="small-label">LIVE SVG EXPERIMENT</span><h3>The semantic ball-drop</h3></div>
+                <span class="machine-state">@Flow.Stage</span>
+            </div>
+            <svg class="ball-machine" viewBox="0 0 760 330" role="img" aria-labelledby="machineTitle machineDesc">
+                <title id="machineTitle">A candidate value passes through protocol validation and lands in a known or literal slot</title>
+                <desc id="machineDesc">The ball progresses through the encoding and validation stages. Known vocabulary values land in their integer identity slot; unknown values land in the literal lane. An invalid reference is rejected.</desc>
+                <defs>
+                    <linearGradient id="machineGlow" x1="0" x2="1"><stop offset="0" stop-color="#15354b"/><stop offset="1" stop-color="#201a3c"/></linearGradient>
+                    <filter id="ballGlow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                </defs>
+                <rect x="8" y="8" width="744" height="314" rx="18" fill="#081522" stroke="#263f54"/>
+                <path d="M92 55 C125 55 132 165 205 165 S275 70 335 70 S425 165 490 165 S600 78 670 78" fill="none" stroke="#284a5f" stroke-width="5" stroke-linecap="round"/>
+                <path d="M490 165 C520 205 540 250 600 250 H670" fill="none" stroke="#6d5a33" stroke-width="4" stroke-dasharray="7 7"/>
+                <path d="M205 165 l-22 -14 l2 27 z M335 70 l-20 -12 l1 24 z M490 165 l-20 -12 l1 24 z" fill="#53d6d0" opacity=".85"/>
+                <g class="obstacle"><circle cx="155" cy="105" r="15"/><circle cx="270" cy="128" r="13"/><circle cx="390" cy="105" r="17"/><circle cx="555" cy="112" r="14"/></g>
+                <g class="stage-node"><rect x="43" y="22" width="98" height="35" rx="8"/><text x="92" y="44">INPUT</text></g>
+                <g class="stage-node"><rect x="164" y="190" width="82" height="34" rx="8"/><text x="205" y="212">ENCODE</text></g>
+                <g class="stage-node"><rect x="294" y="22" width="82" height="34" rx="8"/><text x="335" y="44">VALIDATE</text></g>
+                <g class="stage-node"><rect x="448" y="190" width="84" height="34" rx="8"/><text x="490" y="212">RESOLVE</text></g>
+                <g class="slot known-slot"><rect x="594" y="40" width="136" height="72" rx="12"/><text x="662" y="65">KNOWN ID</text><text class="slot-value" x="662" y="91">@SlotValue</text></g>
+                <g class="slot literal-slot"><rect x="594" y="220" width="136" height="62" rx="12"/><text x="662" y="243">LITERAL LANE</text><text class="slot-value" x="662" y="265">@LiteralSlotValue</text></g>
+                <g class="slot invalid-slot"><rect x="405" y="252" width="128" height="42" rx="9"/><text x="469" y="278">REJECTED</text></g>
+                <circle class="travelling-ball" cx="@Flow.BallPosition.X" cy="@Flow.BallPosition.Y" r="12" />
+                <text x="28" y="306" fill="#7994aa" font-size="12">THE PATH IS EXPLANATORY; THE RESULT COMES FROM THE REAL C# API.</text>
+            </svg>
+            <div class="machine-legend">
+                <span><i class="legend-dot teal"></i>Known identity</span>
+                <span><i class="legend-dot amber"></i>Unknown literal</span>
+                <span><i class="legend-dot red"></i>Invalid reference</span>
+            </div>
+        </div>
+
+        <aside class="control-card">
+            <span class="small-label">CHANGE THE INPUT</span>
+            <label for="candidateValue">Candidate concept</label>
+            <input id="candidateValue" @bind="Flow.CandidateValue" @bind:event="oninput" maxlength="100" />
+            <div class="quick-values">
+                <button class="chip" @onclick='() => SetCandidate("Bob")'>Bob</button>
+                <button class="chip" @onclick='() => SetCandidate("Jane")'>Jane</button>
+                <button class="chip" @onclick='() => SetCandidate("Amelia")'>Amelia (unknown)</button>
+            </div>
+            <label class="check-row"><input type="checkbox" @bind="Flow.InjectInvalidReference" /> Inject an invalid symbol ID</label>
+            <p class="control-note">The invalid-reference switch is a deliberate test fixture. It lets you see that an undefined integer reference is not the same thing as an unknown literal.</p>
+            <div class="action-row">
+                <button class="button primary" @onclick="RunDemoAsync" disabled="@_isAnimating">Release ball <span aria-hidden="true">↗</span></button>
+                <button class="button secondary" @onclick="ResetDemo">Reset</button>
+            </div>
+            <button class="button step-button" @onclick="AdvanceDemo" disabled="@(Flow.IsTerminal || _isAnimating)">Step one FSM transition <span aria-hidden="true">→</span></button>
+        </aside>
+    </div>
+    <div class="state-rail" aria-label="Finite state machine stages">
+        @foreach (var state in FlowStates)
+        {
+            <div class="state-pill @(Flow.Stage == state.Name ? "active" : FlowStates.TakeWhile(s => s.Name != Flow.Stage).Any(s => s.Name == state.Name) ? "visited" : "")">
+                <span>@state.Number</span><strong>@state.Name</strong>
+            </div>
+        }
+    </div>
+    <div class="machine-readout">
+        <article><span class="small-label">PROTOCOL</span><strong>[@Flow.Protocol.Id] @Flow.Protocol.Name</strong><p>Vocabulary defined by this demo.</p></article>
+        <article><span class="small-label">ENCODED VALUE</span><strong>@Flow.EncodedValue</strong><p>Known values become references; unknown values remain literals.</p></article>
+        <article><span class="small-label">VALIDATION</span><strong>@(Flow.ValidationError is not null ? "Failed" : Flow.Stage is "Validated" or "Resolved" or "HostDecision" ? "Passed" : "Not run")</strong><p>@(Flow.ValidationError ?? "No validation error recorded.")</p></article>
+        <article><span class="small-label">RESOLUTION</span><strong>@(Flow.ResolvedValues.Count > 0 ? string.Join(", ", Flow.ResolvedValues) : "Not resolved yet")</strong><p>@(Flow.Stage == "Rejected" ? "Resolution was blocked by validation." : "Resolution uses the actual ProtocolDefinition.")</p></article>
+    </div>
+    @if (Flow.Stage == "HostDecision")
+    {
+        <div class="outcome-card good"><strong>Protocol boundary complete</strong><p>@Flow.HostDecision</p></div>
+    }
+    @if (Flow.Stage == "Rejected")
+    {
+        <div class="outcome-card bad"><strong>Validation stopped the route</strong><p>@Flow.ValidationError</p></div>
+    }
+</section>
+
+<section id="machinery" class="act-section">
+    <div class="section-heading">
+        <div class="section-number">03</div>
+        <div>
+            <p class="eyebrow">UNDER THE HOOD</p>
+            <h2>Not a mock API. The actual boundary.</h2>
+            <p>The playground calls ProtocolAi directly from C#. FSM_API drives the visible stages. The package itself does not depend on either FSM_API or Visualize; both are used only by this documentation sample.</p>
+        </div>
+    </div>
+    <div class="inspection-grid">
+        <article class="inspect-card">
+            <span class="small-label">01 · DEFINE</span>
+            <pre>new ProtocolBuilder(1001, "People")
+    .Define(2001, "bobId", "Bob")
+    .Define(2002, "janeId", "Jane")
+    .Define(2003, "saraId", "Sara")
+    .Build();</pre>
+            <p>The application owns both the vocabulary and the chosen integer identities.</p>
+        </article>
+        <article class="inspect-card">
+            <span class="small-label">02 · ENCODE</span>
+            <pre>var payload = people.Encode([candidate]);
+people.Validate(payload);
+var resolved = people.Resolve(payload);</pre>
+            <p>Known strings map to symbol references. Unknown strings remain literal values; validation checks protocol ownership and referenced IDs.</p>
+        </article>
+        <article class="inspect-card">
+            <span class="small-label">03 · INSPECT LIVE DATA</span>
+            <pre>@LivePayloadText</pre>
+            <p>This readout is based on the live <code>ProtocolPayload</code> created by the library—not a JavaScript reimplementation.</p>
+        </article>
+    </div>
+    <div class="principle">
+        <strong>The model proposes. ProtocolAi identifies. The host decides.</strong>
+        <span>Identity is not authorization, and an unknown literal is not automatically an error.</span>
+    </div>
+</section>
+
+<section id="grammar" class="act-section">
+    <div class="section-heading">
+        <div class="section-number">04</div>
+        <div>
+            <p class="eyebrow">COMPOSITION · THE NEXT LAYER</p>
+            <h2>ProtocolAi defines the pieces. GrammarAi composes the slots.</h2>
+            <p>Think “Mad Libs for AI”: define the semantic pieces, then compose a structure that tells the model which pieces belong in which places. This is a conceptual relationship diagram, not a claim that this page is executing GrammarAi.</p>
+        </div>
+    </div>
+    <div class="grammar-composition">
+        <div class="grammar-primitives">
+            <div class="primitive-block person"><span>PROTOCOL · PEOPLE</span><strong>[2001] Bob</strong></div>
+            <div class="primitive-block action"><span>PROTOCOL · ACTIONS</span><strong>[3001] Inspect</strong></div>
+            <div class="primitive-block target"><span>PROTOCOL · TARGETS</span><strong>[4001] Forge</strong></div>
+        </div>
+        <div class="compose-arrow" aria-hidden="true">＋　＋　→</div>
+        <div class="grammar-result">
+            <span class="small-label">GRAMMAR · STRUCTURE</span>
+            <div class="grammar-slot"><span>subject</span><strong>People reference</strong></div>
+            <div class="grammar-slot"><span>action</span><strong>Action reference</strong></div>
+            <div class="grammar-slot"><span>target</span><strong>Target reference</strong></div>
+            <p>The grammar describes the arrangement; the host still validates and decides what happens.</p>
+        </div>
+    </div>
+    <div class="next-links">
+        <a href="https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi">Explore GrammarAi ↗</a>
+        <a href="https://github.com/TrentBest/TheSingularityWorkshop.Visualize">Explore Visualize ↗</a>
+        <a href="https://github.com/TrentBest/FSM_API">Explore FSM_API ↗</a>
+    </div>
+</section>
+
+<section class="closing-note">
+    <h2>What this experiment proves—and what it doesn't</h2>
+    <p>It demonstrates deterministic mapping and validation for a vocabulary owned by the application. It does not make inference deterministic, prove a reduction in hallucination rates, call a live LLM, authorize commands, or claim production GPU rendering. Those are different questions requiring different evidence.</p>
+</section>
+
+@code {
+    private int ResponseBatchIndex;
+    private bool _isAnimating;
+
+    private sealed record ResponseRow(int Index, string Kind, string KindClass, string Text, string Note);
+
+    private readonly string[][] BatchA =
+    [
+        [
+            "{\"person\":\"Bob\",\"action\":\"inspect\",\"target\":\"Forge\"}",
+            "{\"person\":\"Robert\",\"action\":\"inspect\",\"target\":\"the forge\"}",
+            "{\"person\":\"Bob\",\"action\":\"examine\",\"target\":\"Forge\"}",
+            "{\"person\":\"Bob\",\"action\":\"inspect\",\"target\":\"Forge\",\"confidence\":0.82}",
+            "{\"person\":\"Bob\",\"action\":\"inspect\",\"target\":\"Forge\"}"
+        ],
+        [
+            "{\"subject\":\"Bob\",\"verb\":\"inspect\",\"object\":\"Forge\"}",
+            "{\"subject\":\"Bob\",\"verb\":\"inspect\",\"object\":\"Forge\"}",
+            "{\"subject\":\"Bob\",\"verb\":\"examine\",\"object\":\"Forge\"}",
+            "{\"subject\":\"Robert\",\"verb\":\"inspect\",\"object\":\"the forge\"}",
+            "{\"subject\":\"Bob\",\"verb\":\"inspect\",\"object\":\"Forge\",\"notes\":\"near the entrance\"}"
+        ]
+    ];
+
+    private readonly string[][] Notes =
+    [
+        [
+            "Reference spelling matches the application vocabulary.",
+            "Alias and article variation may need explicit host policy.",
+            "A verb synonym is not necessarily the same application action.",
+            "The shape has changed by adding an extra field.",
+            "A repeated candidate can still match the original."
+        ],
+        [
+            "A different field layout can carry a similar intent.",
+            "A repeated answer does not establish a canonical identity.",
+            "The verb has changed; the host must decide whether it is equivalent.",
+            "Both the name and target wording vary.",
+            "An additional note introduces new information to interpret."
+        ]
+    ];
+
+    private IEnumerable<ResponseRow> Responses =>
+        Enumerable.Range(0, 5).Select(i =>
+        {
+            var text = BatchA[ResponseBatchIndex][i];
+            var kind = i switch { 0 => "BASELINE", 1 => "WORDING", 2 => "SEMANTICS?", 3 => "SHAPE", _ => "REPEAT" };
+            var kindClass = i switch { 1 => "amber", 2 => "violet", 3 => "amber", _ => "teal" };
+            return new ResponseRow(i, kind, kindClass, text, Notes[ResponseBatchIndex][i]);
+        });
+
+    private readonly (string Number, string Name)[] FlowStates =
+    [
+        ("1", "Ready"), ("2", "Encoded"), ("3", "Validated"),
+        ("4", "Resolved"), ("5", "HostDecision")
+    ];
+
+    private string SlotValue => Flow.Stage == "Rejected"
+        ? "INVALID"
+        : Flow.Stage == "Ready"
+            ? "—"
+            : Flow.IsKnownValue
+                ? Flow.EncodedValue
+                : "LITERAL";
+
+    private string LiteralSlotValue => Flow.IsKnownValue ? "—" : Flow.CandidateValue;
+
+    private string LivePayloadText => Flow.Payload is null
+        ? "No payload yet."
+        : $"ProtocolId = {Flow.Payload.ProtocolId}\nValues = {string.Join(", ", Flow.Payload.Values)}";
+
+    private void ReplayResponses() => ResponseBatchIndex = (ResponseBatchIndex + 1) % BatchA.Length;
+
+    private void SetCandidate(string value)
+    {
+        Flow.CandidateValue = value;
+        ResetDemo();
+    }
+
+    private void AdvanceDemo() => Flow.Advance();
+
+    private void ResetDemo()
+    {
+        Flow.Reset();
+        _isAnimating = false;
+    }
+
+    private async Task RunDemoAsync()
+    {
+        if (_isAnimating) return;
+        _isAnimating = true;
+        Flow.Reset();
+        StateHasChanged();
+        await Task.Delay(300);
+
+        for (var i = 0; i < 6 && !Flow.IsTerminal; i++)
+        {
+            Flow.Advance();
+            StateHasChanged();
+            await Task.Delay(650);
+        }
+
+        _isAnimating = false;
+    }
+}
