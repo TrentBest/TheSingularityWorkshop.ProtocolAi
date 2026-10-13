@@ -101,6 +101,8 @@ Install the current published version listed on [NuGet](https://www.nuget.org/pa
 - [ProtocolAi Theory](docs/THEORY.md) — the semantic and architectural argument.
 - [ProtocolAi Reflection](docs/REFLECTION.md) — limitations, lifecycle questions, and future directions.
 - [Ecosystem Integration](docs/ECOSYSTEM_INTEGRATION.md) — boundaries with FSM_UserIO, GrammarAi, FSM_COS, GUI, serialization, and ontology.
+- [Semantic Payload JSON](docs/PROTOCOL_PAYLOAD_JSON.md) — the dependency-free JSON wire representation, including what transport does and does not validate.
+- [Guides for every starting point](docs/GUIDES.md) — a plain-language introduction, beginner walkthrough, C# integration guide, and deeper developer guide.
 - [NuGet package](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi) · [Source](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi) · [Issues](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/issues)
 
 ### Build, test, and pack
