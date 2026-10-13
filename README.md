@@ -27,7 +27,7 @@ Language models can propose names or values; an application still needs a determ
 
 ## 🟣 02 Why
 
-The package makes this boundary explicit so applications can compose the capability without coupling unrelated responsibilities. It should remain a small, honest contract: no hidden provider, host, or runtime behavior is implied unless the implementation and tests demonstrate it.
+Probabilistic language is useful for proposing meaning, but applications need deterministic identity resolution before acting on a proposal. ProtocolAI provides that narrow bridge without embedding an AI model, provider SDK, or command executor.
 
 ## 🔺 03 How
 
