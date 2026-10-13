@@ -1,3 +1,5 @@
+![The Singularity Workshop animated moniker](https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Renderer/development/docs/assets/moniker.svg)
+
 # TheSingularityWorkshop.ProtocolAi
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -5,6 +7,43 @@
 [![NuGet downloads](https://img.shields.io/nuget/dt/TheSingularityWorkshop.ProtocolAi?style=flat-square&logo=nuget&logoColor=white)](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi)
 [![Build](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.ProtocolAi/build.yml?branch=master&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/build.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/TrentBest/TheSingularityWorkshop.ProtocolAi?style=flat-square)](https://codecov.io/gh/TrentBest/TheSingularityWorkshop.ProtocolAi)
+
+
+> **ProtocolAI is for AI, not AI: deterministic application-owned identity without a model or provider dependency.**
+
+Language models can propose names or values; an application still needs a deterministic way to decide what those values mean and whether they are recognized.
+
+```mermaid
+flowchart TD
+  L[Model / external language] --> X[Received symbols]
+  X --> P[ProtocolAI identity resolution]
+  P --> H[Host-owned decision]
+  H --> A[Application behavior]
+```
+
+## 🟦 01 What
+
+Language models can propose names or values; an application still needs a deterministic way to decide what those values mean and whether they are recognized.
+
+## 🟣 02 Why
+
+The package makes this boundary explicit so applications can compose the capability without coupling unrelated responsibilities. It should remain a small, honest contract: no hidden provider, host, or runtime behavior is implied unless the implementation and tests demonstrate it.
+
+## 🔺 03 How
+
+Define the vocabulary your application owns, encode or validate incoming values against it, and leave execution decisions with the host. Unknown input is not automatically invalid input.
+
+## 🟢 04 See it in a minute
+
+Install the alpha version shown below and run the 60-second example; it demonstrates identity encoding and resolution without requiring a model provider.
+
+## 🟪 05 Documentation and theory
+
+[See it work in 60 seconds](#-03--see-it-work-in-60-seconds) · [Core API](#the-core-api) · [Documentation](#documentation)
+
+---
+
+## Detailed guide
 
 # ProtocolAI is **for AI**, not AI.
 
