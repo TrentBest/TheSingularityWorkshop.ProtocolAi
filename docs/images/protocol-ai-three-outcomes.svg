@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+<title id="title">Three ProtocolAi outcomes</title>
+<desc id="desc">Three different cases travel through ProtocolAi: a known value becomes a protocol and symbol reference, an unknown value remains a literal for host policy, and a malformed or undefined reference fails validation. Animated signal paths illustrate the distinction.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#1e1b4b"/></linearGradient>
+  <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#a5f3fc"/></linearGradient>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#94a3b8"/></marker>
+  <style>
+    @keyframes dash { to { stroke-dashoffset:-56; } }
+    @keyframes glow { 0%,100% { opacity:.35 } 50% { opacity:1 } }
+    .signal { stroke-dasharray:8 14; animation:dash 1.8s linear infinite; }
+    .pulse { animation:glow 2.4s ease-in-out infinite; }
+    .delay1 { animation-delay:.8s } .delay2 { animation-delay:1.6s }
+    @media (prefers-reduced-motion:reduce) { .signal,.pulse { animation:none !important; } }
+  </style>
+</defs>
+<rect width="1200" height="700" rx="26" fill="url(#bg)"/>
+<text x="56" y="58" fill="#f8fafc" font-family="Arial,sans-serif" font-size="29" font-weight="700" letter-spacing="2">THREE INPUTS. THREE DIFFERENT OUTCOMES.</text>
+<text x="56" y="91" fill="#a5b4fc" font-family="Arial,sans-serif" font-size="17">Do not confuse an unknown word with an invalid address.</text>
+<rect x="55" y="135" width="260" height="470" rx="20" fill="#0f172a" stroke="#475569" stroke-width="2"/>
+<text x="185" y="174" fill="#cbd5e1" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" letter-spacing="2">INPUT</text>
+<rect x="82" y="205" width="206" height="92" rx="13" fill="#102c42" stroke="#22d3ee" stroke-width="2"/>
+<text x="185" y="238" fill="#67e8f9" text-anchor="middle" font-family="monospace" font-size="17">"Bob"</text>
+<text x="185" y="268" fill="#f8fafc" text-anchor="middle" font-family="Arial,sans-serif" font-size="15">declared value</text>
+<rect x="82" y="325" width="206" height="92" rx="13" fill="#302713" stroke="#fbbf24" stroke-width="2"/>
+<text x="185" y="358" fill="#fbbf24" text-anchor="middle" font-family="monospace" font-size="17">"Amelia"</text>
+<text x="185" y="388" fill="#f8fafc" text-anchor="middle" font-family="Arial,sans-serif" font-size="15">not in vocabulary</text>
+<rect x="82" y="445" width="206" height="112" rx="13" fill="#351b28" stroke="#fb7185" stroke-width="2"/>
+<text x="185" y="478" fill="#fda4af" text-anchor="middle" font-family="monospace" font-size="17">[9999 : 7777]</text>
+<text x="185" y="508" fill="#f8fafc" text-anchor="middle" font-family="Arial,sans-serif" font-size="15">undefined reference</text>
+<text x="185" y="533" fill="#fda4af" text-anchor="middle" font-family="Arial,sans-serif" font-size="13">wrong / unknown address</text>
+<path d="M315 250 C355 250 350 230 390 230" fill="none" stroke="#22d3ee" stroke-width="3" marker-end="url(#arrow)"/>
+<path class="signal" d="M315 250 C355 250 350 230 390 230" fill="none" stroke="#e0fbff" stroke-width="3"/>
+<path d="M315 371 C355 371 350 371 390 371" fill="none" stroke="#fbbf24" stroke-width="3" marker-end="url(#arrow)"/>
+<path class="signal delay1" d="M315 371 C355 371 350 371 390 371" fill="none" stroke="#fff7d6" stroke-width="3"/>
+<path d="M315 500 C355 500 350 512 390 512" fill="none" stroke="#fb7185" stroke-width="3" marker-end="url(#arrow)"/>
+<path class="signal delay2" d="M315 500 C355 500 350 512 390 512" fill="none" stroke="#ffe4e6" stroke-width="3"/>
+<rect x="390" y="135" width="330" height="470" rx="20" fill="#0b2032" stroke="url(#cyan)" stroke-width="3"/>
+<text x="555" y="174" fill="#67e8f9" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" letter-spacing="2">PROTOCOLAI</text>
+<text x="555" y="205" fill="#f8fafc" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" font-weight="700">Encode / Validate</text>
+<rect class="pulse" x="420" y="220" width="270" height="82" rx="12" fill="#102c42" stroke="#22d3ee" stroke-width="2"/>
+<text x="555" y="249" fill="#67e8f9" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700">KNOWN → REFERENCE</text>
+<text x="555" y="278" fill="#f8fafc" text-anchor="middle" font-family="monospace" font-size="18">[protocol : symbol]</text>
+<rect class="pulse delay1" x="420" y="330" width="270" height="82" rx="12" fill="#302713" stroke="#fbbf24" stroke-width="2"/>
+<text x="555" y="359" fill="#fbbf24" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700">UNKNOWN → LITERAL</text>
+<text x="555" y="387" fill="#f8fafc" text-anchor="middle" font-family="monospace" font-size="18">"Amelia"</text>
+<rect class="pulse delay2" x="420" y="460" width="270" height="82" rx="12" fill="#351b28" stroke="#fb7185" stroke-width="2"/>
+<text x="555" y="489" fill="#fda4af" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700">INVALID REFERENCE</text>
+<text x="555" y="518" fill="#f8fafc" text-anchor="middle" font-family="Arial,sans-serif" font-size="17">validation rejects it</text>
+<path d="M720 260 H780" fill="none" stroke="#22d3ee" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M720 371 H780" fill="none" stroke="#fbbf24" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M720 500 H780" fill="none" stroke="#fb7185" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="780" y="135" width="365" height="470" rx="20" fill="#111827" stroke="#64748b" stroke-width="2"/>
+<text x="962" y="174" fill="#cbd5e1" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" letter-spacing="2">WHAT THE HOST RECEIVES</text>
+<text x="812" y="231" fill="#67e8f9" font-family="Arial,sans-serif" font-size="18" font-weight="700">Stable identity</text>
+<text x="812" y="258" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15">Resolve the declared reference</text>
+<text x="812" y="281" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15">to the application-owned value.</text>
+<line x1="812" y1="313" x2="1112" y2="313" stroke="#334155" stroke-width="2"/>
+<text x="812" y="352" fill="#fbbf24" font-family="Arial,sans-serif" font-size="18" font-weight="700">A policy choice</text>
+<text x="812" y="379" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15">Accept, clarify, or reject the</text>
+<text x="812" y="402" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15">literal. ProtocolAi does not decide.</text>
+<line x1="812" y1="432" x2="1112" y2="432" stroke="#334155" stroke-width="2"/>
+<text x="812" y="472" fill="#fda4af" font-family="Arial,sans-serif" font-size="18" font-weight="700">A validation failure</text>
+<text x="812" y="499" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15">Do not treat an undefined address</text>
+<text x="812" y="522" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15">as a legitimate application identity.</text>
+<text x="600" y="652" fill="#f8fafc" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" font-weight="700">Unknown language can be data. An invalid reference is a broken contract.</text>
+</svg>
