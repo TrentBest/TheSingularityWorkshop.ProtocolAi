@@ -1,0 +1,78 @@
+@page "/hello"
+@inject HelloWorldFlow Flow
+
+<PageTitle>Hello World — FSM_API + SVG</PageTitle>
+
+<section class="hello-world-page">
+    <p class="eyebrow">THE SINGULARITY WORKSHOP · FIRST LIVING GEOMETRY</p>
+    <h1>Hello, <span>SVG.</span></h1>
+    <p class="hello-intro">A small, resizable SVG view driven by a real FSM_API state machine. The SVG draws the shape; the C# flow owns the state.</p>
+
+    <div class="hello-layout">
+        <div class="hello-stage-card">
+            <div class="hello-stage-heading">
+                <div>
+                    <span class="small-label">CURRENT FSM STATE</span>
+                    <h2>@Flow.Stage</h2>
+                </div>
+                <span class="machine-state">FSM_API</span>
+            </div>
+
+            <div class="hello-svg-host">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="@SvgWidth"
+                     height="@SvgHeight"
+                     viewBox="0 0 320 130"
+                     preserveAspectRatio="xMidYMid meet"
+                     role="img"
+                     aria-labelledby="helloTitle helloDescription">
+                    <title id="helloTitle">Hello World SVG driven by FSM_API</title>
+                    <desc id="helloDescription">A circle changes horizontal position when the FSM transitions between Hello and Moving.</desc>
+                    <defs>
+                        <linearGradient id="helloGradient" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#53d6d0" />
+                            <stop offset="100%" stop-color="#b9a0ff" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M25 65 H295" stroke="#284a5f" stroke-width="2" stroke-dasharray="4 7" />
+                    <circle cx="@Flow.CircleX" cy="65" r="22" fill="url(#helloGradient)" class="hello-circle" />
+                    <text x="160" y="25" fill="#9bb0c5" font-size="11" text-anchor="middle" letter-spacing="2">FIRST GEOMETRY</text>
+                    <text x="160" y="115" fill="#ffffff" font-size="14" font-weight="600" text-anchor="middle">@Flow.Message</text>
+                </svg>
+            </div>
+
+            <div class="hello-controls">
+                <button class="button primary" @onclick="Advance">Advance FSM <span aria-hidden="true">→</span></button>
+                <button class="button secondary" @onclick="Reset">Reset</button>
+            </div>
+            <p class="control-note">@Flow.Instruction</p>
+        </div>
+
+        <aside class="hello-size-card">
+            <span class="small-label">VIEWPORT SIZE</span>
+            <h2>Give the SVG its size.</h2>
+            <p>The drawing uses a fixed <code>viewBox</code> as its coordinate space. Change the rendered width and height to see the same geometry scale into a different viewport.</p>
+            <label for="svgWidth">Width · pixels</label>
+            <input id="svgWidth" type="range" min="240" max="960" step="40" @bind="SvgWidth" />
+            <output>@SvgWidth px</output>
+            <label for="svgHeight">Height · pixels</label>
+            <input id="svgHeight" type="range" min="100" max="390" step="10" @bind="SvgHeight" />
+            <output>@SvgHeight px</output>
+            <p class="control-note">The SVG accepts its rendered size from the host. <code>viewBox</code> defines its internal coordinate system; <code>preserveAspectRatio</code> controls how it fits.</p>
+        </aside>
+    </div>
+
+    <div class="hello-boundary">
+        <strong>The division of responsibility</strong>
+        <span><code>FSM_API</code> → C# host state → SVG attributes → visible geometry.</span>
+        <p>This is a tiny integration experiment, not a claim that SVG itself executes FSM_API. The same separation can be adapted to a browser, WPF host, or Unity integration without making those presentation layers part of the FSM_API core.</p>
+    </div>
+</section>
+
+@code {
+    private int SvgWidth { get; set; } = 640;
+    private int SvgHeight { get; set; } = 260;
+
+    private void Advance() => Flow.Advance();
+    private void Reset() => Flow.Reset();
+}
