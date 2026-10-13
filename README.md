@@ -16,6 +16,8 @@ An LLM can produce several plausible expressions for one intent. Those differenc
   <img src="docs/images/protocol-ai-money-shot.svg" alt="ProtocolAi maps known vocabulary values to application-owned integer identities and keeps unknown values as literals for host policy." width="100%">
 </p>
 
+The picture is a first glance, not the whole lesson: the animated flow in **03 How** makes the decision boundary visible, and **04 See it in a minute** lets you step through the actual C# behavior.
+
 ## 🟦 01 What
 
 **TheSingularityWorkshop.ProtocolAi** is a small, provider-neutral .NET library for defining application-owned vocabularies.
@@ -38,17 +40,9 @@ An unknown literal is not automatically invalid. The host may accept it, reject 
 
 ## 🔺 03 How
 
-~~~mermaid
-flowchart TD
-    A[Probabilistic model output] --> B[Candidate value]
-    B --> C{Known in this protocol?}
-    C -->|Yes| D[Integer-backed reference]
-    C -->|No| E[Literal preserved]
-    D --> F[Validate and resolve]
-    E --> F
-    F --> G[Host policy]
-    G --> H[Application behavior]
-~~~
+![Animated ProtocolAi flow: candidate language moves through the application-owned vocabulary; known values become references, unknown values remain literals, and the host decides what happens next.](docs/images/protocol-ai-living-flow.svg)
+
+*Follow the moving signals from language to identity. The animation is illustrative; the encoding, validation, and resolution below are real library operations.*
 
 The vocabulary is defined by the application:
 
