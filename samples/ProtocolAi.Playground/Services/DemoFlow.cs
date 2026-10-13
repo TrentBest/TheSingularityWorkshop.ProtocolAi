@@ -24,7 +24,7 @@ public sealed class DemoFlow
 
         _context = new FlowContext(protocol);
         FSM_API.Create.CreateFiniteStateMachine(DefinitionName, processRate: 0, processingGroup: ProcessingGroup)
-            .State("Ready", onEnter: ctx => Enter(ctx, "Ready"))
+            .State("Ready", onEnter: ctx => Enter(ctx, "Ready"), onUpdate: null, onExit: null)
             .State("Encoded", onEnter: ctx =>
             {
                 var state = AsFlow(ctx);
@@ -36,7 +36,7 @@ public sealed class DemoFlow
                     : encoded;
                 state.Stage = "Encoded";
                 state.AdvanceRequested = false;
-            })
+            }, onUpdate: null, onExit: null)
             .State("Validated", onEnter: ctx =>
             {
                 var state = AsFlow(ctx);
@@ -51,14 +51,14 @@ public sealed class DemoFlow
                 }
                 state.Stage = "Validated";
                 state.AdvanceRequested = false;
-            })
+            }, onUpdate: null, onExit: null)
             .State("Resolved", onEnter: ctx =>
             {
                 var state = AsFlow(ctx);
                 state.ResolvedValues = state.Protocol.Resolve(state.Payload!);
                 state.Stage = "Resolved";
                 state.AdvanceRequested = false;
-            })
+            }, onUpdate: null, onExit: null)
             .State("HostDecision", onEnter: ctx =>
             {
                 var state = AsFlow(ctx);
@@ -68,13 +68,13 @@ public sealed class DemoFlow
                     ? "A literal remains. The host must decide whether to accept it, ask for clarification, or propose a new identity."
                     : "The value resolved to a known identity. The host still decides whether any requested action is allowed.";
                 state.AdvanceRequested = false;
-            })
+            }, onUpdate: null, onExit: null)
             .State("Rejected", onEnter: ctx =>
             {
                 var state = AsFlow(ctx);
                 state.Stage = "Rejected";
                 state.AdvanceRequested = false;
-            })
+            }, onUpdate: null, onExit: null)
             .WithInitialState("Ready")
             .Transition("Ready", "Encoded", ctx => AsFlow(ctx).AdvanceRequested)
             .Transition("Encoded", "Validated", ctx => AsFlow(ctx).AdvanceRequested)
