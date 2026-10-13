@@ -44,6 +44,12 @@ An unknown literal is not automatically invalid. The host may accept it, reject 
 
 *Follow the moving signals from language to identity. The animation is illustrative; the encoding, validation, and resolution below are real library operations.*
 
+#### Three outcomes, made visible
+
+![Animated comparison of a known value becoming a reference, an unknown value remaining a literal, and an undefined reference failing validation.](docs/images/protocol-ai-three-outcomes.svg)
+
+This second view separates three cases that are easy to blur together: **known identity**, **unknown input**, and **invalid reference**. Only the host decides what to do with an unknown literal; validation protects the reference contract.
+
 The vocabulary is defined by the application:
 
 ~~~csharp
