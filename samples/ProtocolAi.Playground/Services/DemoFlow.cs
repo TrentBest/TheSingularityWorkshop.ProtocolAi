@@ -9,8 +9,9 @@ namespace ProtocolAi.Playground.Services;
 /// </summary>
 public sealed class DemoFlow
 {
-    private const string DefinitionName = "ProtocolAiLivingDocumentation";
-    private const string ProcessingGroup = "ProtocolAiLivingDocumentation";
+    private readonly string _flowId = Guid.NewGuid().ToString("N");
+    private string DefinitionName => $"ProtocolAiLivingDocumentation-{_flowId}";
+    private string ProcessingGroup => $"ProtocolAiLivingDocumentation-{_flowId}";
     private readonly FlowContext _context;
     private readonly FSMHandle _handle;
 
