@@ -68,7 +68,7 @@
                 <path d="M624 106 L660 128 L624 150" fill="none" stroke="#53d6d0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                 <rect x="668" y="82" width="210" height="92" rx="14" fill="#102337" stroke="#53d6d0" stroke-width="1.5"/>
                 <text x="773" y="105" text-anchor="middle" class="pull-label">ONE CANDIDATE PULLED</text>
-                <text x="773" y="133" text-anchor="middle" class="pull-value">“Bob · inspect · Forge”</text>
+                <text x="773" y="133" text-anchor="middle" class="pull-value">@SelectedResponseSummary</text>
                 <text x="773" y="153" text-anchor="middle" class="pull-foot">one sample, not certainty</text>
                 <text x="450" y="258" text-anchor="middle" fill="#9bb0c5" font-size="13">Conceptual language cloud · illustrative fixtures, not live model output or measured probabilities</text>
             </svg>
@@ -84,8 +84,8 @@
         <div class="response-grid">
             @foreach (var response in Responses)
             {
-                <article class="response-card">
-                    <div class="response-top"><span class="call-number">CALL 0@(response.Index + 1)</span><span class="response-kind @response.KindClass">@response.Kind</span></div>
+                <article class="response-card @(response.Index == _selectedResponseIndex ? "selected-response" : "")">
+                    <div class="response-top"><span class="call-number">CALL 0@(response.Index + 1)@(response.Index == _selectedResponseIndex ? " · PULLED" : "")</span><span class="response-kind @response.KindClass">@response.Kind</span></div>
                     <pre>@response.Text</pre>
                     <p>@response.Note</p>
                 </article>
@@ -284,6 +284,7 @@ var resolved = people.Resolve(payload);</pre>
 
 @code {
     private int ResponseBatchIndex;
+    private int _selectedResponseIndex;
     private bool _isAnimating;
 
     private sealed record ResponseRow(int Index, string Kind, string KindClass, string Text, string Note);
@@ -324,6 +325,20 @@ var resolved = people.Resolve(payload);</pre>
         ]
     ];
 
+    private string SelectedResponseSummary => (ResponseBatchIndex, _selectedResponseIndex) switch
+    {
+        (0, 0) => "Bob · inspect · Forge",
+        (0, 1) => "Robert · inspect · forge",
+        (0, 2) => "Bob · examine · Forge",
+        (0, 3) => "extra field",
+        (0, _) => "repeated answer",
+        (1, 0) => "Bob · inspect · Forge",
+        (1, 1) => "Bob · inspect · Forge",
+        (1, 2) => "Bob · examine · Forge",
+        (1, 3) => "Robert · inspect · forge",
+        _ => "added note"
+    };
+
     private IEnumerable<ResponseRow> Responses =>
         Enumerable.Range(0, 5).Select(i =>
         {
@@ -353,7 +368,11 @@ var resolved = people.Resolve(payload);</pre>
         ? "No payload yet."
         : $"ProtocolId = {Flow.Payload.ProtocolId}\nValues = {string.Join(", ", Flow.Payload.Values)}";
 
-    private void ReplayResponses() => ResponseBatchIndex = (ResponseBatchIndex + 1) % BatchA.Length;
+    private void ReplayResponses()
+    {
+        ResponseBatchIndex = (ResponseBatchIndex + 1) % BatchA.Length;
+        _selectedResponseIndex = Random.Shared.Next(0, 5);
+    }
 
     private void SetCandidate(string value)
     {
