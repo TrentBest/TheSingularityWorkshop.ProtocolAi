@@ -145,3 +145,17 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 @keyframes thread-flow{to{stroke-dashoffset:-76}}
 @keyframes pulse-pick{0%,100%{r:6;opacity:.65}50%{r:10;opacity:1}}
 @media(prefers-reduced-motion:reduce){.word-cloud text,.spaghetti-lines path,.selected-thread,.thread-pulse{animation:none!important}.travelling-ball{transition:none}}
+
+.representation-compare{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr);gap:18px;align-items:center;margin-top:22px;padding:22px;border:1px solid #34566a;border-radius:14px;background:linear-gradient(120deg,#0d2230,#111a31)}
+.representation-copy h3{font-size:1.25rem;line-height:1.2;margin:8px 0}
+.representation-copy p{margin:0;color:var(--muted);font-size:.9rem}
+.representation-lanes{display:grid;gap:8px}
+.representation-lane{display:grid;gap:5px;padding:12px 14px;border:1px solid #30485d;border-radius:10px;background:#091723}
+.representation-lane span{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:850;color:var(--muted)}
+.representation-lane code{font-size:clamp(.8rem,1.5vw,1rem);overflow-wrap:anywhere;color:#eaf3fb}
+.representation-lane.protocol{border-color:#2f7777;background:#0c292f}
+.representation-lane.protocol code{color:var(--teal)}
+.representation-arrow{text-align:center;color:var(--teal);font-size:1.1rem;line-height:1}
+.measurement-caveat{grid-column:1/-1;margin:0;color:var(--muted);font-size:.78rem;border-top:1px solid #294155;padding-top:12px}
+.measurement-caveat strong{color:var(--amber)}
+@media(max-width:760px){.representation-compare{grid-template-columns:1fr}.response-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
