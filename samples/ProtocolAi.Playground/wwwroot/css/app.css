@@ -129,3 +129,19 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 @media(max-width:1000px){.response-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.machine-readout{grid-template-columns:repeat(2,minmax(0,1fr))}.protocol-layout{grid-template-columns:1fr}.control-card{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.control-card>.small-label,.control-card .control-note,.control-card .action-row,.control-card .step-button{grid-column:1/-1}.quick-values{grid-column:1/-1}}
 @media(max-width:650px){.page-shell{width:min(100% - 24px,1240px)}.hero{padding:45px 0 32px}.act-nav{position:static}.act-nav a{flex:1 1 42%;font-size:.82rem}.act-section{padding-top:50px}.section-heading{grid-template-columns:40px minmax(0,1fr);gap:12px}.section-number{font-size:1.8rem}.probability-panel{padding:12px}.response-grid{grid-template-columns:1fr}.response-card pre{min-height:0}.machine-readout{grid-template-columns:1fr 1fr}.control-card{display:flex}.inspection-grid{grid-template-columns:1fr}.grammar-composition{grid-template-columns:1fr}.compose-arrow{text-align:center;transform:rotate(90deg)}.grammar-slot{flex-wrap:wrap}.machine-legend{gap:9px}.machine-header{padding:14px}.closing-note{padding:18px;margin-top:45px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* The language cloud is an illustration of candidate drift, not model telemetry. */
+.word-cloud text{fill:#dce8f2;font:700 13px ui-monospace,SFMono-Regular,Consolas,monospace;opacity:.82;animation:word-drift 7s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+.word-cloud text:nth-child(3n){fill:var(--violet);animation-delay:-2s}
+.word-cloud text:nth-child(3n + 1){fill:var(--teal);animation-delay:-4s}
+.spaghetti-lines path{stroke-dasharray:7 9;animation:thread-flow 11s linear infinite}
+.spaghetti-lines path:nth-child(even){animation-direction:reverse;animation-duration:15s}
+.selected-thread{animation:thread-flow 2.8s linear infinite;filter:drop-shadow(0 0 4px #53d6d088)}
+.thread-pulse{transform-box:fill-box;transform-origin:center;animation:pulse-pick 2.2s ease-in-out infinite}
+.pull-label{fill:var(--teal);font-size:9px;font-weight:850;letter-spacing:.12em}
+.pull-value{fill:var(--ink);font-size:12px;font-weight:800}
+.pull-foot{fill:var(--muted);font-size:10px}
+@keyframes word-drift{from{translate:0 -3px;rotate:-1deg}to{translate:0 4px;rotate:1deg}}
+@keyframes thread-flow{to{stroke-dashoffset:-76}}
+@keyframes pulse-pick{0%,100%{r:6;opacity:.65}50%{r:10;opacity:1}}
+@media(prefers-reduced-motion:reduce){.word-cloud text,.spaghetti-lines path,.selected-thread,.thread-pulse{animation:none!important}.travelling-ball{transition:none}}
