@@ -19,7 +19,7 @@ These diagrams are living documentation, not the interactive app. GitHub display
 
 ## Start with SVG Hello World
 
-For the smallest hands-on example, run the playground and open **[`/hello`](http://localhost:5000/hello)** using the local origin printed by `dotnet run` (the port may differ):
+For the smallest hands-on example, run the playground and open **`/hello`** on the local origin printed by `dotnet run`:
 
 ~~~powershell
 dotnet run --project samples/ProtocolAi.Playground/ProtocolAi.Playground.csproj
