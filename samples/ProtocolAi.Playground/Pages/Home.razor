@@ -95,6 +95,25 @@
             <strong>What needs to stay stable?</strong>
             <span>Not every sentence. Not every token. The application's identity for a concept.</span>
         </div>
+        <div class="representation-compare">
+            <div class="representation-copy">
+                <span class="small-label">THE COMPACTNESS IDEA</span>
+                <h3>Define the meaning once. Reuse its address.</h3>
+                <p>When both sides share the same vocabulary, repeated concepts can travel as references instead of repeating their descriptive wording.</p>
+            </div>
+            <div class="representation-lanes">
+                <div class="representation-lane natural">
+                    <span>Repeated wording</span>
+                    <code>Bob · Bob · Bob · Bob</code>
+                </div>
+                <div class="representation-arrow" aria-hidden="true">↓</div>
+                <div class="representation-lane protocol">
+                    <span>Shared protocol vocabulary</span>
+                    <code>[2001] · [2001] · [2001] · [2001]</code>
+                </div>
+            </div>
+            <p class="measurement-caveat"><strong>Important:</strong> this is a representation illustration, not a measured token count. Actual token savings depend on the wire format, vocabulary setup cost, and model tokenizer; we should only publish a numeric saving after benchmarking those together.</p>
+        </div>
     </div>
 </section>
 
