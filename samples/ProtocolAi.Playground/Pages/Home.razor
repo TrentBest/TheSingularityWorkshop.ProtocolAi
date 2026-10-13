@@ -151,10 +151,15 @@
                 <g class='stage-node @StageNodeClass("Resolved")'><rect x="448" y="190" width="84" height="34" rx="8"/><text x="490" y="212">RESOLVE</text></g>
                 <g class='slot known-slot @(Flow.Stage == "HostDecision" && Flow.IsKnownValue ? "slot-active" : "")'><rect x="594" y="40" width="136" height="72" rx="12"/><text x="662" y="65">KNOWN ID</text><text class="slot-value" x="662" y="91">@SlotValue</text></g>
                 <g class='slot literal-slot @(Flow.Stage == "HostDecision" && !Flow.IsKnownValue ? "slot-active" : "")'><rect x="594" y="220" width="136" height="62" rx="12"/><text x="662" y="243">LITERAL LANE</text><text class="slot-value" x="662" y="265">@LiteralSlotValue</text></g>
-                <g class="slot invalid-slot"><rect x="405" y="252" width="128" height="42" rx="9"/><text x="469" y="278">REJECTED</text></g>
+                <g class="slot invalid-slot @(Flow.Stage == "Rejected" ? "slot-active" : "")"><rect x="405" y="252" width="128" height="42" rx="9"/><text x="469" y="278">REJECTED</text></g>
                 <circle class="@(Flow.Stage == "Rejected" ? "travelling-ball invalid" : Flow.Stage == "HostDecision" && !Flow.IsKnownValue ? "travelling-ball literal" : "travelling-ball")" cx="@Flow.BallPosition.X" cy="@Flow.BallPosition.Y" r="12" />
                 <text x="28" y="306" fill="#7994aa" font-size="12">THE PATH IS EXPLANATORY; THE RESULT COMES FROM THE REAL C# API.</text>
             </svg>
+            <div class="transition-explainer" aria-live="polite">
+                <span class="small-label">WHY THIS STEP?</span>
+                <strong>@TransitionTitle</strong>
+                <p>@TransitionExplanation</p>
+            </div>
             <div class="machine-legend">
                 <span><i class="legend-dot teal"></i>Known identity</span>
                 <span><i class="legend-dot amber"></i>Unknown literal</span>
@@ -355,6 +360,36 @@ var resolved = people.Resolve(payload);</pre>
     ];
 
     private string StageNodeClass(string stage) => Flow.Stage == stage ? "stage-active" : FlowStates.TakeWhile(s => s.Name != Flow.Stage).Any(s => s.Name == stage) ? "stage-visited" : "";
+
+    private string TransitionTitle => Flow.Stage switch
+    {
+        "Ready" => "1 · Start with the candidate",
+        "Encoded" => "2 · Encode against the application vocabulary",
+        "Validated" => Flow.ValidationError is null ? "3 · The payload passed validation" : "3 · Validation found an invalid reference",
+        "Resolved" => "4 · Resolve the validated payload",
+        "HostDecision" when Flow.IsKnownValue => "5 · Known identity reaches the host",
+        "HostDecision" => "5 · Unknown text stays literal",
+        "Rejected" => "STOP · Do not resolve an invalid reference",
+        _ => "The flow is ready to inspect"
+    };
+
+    private string TransitionExplanation => Flow.Stage switch
+    {
+        "Ready" => $"Candidate: “{Flow.CandidateValue}”. Release the ball to call ProtocolAi.Encode, then inspect the payload it creates.",
+        "Encoded" => Flow.InjectInvalidReference
+            ? "This test deliberately substitutes symbol ID 9999. It is not an unknown word; it is a reference that the protocol cannot validate."
+            : Flow.IsKnownValue
+                ? $"“{Flow.CandidateValue}” matches a declared symbol. The payload carries its application-defined reference: {Flow.EncodedValue}."
+                : $"“{Flow.CandidateValue}” is not in this vocabulary. ProtocolAi keeps it as literal text rather than inventing an identity.",
+        "Validated" => Flow.ValidationError is null
+            ? "ProtocolAi.Validate accepted this payload. The next FSM transition can resolve it into values."
+            : $"ProtocolAi.Validate rejected this payload: {Flow.ValidationError}",
+        "Resolved" => $"The actual protocol resolved the payload to: {string.Join(", ", Flow.ResolvedValues)}. Resolution identifies values; it does not authorize an action.",
+        "HostDecision" when Flow.IsKnownValue => "A known symbol was resolved. The application still owns authorization and what happens next.",
+        "HostDecision" => "An unknown literal survived as text. The host can accept it, ask for clarification, or apply its own policy.",
+        "Rejected" => $"The FSM stopped before resolution because validation failed. {Flow.ValidationError}",
+        _ => "Advance one FSM_API transition to inspect what changes."
+    };
 
     private string SlotValue => Flow.Stage == "Rejected"
         ? "INVALID"
