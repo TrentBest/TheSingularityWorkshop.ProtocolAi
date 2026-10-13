@@ -135,7 +135,7 @@ public sealed class DemoFlow
         _context.ResolvedValues = Array.Empty<string>();
         _context.HostDecision = "The host has not made a decision.";
         _context.AdvanceRequested = false;
-        _handle.ResetFSMInstance();
+        _handle.TransitionTo("Ready");
         _context.Stage = "Ready";
     }
 
