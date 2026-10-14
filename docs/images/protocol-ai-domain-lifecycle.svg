@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520" role="img" aria-labelledby="title desc">
+  <title id="title">ProtocolAi lifecycle: immutable identity, host-owned evolution</title>
+  <desc id="desc">An application domain defines a vocabulary with ProtocolBuilder. The resulting immutable ProtocolDefinition is used to encode, validate, and resolve payloads. Unknown literals and invalid references flow to separate host-policy outcomes. A dashed future registration authority may publish a new immutable definition snapshot, but it is not part of the current ProtocolAi API.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1425"/><stop offset="1" stop-color="#142c3b"/></linearGradient>
+    <linearGradient id="signal" x1="0" x2="1"><stop offset="0" stop-color="#53d6d0"/><stop offset="1" stop-color="#ffc879"/></linearGradient>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#53d6d0"/></marker>
+    <style>
+      text{font-family:system-ui,-apple-system,Segoe UI,sans-serif;fill:#eef6ff}
+      .muted{fill:#a9bfd0;font-size:14px}.heading{font-size:18px;font-weight:700}.small{font-size:13px}
+      .node{fill:#102337;stroke:#53d6d0;stroke-width:1.5}.host{fill:#2b2032;stroke:#c4a7ff;stroke-width:1.5}
+      .future{fill:#111c2b;stroke:#ffc879;stroke-width:1.5;stroke-dasharray:7 6}
+      .flow{fill:none;stroke:#53d6d0;stroke-width:2.5;marker-end:url(#arrow)}
+      .trace{fill:none;stroke:url(#signal);stroke-width:3;stroke-dasharray:7 14;animation:travel 5s linear infinite}
+      @keyframes travel{to{stroke-dashoffset:-84}}
+      @media(prefers-reduced-motion:reduce){.trace{animation:none;stroke-dasharray:none}}
+    </style>
+  </defs>
+  <rect width="1100" height="520" rx="22" fill="url(#bg)"/>
+  <text x="42" y="46" font-size="12" font-weight="700" letter-spacing="2" fill="#53d6d0">THE SEMANTIC LIFECYCLE</text>
+  <text x="42" y="78" font-size="27" font-weight="750">Stable identity today. Governed evolution outside the core.</text>
+  <rect class="node" x="42" y="125" width="210" height="100" rx="14"/>
+  <text class="heading" x="147" y="158" text-anchor="middle">Domain authority</text>
+  <text class="muted" x="147" y="184" text-anchor="middle">owns meaning</text>
+  <text class="muted" x="147" y="204" text-anchor="middle">names + IDs</text>
+  <rect class="node" x="300" y="125" width="210" height="100" rx="14"/>
+  <text class="heading" x="405" y="158" text-anchor="middle">ProtocolBuilder</text>
+  <text class="muted" x="405" y="184" text-anchor="middle">define / check</text>
+  <text class="muted" x="405" y="204" text-anchor="middle">build once</text>
+  <rect class="node" x="558" y="125" width="230" height="100" rx="14"/>
+  <text class="heading" x="673" y="158" text-anchor="middle">ProtocolDefinition</text>
+  <text class="muted" x="673" y="184" text-anchor="middle">immutable snapshot</text>
+  <text class="muted" x="673" y="204" text-anchor="middle">stable address space</text>
+  <path class="flow" d="M252 175 H294"/><path class="flow" d="M510 175 H552"/>
+  <rect class="host" x="835" y="118" width="220" height="115" rx="14"/>
+  <text class="heading" x="945" y="151" text-anchor="middle">Host policy</text>
+  <text class="muted" x="945" y="177" text-anchor="middle">retain / clarify</text>
+  <text class="muted" x="945" y="198" text-anchor="middle">authorize / reject</text>
+  <path class="flow" d="M788 175 H829"/>
+  <path class="trace" d="M260 175 H820"/>
+  <text class="muted" x="550" y="251" text-anchor="middle">Use the same definition to encode, validate and resolve values</text>
+  <rect class="node" x="62" y="294" width="250" height="82" rx="13"/>
+  <text class="heading" x="187" y="325" text-anchor="middle">Known value</text>
+  <text class="muted" x="187" y="350" text-anchor="middle">protocol-qualified reference</text>
+  <rect class="node" x="425" y="294" width="250" height="82" rx="13"/>
+  <text class="heading" x="550" y="325" text-anchor="middle">Unknown value</text>
+  <text class="muted" x="550" y="350" text-anchor="middle">literal stays visible</text>
+  <rect class="host" x="788" y="294" width="250" height="82" rx="13"/>
+  <text class="heading" x="913" y="325" text-anchor="middle">Invalid reference</text>
+  <text class="muted" x="913" y="350" text-anchor="middle">validation failure</text>
+  <path class="flow" d="M673 225 V263 H187 V288"/>
+  <path class="flow" d="M673 225 V263 H550 V288"/>
+  <path class="flow" d="M673 225 V263 H913 V288"/>
+  <rect class="future" x="235" y="415" width="630" height="66" rx="13"/>
+  <text class="heading" x="550" y="441" text-anchor="middle">Future host-owned registration / versioning</text>
+  <text class="muted" x="550" y="463" text-anchor="middle">propose change → apply policy → publish a new immutable snapshot</text>
+  <path d="M235 448 H150 V235" fill="none" stroke="#ffc879" stroke-width="1.7" stroke-dasharray="6 6"/>
+  <text class="small" x="42" y="503" fill="#ffc879">Dashed = design direction, not a current ProtocolAi feature</text>
+</svg>
