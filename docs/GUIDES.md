@@ -26,6 +26,12 @@ These guides approach that question from different distances. They are not dupli
 | [Consuming](CONSUMING.md) | Shipping an application | It is the practical consumer reference. |
 | [Alpha 3 JSON](PROTOCOL_PAYLOAD_JSON.md) | Crossing a process/system boundary | It specifies the provider-neutral payload representation. |
 
+## Visual companion
+
+![Animated overview of application-owned vocabulary, known references, unknown literals, and host policy.](images/protocol-ai-money-shot.svg)
+
+The visual is the shared starting point; choose the guide below for the level of detail you need.
+
 ## The learning ladder
 
 ```
