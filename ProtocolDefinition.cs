@@ -94,8 +94,13 @@ public sealed class ProtocolDefinition
         }
     }
 
-    public ProtocolValue Encode(string value) =>
-        _byValue.TryGetValue(value, out var symbol) ? ProtocolValue.FromId(symbol.Id) : ProtocolValue.FromLiteral(value);
+    public ProtocolValue Encode(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        return _byValue.TryGetValue(value, out var symbol)
+            ? ProtocolValue.FromId(symbol.Id)
+            : ProtocolValue.FromLiteral(value);
+    }
 
     public ProtocolPayload Encode(IEnumerable<string> values)
     {
