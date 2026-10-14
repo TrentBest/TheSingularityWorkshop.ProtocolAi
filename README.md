@@ -131,6 +131,9 @@ The guarantees are deliberately narrow and useful: for a fixed, unambiguous voca
 
 Read [Mathematical Foundations](docs/MATHEMATICAL_FOUNDATIONS.md) for definitions, proofs, limits, and a test plan. Read [ProtocolAi Theory](docs/THEORY.md) for the broader argument and [ProtocolAi Reflection](docs/REFLECTION.md) for open questions.
 
+- [Living Documentation](docs/LIVING_DOCUMENTATION.md) — the animated SVGs, interactive playground, accessibility, and the distinction between illustration and executable behavior.
+- [Release Readiness](docs/RELEASE_READINESS.md) — current alpha status and evidence required before a stable 1.0 release.
+
 - [Consuming ProtocolAi](docs/CONSUMING.md) — installation and first integration.
 - [ProtocolAi Examples](docs/EXAMPLES.md) — practical domain examples.
 - [AI Exchange](docs/AI_EXCHANGE.md) — provider-neutral exchange boundaries.
