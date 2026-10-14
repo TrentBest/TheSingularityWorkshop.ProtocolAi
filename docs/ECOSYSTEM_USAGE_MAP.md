@@ -14,12 +14,15 @@ This is a source-navigation document, not a claim that every suggested integrati
 
 ## Confirmed usage map
 
+For the domain questions and ordered remaining work, see [Domain Audit and Roadmap](DOMAIN_AUDIT_AND_ROADMAP.md).
+
 ### 1. AnyApp — implemented host-owned semantic vocabulary
 
 **Repository:** [TrentBest/AnyApp](https://github.com/TrentBest/AnyApp)
 
 **Source path:** [WorkshopSemanticExchange.cs](https://github.com/TrentBest/AnyApp/blob/master/WorkshopSemanticExchange.cs)  
 **Package reference:** [AnyApp.csproj](https://github.com/TrentBest/AnyApp/blob/master/AnyApp.csproj)  
+**Test coverage:** [AnyAppRuntimeTests.cs](https://github.com/TrentBest/AnyApp/blob/master/tests/TheSingularityWorkshop.AnyApp.Tests/AnyAppRuntimeTests.cs) tests that the Experience manifest carries SemanticIntent.  
 **Host overview:** [AnyApp README — Semantic intent exchange](https://github.com/TrentBest/AnyApp#semantic-intent-exchange)
 
 The host defines its own protocol and symbols; GrammarAi defines which symbol references are admitted; FSM_UserIO carries the resulting intent. The foundation packages do not need to depend on the host or on each other.
