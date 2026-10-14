@@ -165,3 +165,8 @@ NuGet publication remains disabled by default and requires an explicit Workshop 
   <em>The Singularity Workshop — Tools for the curious, the bold, and the systemically inclined.</em><br>
   <strong>Because state shouldn't be a mess.</strong>
 </p>
+
+
+## Find ProtocolAi in the Workshop
+
+The [cross-repository usage map](docs/ECOSYSTEM_USAGE_MAP.md) links to real consumer files, includes focused code excerpts, and distinguishes implemented integrations from candidates and legacy code. Start with [AnyApp's host-owned semantic exchange](https://github.com/TrentBest/AnyApp/blob/master/WorkshopSemanticExchange.cs) to see ProtocolAi paired with GrammarAi and FSM_UserIO without reversing dependency direction.
