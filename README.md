@@ -169,4 +169,6 @@ NuGet publication remains disabled by default and requires an explicit Workshop 
 
 ## Find ProtocolAi in the Workshop
 
+
+For the full domain gap analysis and the order of remaining work, see [Domain Audit and Roadmap](docs/DOMAIN_AUDIT_AND_ROADMAP.md).
 The [cross-repository usage map](docs/ECOSYSTEM_USAGE_MAP.md) links to real consumer files, includes focused code excerpts, and distinguishes implemented integrations from candidates and legacy code. Start with [AnyApp's host-owned semantic exchange](https://github.com/TrentBest/AnyApp/blob/master/WorkshopSemanticExchange.cs) to see ProtocolAi paired with GrammarAi and FSM_UserIO without reversing dependency direction.
