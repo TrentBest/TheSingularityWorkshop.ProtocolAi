@@ -81,4 +81,26 @@ public sealed class ProtocolDefinitionTests
         var protocol = new ProtocolBuilder(1001, "People").Define(2001, "bobId", "Bob").Build();
         Assert.Equal("[1001] People\n  [2001] bobId = \"Bob\"", protocol.Describe());
     }
+    [Fact]
+    public void Encode_uses_ordinal_case_sensitive_matching()
+    {
+        var protocol = new ProtocolBuilder(1001, "People")
+            .Define(2001, "bobId", "Bob")
+            .Build();
+
+        Assert.True(protocol.Encode("Bob").IsReference);
+        Assert.True(protocol.Encode("bob").IsLiteral);
+        Assert.Equal("bob", protocol.Encode("bob").Literal);
+    }
+
+    [Fact]
+    public void Encode_rejects_null_instead_of_failing_inside_dictionary_lookup()
+    {
+        var protocol = new ProtocolBuilder(1001, "People")
+            .Define(2001, "bobId", "Bob")
+            .Build();
+
+        Assert.Throws<ArgumentNullException>(() => protocol.Encode(null!));
+    }
+
 }
