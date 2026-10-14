@@ -74,3 +74,14 @@ These are directions, not claims of current implementation:
 ## The principle
 
 **Make the boundary visible. Make the implementation inspectable. Make the claim smaller than the evidence—not larger.**
+
+## Cross-repository lessons to bring back here
+
+The Workshop's visual repositories suggest a useful distinction for ProtocolAi:
+
+- **From Visualize + GUI.SVG:** when a diagram is generated from real C# geometry/contracts, document the source program and API handoff next to the output. Do not redraw a result and imply the backend produced it.
+- **From the Visualize Primitive Gallery:** keep contract-backed output and browser-only experiments side by side, but label their different execution paths. A browser sandbox can be useful without pretending it is the same path as the C# implementation.
+- **From Renderer:** show the representation appropriate to the reader's current question. Start with the high-level semantic boundary; reveal protocol IDs, payload structure, validation, and proof as the reader moves closer. Renderer calls this computational detail across Event Horizons; for documentation, it becomes progressive explanatory detail.
+- **From the current ProtocolAi implementation:** use the actual library as the authority. An SVG can animate a known reference, literal, or rejection, but the interactive C# playground should produce the corresponding payload and validation result.
+
+The concrete next step is to connect each major visual stage to its matching source method and test. That makes the image a map into the implementation, not a substitute for it.
