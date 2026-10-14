@@ -12,7 +12,7 @@ The examples below make the same boundary concrete with C# values and IDs.
 
 A tool can define commands as a local protocol:
 
-`csharp
+```csharp
 var commands = new ProtocolBuilder(7100, "WorkshopCommands")
     .Define(7101, "inspect", "inspect")
     .Define(7102, "move", "move")
@@ -24,13 +24,13 @@ var request = commands.Encode([
     "inspect",
     "move"
 ]);
-`
+```
 
 Conceptually:
 
-`text
+```text
 [7101] [7102]
-`
+```
 
 The command meaning remains owned by the tool.
 
@@ -38,7 +38,7 @@ The command meaning remains owned by the tool.
 
 Suppose a host knows the IDs of objects in its own domain:
 
-`csharp
+```csharp
 var objects = new ProtocolBuilder(7200, "WorkshopObjects")
     .Define(7201, "forge", "Forge")
     .Define(7202, "laboratory", "Research Laboratory")
@@ -48,13 +48,13 @@ var request = objects.Encode([
     "Forge",
     "Research Laboratory"
 ]);
-`
+```
 
 The model-facing representation can refer to known objects by identity:
 
-`text
+```text
 [7201] [7202]
-`
+```
 
 ProtocolAI does not execute either object. It only gives the host a compact, explicit representation of the vocabulary.
 
@@ -62,18 +62,18 @@ ProtocolAI does not execute either object. It only gives the host a compact, exp
 
 Consider:
 
-`csharp
+```csharp
 var request = objects.Encode([
     "Forge",
     "Avengers Landing Pad"
 ]);
-`
+```
 
 The payload also carries its owning protocol ID, so the integer references are not presented as globally meaningful numbers.
 
 The result conceptually separates:
 
-`text
+```text
 existing object
     Forge
       |
@@ -85,7 +85,7 @@ new value
       |
       v
    "Avengers Landing Pad"
-`
+```
 
 The host can now distinguish an existing identity from a candidate new value.
 
@@ -95,17 +95,17 @@ The alpha does not decide how a new object receives its permanent identity. That
 
 A tool can expose its protocol definition:
 
-`csharp
+```csharp
 Console.WriteLine(objects.Describe());
-`
+```
 
 Output:
 
-`text
+```text
 [7200] WorkshopObjects
   [7201] forge = "Forge"
   [7202] laboratory = "Research Laboratory"
-`
+```
 
 This makes the vocabulary inspectable without requiring the consumer to reconstruct it from source code.
 
@@ -113,18 +113,18 @@ This makes the vocabulary inspectable without requiring the consumer to reconstr
 
 The protocol identity and symbol identity can be carried together:
 
-`csharp
+```csharp
 var forge = objects.Reference("forge");
 
 Console.WriteLine($"Protocol: {forge.ProtocolId}");
 Console.WriteLine($"Symbol:   {forge.SymbolId}");
-`
+```
 
 Conceptually:
 
-`text
+```text
 [7200:7201]
-`
+```
 
 This form is useful at boundaries where another subsystem needs to refer to the owned symbol without taking ownership of its meaning.
 
@@ -132,7 +132,7 @@ This form is useful at boundaries where another subsystem needs to refer to the 
 
 A useful mental model for an AI-facing tool is:
 
-`text
+```text
               DOMAIN
                 |
         "Forge", "Laboratory"
@@ -163,7 +163,7 @@ A useful mental model for an AI-facing tool is:
                 |
                 v
         deterministic host
-`
+```
 
 The package is most useful when the application already has authoritative meaning and wants an explicit identity layer around it.
 
@@ -171,7 +171,7 @@ The package is most useful when the application already has authoritative meanin
 
 Once a vocabulary exists, GrammarAI can refer to its symbols:
 
-`text
+```text
 ProtocolAI
 
 [1001] People
@@ -187,7 +187,7 @@ GrammarAI
 [4001] Greeting
   [5001] [4001] -> [1001:2001]
   [5002] [4001] -> [1001:2002]
-`
+```
 
 ProtocolAI still owns Bob and Jane.
 
