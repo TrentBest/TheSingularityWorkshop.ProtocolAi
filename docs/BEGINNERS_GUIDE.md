@@ -2,6 +2,12 @@
 
 This guide assumes you can read basic C#, but you do not need to know ProtocolAI.
 
+## Visual companion
+
+![Animated ProtocolAi flow from candidate value through encoding, validation, resolution, and host decision.](images/protocol-ai-living-flow.svg)
+
+Use this as the map while working through the steps below. Each stage has a separate responsibility; validation is not authorization.
+
 ## What you will build
 
 By the end, you will be able to:
