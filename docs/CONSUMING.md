@@ -10,6 +10,12 @@ The package does not call an LLM for you. It gives your application a semantic b
 
 ---
 
+## Visual companion
+
+![Animated ProtocolAi flow from candidate language to identity, validation, resolution, and host decision.](images/protocol-ai-living-flow.svg)
+
+Keep this boundary in mind as you integrate: the package identifies; your host owns policy and execution.
+
 ## 1. Install the package
 
 The repository currently declares version **0.1.0-alpha.3**. Check the [NuGet package page](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi) for the latest published version before installing; repository and published versions can differ until a release is published.
