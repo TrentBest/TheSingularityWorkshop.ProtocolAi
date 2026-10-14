@@ -38,7 +38,7 @@ The diagram separates implemented behavior from a future direction. The solid pa
 - [ ] GrammarAi references qualified symbols through GrammarProtocolReference; document this as a lightweight identity seam, not a mandatory package dependency.
 - [ ] FSM_UserIO carries SemanticIntent and optional ProtocolId. Explain why the primitive boundary is useful and why FSM_UserIO should not depend upward on ProtocolAi.
 - [ ] FSM_COS is an indirect carrier through FSM_UserIO, not a reason for a direct ProtocolAi dependency.
-- [ ] Reconcile the older WebPage search/test references against the active branch before treating WebPage as a current direct consumer.
+- [x] Verified WebPage's composition-level example in [WorkshopCompositionTests.cs](https://github.com/TrentBest/WebPage/blob/master/SingularityHub.Tests/WorkshopCompositionTests.cs): it composes ProtocolAi and GrammarAi through FSM_COS and tests the resulting exchange/dependency closure. This is composition-level use, not proof that the WebPage application project directly references the ProtocolAi package.
 - [ ] Review the separate legacy implementation in The/Architect/Workshop/Ai/ProtocolAi.cs. Decide explicitly whether it remains isolated or is migrated; do not assume it is the NuGet API.
 - [ ] For each consumer promoted to confirmed usage, add a source path, small code excerpt, explanatory image only where useful, and a test link when a test exists.
 
