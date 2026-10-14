@@ -1,5 +1,11 @@
 # ProtocolAi Mathematical Foundations
 
+## Visual companion
+
+![Animated protocol lifecycle from an application-owned vocabulary to known, literal, and invalid outcomes.](images/protocol-ai-domain-lifecycle.svg)
+
+The diagram is an intuition aid. The definitions, assumptions, and proof obligations below are the formal statement; the future-registration path is not part of the current API.
+
 ## 1. The claim we can prove
 
 ProtocolAi does not make a language model deterministic, and it cannot prove that a model's answer matches a user's intent. Its narrower claim is both useful and formalizable:
