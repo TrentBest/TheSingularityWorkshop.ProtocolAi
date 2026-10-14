@@ -12,17 +12,9 @@ The package does not call an LLM for you. It gives your application a semantic b
 
 ## 1. Install the package
 
-For the current alpha:
+The repository currently declares version **0.1.0-alpha.3**. Check the [NuGet package page](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi) for the latest published version before installing; repository and published versions can differ until a release is published.
 
-```bash
-dotnet add package TheSingularityWorkshop.ProtocolAi --version 0.1.0-alpha.2
-```
-
-Or:
-
-```xml
-<PackageReference Include="TheSingularityWorkshop.ProtocolAi" Version="0.1.0-alpha.2" />
-```
+Use NuGet's install instructions, or substitute the verified published version in your PackageReference. Do not copy the repository's alpha version as proof that the same version is already published.
 
 Then:
 
