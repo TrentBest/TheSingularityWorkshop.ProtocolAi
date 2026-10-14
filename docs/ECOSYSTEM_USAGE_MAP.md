@@ -22,7 +22,7 @@ For the domain questions and ordered remaining work, see [Domain Audit and Roadm
 
 **Source path:** [WorkshopSemanticExchange.cs](https://github.com/TrentBest/AnyApp/blob/master/WorkshopSemanticExchange.cs)  
 **Package reference:** [AnyApp.csproj](https://github.com/TrentBest/AnyApp/blob/master/AnyApp.csproj)  
-**Test coverage:** [AnyAppRuntimeTests.cs](https://github.com/TrentBest/AnyApp/blob/master/tests/TheSingularityWorkshop.AnyApp.Tests/AnyAppRuntimeTests.cs) tests that the Experience manifest carries SemanticIntent.  
+**Test coverage:** [AnyAppRuntimeTests.cs](https://github.com/TrentBest/AnyApp/blob/master/tests/TheSingularityWorkshop.AnyApp.Tests/AnyAppRuntimeTests.cs) includes assertions around resolved protocol/symbol IDs and manifest-carried SemanticIntent.  
 **Host overview:** [AnyApp README — Semantic intent exchange](https://github.com/TrentBest/AnyApp#semantic-intent-exchange)
 
 The host defines its own protocol and symbols; GrammarAi defines which symbol references are admitted; FSM_UserIO carries the resulting intent. The foundation packages do not need to depend on the host or on each other.
@@ -88,7 +88,7 @@ Older search results referenced ProtocolAi in Workshop composition tests, but th
 
 This older source contains a separate static ProtocolAi vocabulary implementation. Its API and design differ from TheSingularityWorkshop.ProtocolAi (ProtocolBuilder, ProtocolDefinition, ProtocolReference, and payload types).
 
-**Action:** review whether this project is still active and whether it should remain a standalone legacy implementation or migrate deliberately. Do not mechanically replace it or imply it already consumes the NuGet package.
+**Related legacy files:** [CommandAi.cs](https://github.com/TrentBest/The/blob/master/Architect/Workshop/Ai/CommandAi.cs), [GrammarAi.cs](https://github.com/TrentBest/The/blob/master/Architect/Workshop/Ai/GrammarAi.cs), and [TerminalAi.cs](https://github.com/TrentBest/The/blob/master/Architect/Workshop/Ai/TerminalAi.cs) also reference that local vocabulary/grammar design. These are part of the same older application implementation, not proof of consumption of the current NuGet package.\n\n**Action:** review whether this project is still active and whether it should remain a standalone legacy implementation or migrate deliberately. Do not mechanically replace it or imply it already consumes the NuGet package.
 
 ## Integration candidates — not current direct dependencies
 
