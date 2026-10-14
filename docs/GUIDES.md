@@ -106,3 +106,7 @@ A good ProtocolAI document should explain:
 - the things the package intentionally refuses to do.
 
 **Edify, don't mystify.**
+
+## Cross-repository source map
+
+Use [ProtocolAi Across the Workshop](ECOSYSTEM_USAGE_MAP.md) to find confirmed consumers, exact source paths, code excerpts, indirect boundaries, legacy implementations, and integration candidates. The map deliberately distinguishes current code from ideas that still need implementation.
