@@ -2,6 +2,12 @@
 
 This guide focuses on integrating ProtocolAI into a real .NET application.
 
+## Visual companion
+
+![Animated ProtocolAi flow separating encoding, validation, resolution, and host policy.](images/protocol-ai-living-flow.svg)
+
+The animation is a conceptual map. The API contracts and examples below define the actual behavior.
+
 ## API map
 
 | Type | Role |
