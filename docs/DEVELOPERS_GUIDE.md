@@ -4,6 +4,12 @@ ProtocolAI separates **meaning, identity, transport, and behavior**.
 
 That separation is the architecture.
 
+## Visual companion
+
+![Animated protocol lifecycle from host-owned vocabulary to immutable definition, value outcomes, and host policy.](images/protocol-ai-domain-lifecycle.svg)
+
+The dotted registration path is a future design direction, not a capability provided by the current alpha.
+
 ## The four boundaries
 
 ```
