@@ -17,10 +17,4 @@ You will see:
 
 The example uses a project reference so it exercises the repository source directly.
 
-For a real consumer, install the package instead:
-
-```bash
-dotnet add package TheSingularityWorkshop.ProtocolAi --version 0.1.0-alpha.1
-```
-
-Then the same `ProtocolBuilder` / `Encode` / `Decode` flow works against the NuGet package.
+For a real consumer, check the [NuGet package page](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi) for the latest published version and follow its install instructions. The repository's version can be ahead of the latest published package while a release is being prepared.
