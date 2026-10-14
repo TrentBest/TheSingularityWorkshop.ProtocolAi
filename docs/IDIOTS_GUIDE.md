@@ -4,6 +4,12 @@ You do not need to know AI, machine learning, protocols, or compiler theory to u
 
 If you understand the idea of a **name** and an **address**, you understand most of ProtocolAI.
 
+## Visual companion
+
+![Animated comparison of known values, unknown literals, and invalid references.](images/protocol-ai-three-outcomes.svg)
+
+**Watch for the distinction:** a known value has an owned identity, an unknown value remains literal data, and an invalid reference fails validation. The animation illustrates the rule; the library remains the source of truth.
+
 ## The problem
 
 People communicate with words.
