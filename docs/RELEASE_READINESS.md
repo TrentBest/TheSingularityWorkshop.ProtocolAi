@@ -6,6 +6,12 @@ The project file on development declares version **0.1.0-alpha.3**. Treat the re
 
 ProtocolAi is small, but a small codebase is not automatically a stable contract. Moving to 1.0.0 means consumers can reasonably depend on the public API and its semantics.
 
+## Visual companion
+
+![Animated ProtocolAi lifecycle and known, literal, invalid outcomes.](images/protocol-ai-domain-lifecycle.svg)
+
+Release readiness is not just whether the happy path works: reviewers must verify each outcome, transport boundary, host-policy separation, and the claims made by the documentation.
+
 ## What is already a strong foundation
 
 - Provider-neutral .NET library; no model SDK is required.
