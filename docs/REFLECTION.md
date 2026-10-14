@@ -1,5 +1,11 @@
 # ProtocolAI Reflection
 
+## Visual companion
+
+![Animated lifecycle of an application-owned protocol definition and the distinct handling of known, unknown, and invalid values.](images/protocol-ai-domain-lifecycle.svg)
+
+The future-registration path shown in the diagram is a design question, not a feature already implemented in the alpha.
+
 ## Why the package is deliberately small
 
 ProtocolAI is an alpha experiment.
