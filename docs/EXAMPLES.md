@@ -2,6 +2,12 @@
 
 These examples focus on the practical consumption pattern: **define what your application already knows, encode references, preserve unknown literals, and resolve identities deterministically.**
 
+## Visual companion
+
+![Animated overview of application-owned vocabulary and the distinction between known references and unknown literals.](images/protocol-ai-money-shot.svg)
+
+The examples below make the same boundary concrete with C# values and IDs.
+
 ## Example 1 — A command vocabulary
 
 A tool can define commands as a local protocol:
