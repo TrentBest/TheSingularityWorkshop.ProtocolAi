@@ -75,11 +75,15 @@ var intent = new SemanticIntent("open.forge", IntentProtocolId);
 
 FSM_COS can carry SemanticIntent from a manifest into a runtime assembly through FSM_UserIO. That is an **indirect boundary**, not a reason to add ProtocolAi or GrammarAi as core dependencies. Composition should assemble; the application host should interpret.
 
-### 5. WebPage — historical / verify before citing as current usage
+### 5. WebPage — implemented composition/test example
 
-**Repository:** [TrentBest/WebPage](https://github.com/TrentBest/WebPage)
+**Repository:** [TrentBest/WebPage](https://github.com/TrentBest/WebPage)  
+**Test path:** [SingularityHub.Tests/WorkshopCompositionTests.cs](https://github.com/TrentBest/WebPage/blob/master/SingularityHub.Tests/WorkshopCompositionTests.cs)  
+**Related test:** `ExplicitlyComposesAiExchange` asserts the composed AI exchange exposes both Protocol and Grammar, produces exchange text, and provides extract/submit command surfaces. `ExplicitAiCompositionIncludesClosure` checks the protocol and grammar bundles are included in the dependency closure.
 
-Older search results referenced ProtocolAi in Workshop composition tests, but the currently inspected master test file did not directly import ProtocolAi. Treat that earlier reference as historical until the active source is rechecked. Do not present WebPage as a confirmed current direct consumer based on stale search results.
+WebPage is therefore a confirmed **composition-level example** of ProtocolAi and GrammarAi being assembled through FSM_COS. That does not by itself establish that WebPage directly references the ProtocolAi NuGet package in its application project; the example is a microbundle composition/test boundary, so describe it as composition-level use rather than a direct source dependency.
+
+**Why this matters:** the host can compose the vocabulary and grammar as runtime capabilities without turning FSM_COS into the owner of semantic identity. Keep the ProtocolAi and GrammarAi definitions in their own bundles and preserve the host policy boundary.
 
 ### 6. The — legacy local implementation, not the current NuGet API
 
