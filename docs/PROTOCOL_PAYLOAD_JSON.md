@@ -8,6 +8,12 @@ The goal is deliberately modest:
 
 This is a transport format, not an AI protocol, provider format, or authorization mechanism.
 
+## Living diagram — transport is not authority
+
+![Animated ProtocolPayload journey through JSON transport, deserialization, validation, and resolution.](images/protocol-ai-payload-roundtrip.svg)
+
+The payload may travel; the receiving `ProtocolDefinition` remains the authority for semantic validation and resolution. The animation illustrates this contract and does not execute the library.
+
 ## Wire shape
 
 A payload has a protocol identity and an ordered list of values:
