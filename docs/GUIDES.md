@@ -20,6 +20,8 @@ These guides approach that question from different distances. They are not dupli
 | [Examples](EXAMPLES.md) | Learning by doing | It shows small patterns before larger architectural examples. |
 | [Theory](THEORY.md) | Wanting the “why” | It develops the semantic and deprobabilization argument. |
 | [Reflection](REFLECTION.md) | Thinking about what comes next | It records limits, lifecycle, and unanswered questions. |
+| [Living Documentation](LIVING_DOCUMENTATION.md) | Learning visually | It explains the animated SVGs, interactive playground, accessibility, and visual truth boundaries. |
+| [Release Readiness](RELEASE_READINESS.md) | Evaluating a stable release | It records the current package status and evidence needed before 1.0. |
 | [Ecosystem Integration](ECOSYSTEM_INTEGRATION.md) | Working in the Workshop ecosystem | It explains what ProtocolAI owns and what neighboring packages own. |
 | [Consuming](CONSUMING.md) | Shipping an application | It is the practical consumer reference. |
 | [Alpha 3 JSON](PROTOCOL_PAYLOAD_JSON.md) | Crossing a process/system boundary | It specifies the provider-neutral payload representation. |
