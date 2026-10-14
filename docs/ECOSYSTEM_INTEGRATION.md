@@ -4,6 +4,10 @@ ProtocolAI is deliberately small: it owns deterministic semantic identity, while
 
 This document records the integrations that currently make architectural sense in The Singularity Workshop and, just as importantly, the integrations that should not become direct dependencies merely because they can exchange an integer.
 
+For concrete source paths, excerpts, tests, and the distinction between confirmed usage and candidates, see the [cross-repository usage map](ECOSYSTEM_USAGE_MAP.md) and [domain audit/roadmap](DOMAIN_AUDIT_AND_ROADMAP.md).
+
+![ProtocolAi lifecycle: host-owned vocabulary becomes an immutable definition; known, unknown, and invalid values remain distinct; future registration is explicitly outside the current core.](images/protocol-ai-domain-lifecycle.svg)
+
 ## 1. FSM_UserIO: semantic intent identity
 
 TheSingularityWorkshop.FSM_UserIO is the first concrete consumer boundary to document.
@@ -173,6 +177,8 @@ Here ProtocolAI supplies deterministic vocabulary identity, GrammarAI supplies s
 This belongs above the individual foundation packages. It should not turn ProtocolAI itself into the exchange host.
 
 ## 5. Experiences and manifestations: strong future consumer
+
+**Current evidence:** AnyApp is a concrete host example in [WorkshopSemanticExchange.cs](https://github.com/TrentBest/AnyApp/blob/master/WorkshopSemanticExchange.cs). The usage map distinguishes that implementation from possible WebApp/VR reuse.
 
 The Experience architecture has several places where deterministic semantic identity is useful:
 
