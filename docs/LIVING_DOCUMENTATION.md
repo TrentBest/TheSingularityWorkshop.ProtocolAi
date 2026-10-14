@@ -38,6 +38,12 @@ From the repository root, run:
 
 Open the local URL printed by the .NET host. The playground uses the real ProtocolAi library. Its candidate responses are fixtures, not live LLM calls; FSM_API drives the sample's visible state progression. The /hello page is a separate size-aware SVG experiment.
 
+### 4. The payload round trip — transport is not authority
+
+![Animated ProtocolPayload journey through JSON transport, deserialization, validation, and resolution.](images/protocol-ai-payload-roundtrip.svg)
+
+**Teaches:** JSON transports a payload, but the receiving `ProtocolDefinition` remains the authority for semantic validation and resolution.
+
 ## What makes an image “living”?
 
 A living image can use SVG animation to make time, movement, branching, or changing relationships visible. Here, animation is a teaching aid, not a source of truth.
