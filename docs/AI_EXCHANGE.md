@@ -1,5 +1,11 @@
 # ProtocolAI AI Exchange
 
+## Visual companion
+
+![Animated ProtocolAi boundary showing application-owned identity, unknown literals, and host decision.](images/protocol-ai-money-shot.svg)
+
+This visual covers semantic identity, not the transport/provider exchange itself. Clipboard and connected mode are alternative transports for the same host-owned contract.
+
 ## Purpose
 
 ProtocolAI already defines the **WHAT** side of an AI interaction: application-owned vocabulary, stable symbol identity, known-value resolution, and literal handling.
