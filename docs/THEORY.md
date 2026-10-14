@@ -1,5 +1,11 @@
 # ProtocolAI Theory
 
+## Visual companion
+
+![Animated overview of application-owned semantic identity and the known-value versus unknown-literal boundary.](images/protocol-ai-money-shot.svg)
+
+Use the animation as the high-level intuition, then follow the argument below for the limits and conditions of the claim.
+
 ## The semantic boundary between probability and identity
 
 ProtocolAI starts with a deceptively small observation:
