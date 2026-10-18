@@ -1,3 +1,5 @@
+![The Singularity Workshop animated moniker](https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Renderer/development/docs/assets/moniker.svg)
+
 # ProtocolAi Living Documentation
 
 **There are two ways to experience this:**
@@ -54,3 +56,14 @@ The candidate responses are fixtures—not live model output or measured probabi
 The ProtocolAi core has no dependency on FSM_API, Visualize, a model provider, or the browser UI. The visual treatment borrows the inspectable SVG-experiment approach used in Visualize; it does not claim to execute Visualize's C# backend or a production GPU renderer.
 
 The example does not call a live LLM, estimate hallucination rates, authorize commands, or claim that integer IDs make inference deterministic. It demonstrates the narrower property: the application can assign stable identities to known vocabulary values and keep unknown literals distinct.
+
+---
+
+<p align="center">
+  <a href="https://github.com/TrentBest/TheSingularityWorkshop" aria-label="The Singularity Workshop living avatar">
+    <img src="https://raw.githubusercontent.com/TrentBest/WebPage/development/TheSingularityWorkshop/wwwroot/Images/TheSingularityWorkshopLivingAvatar.svg" alt="The Singularity Workshop living avatar — a digital vortex converging on its central eye" width="112" />
+  </a><br />
+  <strong>The Singularity Workshop</strong><br />
+  <em>If a picture is worth a thousand words, what is a living picture worth?</em><br />
+  <a href="https://github.com/TrentBest">GitHub</a> · <a href="https://www.patreon.com/TheSingularityWorkshop">Support the Workshop</a>
+</p>
