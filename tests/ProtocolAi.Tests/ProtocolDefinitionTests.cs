@@ -125,4 +125,21 @@ public sealed class ProtocolDefinitionTests
         Assert.Throws<ArgumentNullException>(() => protocol.Encode((string)null!));
     }
 
+
+    [Fact]
+    public void Encode_preserves_empty_and_unicode_literals_without_normalization()
+    {
+        var protocol = new ProtocolBuilder(1001, "People")
+            .Define(2001, "bobId", "Bob")
+            .Build();
+
+        var empty = protocol.Encode(string.Empty);
+        var unicode = protocol.Encode("東京 🛰️ e\u0301");
+
+        Assert.True(empty.IsLiteral);
+        Assert.Equal(string.Empty, empty.Literal);
+        Assert.True(unicode.IsLiteral);
+        Assert.Equal("東京 🛰️ e\u0301", unicode.Literal);
+    }
+
 }
