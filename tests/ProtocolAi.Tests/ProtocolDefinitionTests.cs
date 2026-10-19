@@ -94,6 +94,16 @@ public sealed class ProtocolDefinitionTests
     }
 
     [Fact]
+    public void Description_escapes_control_characters_and_backslashes()
+    {
+        var protocol = new ProtocolBuilder(1001, "People")
+            .Define(2001, "escaped", "first\\second\nthird\t\"quoted\"")
+            .Build();
+
+        Assert.Contains("first\\\\second\\nthird\\t\\\"quoted\\\"", protocol.Describe());
+    }
+
+    [Fact]
     public void Encode_rejects_null_instead_of_failing_inside_dictionary_lookup()
     {
         var protocol = new ProtocolBuilder(1001, "People")
