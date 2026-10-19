@@ -52,6 +52,8 @@ public static class ProtocolPayloadJson
         WirePayload? wire;
         try
         {
+            using var document = JsonDocument.Parse(json);
+            RejectDuplicateProperties(document.RootElement);
             wire = JsonSerializer.Deserialize<WirePayload>(json, Options);
         }
         catch (JsonException ex)
@@ -84,5 +86,27 @@ public static class ProtocolPayloadJson
         }).ToArray();
 
         return new ProtocolPayload(wire.ProtocolId, values);
+    }
+
+    private static void RejectDuplicateProperties(JsonElement element)
+    {
+        if (element.ValueKind == JsonValueKind.Object)
+        {
+            var names = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var property in element.EnumerateObject())
+            {
+                if (!names.Add(property.Name))
+                    throw new ArgumentException(
+                        $"The protocol payload contains a duplicate JSON property '{property.Name}'.",
+                        "json");
+
+                RejectDuplicateProperties(property.Value);
+            }
+        }
+        else if (element.ValueKind == JsonValueKind.Array)
+        {
+            foreach (var item in element.EnumerateArray())
+                RejectDuplicateProperties(item);
+        }
     }
 }
