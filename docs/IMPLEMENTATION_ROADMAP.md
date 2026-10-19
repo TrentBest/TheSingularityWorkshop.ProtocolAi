@@ -5,7 +5,7 @@ Purpose: living, evidence-based checklist for bringing implementation, tests, ex
 Status discipline: checked means verified in source/tests or by reproducible command. Design intention is not implementation evidence. Do not publish merely because a checklist section is complete.
 
 ## Release readiness
-- **Current readiness:** 38% — source-level audit has confirmed key API invariants and consumer touchpoints. Recent CI passed after fixing deterministic escaping for protocol descriptions and rejecting default/uninitialized `ProtocolValue` instances during resolution and payload validation. Full public-contract coverage, package inspection, and clean-consumer verification remain outstanding.
+- **Current readiness:** 65% — CI passed build, tests, coverage, pack, documentation-path verification, clean-consumer installation, and artifact upload. The packed alpha package was inspected: 18 Markdown guides and 10 images are included under `docs/` without duplicated path prefixes, alongside README, license, assembly, and XML documentation. Remaining work includes complete public-contract and dependency-boundary coverage, validation-policy decisions, and final documentation/version consistency review.
 - **Release-ready means:** coherent public contract, tested behavior, buildable examples, source-aligned docs, verified CI/package metadata, and explicit limitations.
 - Publication authorization is separate from readiness.
 
