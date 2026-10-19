@@ -121,11 +121,18 @@ public sealed class ProtocolDefinition
             builder.Append('\n');
             builder.Append("  [").Append(symbol.Id).Append("] ")
                 .Append(symbol.Name).Append(" = ")
-                .Append('"').Append(symbol.Value.Replace("\"", "\\\"")).Append('"');
+                .Append('"').Append(EscapeValue(symbol.Value)).Append('"');
         }
 
         return builder.ToString();
     }
+
+    private static string EscapeValue(string value) =>
+        value.Replace("\\", "\\\\", StringComparison.Ordinal)
+            .Replace("\"", "\\\"", StringComparison.Ordinal)
+            .Replace("\r", "\\r", StringComparison.Ordinal)
+            .Replace("\n", "\\n", StringComparison.Ordinal)
+            .Replace("\t", "\\t", StringComparison.Ordinal);
 
     public override string ToString() => Describe();
 }
