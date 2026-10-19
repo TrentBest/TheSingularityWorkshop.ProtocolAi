@@ -86,10 +86,13 @@ Deserialization rejects malformed payload structure, including:
 
 - null or empty JSON;
 - invalid JSON;
+- duplicate property names in any JSON object, including nested objects and arrays;
 - a missing or zero protocol ID;
 - a missing `values` array;
 - a value containing both `symbolId` and `literal`;
 - a value containing neither representation.
+
+Duplicate property names are rejected rather than relying on a parser's choice of which repeated value to keep. Unknown, non-duplicate properties are ignored by the current deserializer; senders should still use the documented wire shape.
 
 Deserialization deliberately does **not** decide whether a referenced symbol exists.
 
