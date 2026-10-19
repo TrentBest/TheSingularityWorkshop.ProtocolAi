@@ -65,4 +65,15 @@ public sealed class ProtocolPayloadJsonTests
 
         Assert.Equal(9999UL, payload.Values[0].SymbolId);
     }
+
+    [Theory]
+    [InlineData("""{"protocolId":1001,"protocolId":2002,"values":[]}""")]
+    [InlineData("""{"protocolId":1001,"values":[{"symbolId":2001,"symbolId":2002}]}""")]
+    [InlineData("""{"protocolId":1001,"values":[{"literal":"first","literal":"second"}]}""")]
+    public void Deserialize_rejects_duplicate_json_properties(string json)
+    {
+        var error = Assert.Throws<ArgumentException>(() => ProtocolPayloadJson.Deserialize(json));
+
+        Assert.Contains("duplicate JSON property", error.Message);
+    }
 }
