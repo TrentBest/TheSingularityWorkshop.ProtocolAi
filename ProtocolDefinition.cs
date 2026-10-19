@@ -64,8 +64,16 @@ public sealed class ProtocolDefinition
     /// Resolves one payload value. References are decoded through this definition;
     /// literals pass through unchanged.
     /// </summary>
-    public string Resolve(ProtocolValue value) =>
-        value.IsReference ? Decode(value.SymbolId!.Value) : value.Literal!;
+    public string Resolve(ProtocolValue value)
+    {
+        if (value.IsReference)
+            return Decode(value.SymbolId!.Value);
+
+        if (value.IsLiteral)
+            return value.Literal!;
+
+        throw new ArgumentException("A protocol value must contain a symbol reference or a literal.", nameof(value));
+    }
 
     /// <summary>
     /// Resolves every value in a payload after verifying that the payload belongs to this protocol.
@@ -89,6 +97,9 @@ public sealed class ProtocolDefinition
 
         foreach (var value in payload.Values)
         {
+            if (!value.IsReference && !value.IsLiteral)
+                throw new ArgumentException("Protocol payload contains an uninitialized protocol value.", nameof(payload));
+
             if (value.IsReference && !_byId.ContainsKey(value.SymbolId!.Value))
                 throw new ArgumentException($"Protocol payload references undefined symbol ID '{value.SymbolId.Value}'.", nameof(payload));
         }
