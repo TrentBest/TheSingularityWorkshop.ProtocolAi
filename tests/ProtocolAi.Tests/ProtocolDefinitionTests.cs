@@ -94,6 +94,18 @@ public sealed class ProtocolDefinitionTests
     }
 
     [Fact]
+    public void Resolve_rejects_default_uninitialized_protocol_value()
+    {
+        var protocol = new ProtocolBuilder(1001, "People")
+            .Define(2001, "bobId", "Bob")
+            .Build();
+
+        Assert.Throws<ArgumentException>(() => protocol.Resolve(default(ProtocolValue)));
+        Assert.Throws<ArgumentException>(() =>
+            protocol.Validate(new ProtocolPayload(1001, [default(ProtocolValue)])));
+    }
+
+    [Fact]
     public void Description_escapes_control_characters_and_backslashes()
     {
         var protocol = new ProtocolBuilder(1001, "People")
