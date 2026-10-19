@@ -5,7 +5,7 @@ Purpose: living, evidence-based checklist for bringing implementation, tests, ex
 Status discipline: checked means verified in source/tests or by reproducible command. Design intention is not implementation evidence. Do not publish merely because a checklist section is complete.
 
 ## Release readiness
-- **Current readiness:** 35% — preliminary estimate from README/theory review only; source, tests, CI, package metadata, and examples still need a complete audit.
+- **Current readiness:** 35% — initial source and consumer audit is underway. The public API, key tests, CI, package metadata, and confirmed consumer touchpoints have begun review; the complete contract/test/package/example audit and clean package verification remain outstanding. A CI compile failure in a null-overload test was corrected on `development`; the rerun is pending.
 - **Release-ready means:** coherent public contract, tested behavior, buildable examples, source-aligned docs, verified CI/package metadata, and explicit limitations.
 - Publication authorization is separate from readiness.
 
