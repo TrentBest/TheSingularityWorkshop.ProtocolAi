@@ -19,4 +19,11 @@ public sealed class ProtocolValueTests
         Assert.False(literal.IsReference);
         Assert.Equal("create this", literal.Literal);
     }
+
+    [Fact]
+    public void Payload_rejects_default_uninitialized_value()
+    {
+        Assert.Throws<ArgumentException>(() =>
+            new ProtocolPayload(1001, [default(ProtocolValue)]));
+    }
 }
