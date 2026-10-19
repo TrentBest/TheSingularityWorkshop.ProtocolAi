@@ -54,7 +54,7 @@ public static class ProtocolPayloadJson
         {
             using var document = JsonDocument.Parse(json);
             RejectDuplicateProperties(document.RootElement);
-            wire = JsonSerializer.Deserialize<WirePayload>(json, Options);
+            wire = JsonSerializer.Deserialize<WirePayload>(document.RootElement, Options);
         }
         catch (JsonException ex)
         {
