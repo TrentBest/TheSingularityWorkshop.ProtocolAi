@@ -59,7 +59,7 @@ GrammarSymbol.Terminal(
 ### 3. FSM_UserIO — implemented primitive carrier boundary
 
 **Repository:** [TrentBest/FSM_UserIO](https://github.com/TrentBest/FSM_UserIO)  
-**Start here:** [FSM_UserIO README](https://github.com/TrentBest/FSM_UserIO)
+**Start here:** [FSM_UserIO README](https://github.com/TrentBest/FSM_UserIO) · [Domain definition and implementation roadmap](https://github.com/TrentBest/FSM_UserIO/blob/development/docs/IMPLEMENTATION_ROADMAP.md)
 
 FSM_UserIO's SemanticIntent carries a name and optional ProtocolId. The host can attach a ProtocolAi identity without making the lower-level interaction package depend on the ProtocolAi implementation.
 
