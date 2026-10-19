@@ -11,8 +11,15 @@ public sealed class ProtocolPayload
     {
         if (protocolId == 0) throw new ArgumentOutOfRangeException(nameof(protocolId));
         ArgumentNullException.ThrowIfNull(values);
+
+        var materialized = values.ToArray();
+        if (materialized.Any(value => !value.IsReference && !value.IsLiteral))
+            throw new ArgumentException(
+                "Each protocol payload value must contain exactly one of a symbol ID or a literal.",
+                nameof(values));
+
         ProtocolId = protocolId;
-        _values = Array.AsReadOnly(values.ToArray());
+        _values = Array.AsReadOnly(materialized);
     }
 
     /// <summary>
