@@ -100,7 +100,7 @@ public sealed class ProtocolDefinitionTests
             .Define(2001, "bobId", "Bob")
             .Build();
 
-        Assert.Throws<ArgumentNullException>(() => protocol.Encode(null!));
+        Assert.Throws<ArgumentNullException>(() => protocol.Encode((string)null!));
     }
 
 }
