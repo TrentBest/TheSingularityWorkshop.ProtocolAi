@@ -85,15 +85,6 @@ WebPage is therefore a confirmed **composition-level example** of ProtocolAi and
 
 **Why this matters:** the host can compose the vocabulary and grammar as runtime capabilities without turning FSM_COS into the owner of semantic identity. Keep the ProtocolAi and GrammarAi definitions in their own bundles and preserve the host policy boundary.
 
-### 6. The — legacy local implementation, not the current NuGet API
-
-**Repository:** [TrentBest/The](https://github.com/TrentBest/The)  
-**Path:** [Architect/Workshop/Ai/ProtocolAi.cs](https://github.com/TrentBest/The/blob/master/Architect/Workshop/Ai/ProtocolAi.cs)
-
-This older source contains a separate static ProtocolAi vocabulary implementation. Its API and design differ from TheSingularityWorkshop.ProtocolAi (ProtocolBuilder, ProtocolDefinition, ProtocolReference, and payload types).
-
-**Related legacy files:** [CommandAi.cs](https://github.com/TrentBest/The/blob/master/Architect/Workshop/Ai/CommandAi.cs), [GrammarAi.cs](https://github.com/TrentBest/The/blob/master/Architect/Workshop/Ai/GrammarAi.cs), and [TerminalAi.cs](https://github.com/TrentBest/The/blob/master/Architect/Workshop/Ai/TerminalAi.cs) also reference that local vocabulary/grammar design. These are part of the same older application implementation, not proof of consumption of the current NuGet package.\n\n**Action:** review whether this project is still active and whether it should remain a standalone legacy implementation or migrate deliberately. Do not mechanically replace it or imply it already consumes the NuGet package.
-
 ## Integration candidates — not current direct dependencies
 
 | Area | Candidate use | Boundary rule |
