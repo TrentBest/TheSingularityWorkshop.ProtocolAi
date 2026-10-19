@@ -130,6 +130,37 @@ For each real consumer, link to:
 - the ProtocolAi API or theory page that explains the contract;
 - an image only where a visual clarifies a transformation or ownership boundary.
 
+## Prioritized adoption opportunities
+
+These candidates are based on repository architecture and concepts visible in inspected source. They are proposals, not a request to add ProtocolAi/GrammarAi references to every project. Add a dependency only where stable cross-boundary meaning or a compositional language is actually needed.
+
+| Priority | Repository / boundary | Proposed use | ProtocolAi contribution | GrammarAi contribution | Guardrail / acceptance test |
+|---|---|---|---|---|---|
+| **P1** | **HeadlessAi and its AnyApp example** | Define a provider-neutral request/response envelope for semantic operations and structured results | Stable operation, field, result, and error identities; literals remain literals | Optional schema/sequence constraints for requests and responses | Provider adapter still owns HTTP, credentials, model-specific formatting, retries, and safety policy. Demonstrate round-trip and reject malformed structures without invoking a provider. |
+| **P1** | **AnyApp / WebApp / Experience manifests** | Evolve the current host-owned intent example into a versioned, cross-manifest identity convention where multiple hosts genuinely share intents | Protocol and symbol identity across host boundaries | Grammar for allowed intent shapes or capability combinations | Host owns vocabulary and policy. Structural admission is not authorization. Add compatibility tests before standardizing shared IDs. |
+| **P1** | **ProtocolAi + GrammarAi + FSM_COS living example** | Make the existing WebPage composition example a canonical executable demonstration of vocabulary → grammar → host policy | Demonstrate definitions, qualified references, literals, and resolution outcomes | Demonstrate rule construction, valid structure, and invalid structure | Keep FSM_COS a composition boundary; verify docs/tests exercise real APIs and never imply FSM_COS executes AI requests. |
+| **P2** | **GUI / GUI.SVG** | Build a small inspector/editor for protocol definitions and grammar rules, with a live representation of valid, literal, and invalid references | Inspect symbol IDs, names, values, protocol ownership, and resolution | Inspect start symbols, rules, terminals, nonterminals, and validation failures | Visualization is a view over real definitions, not the source of truth. Keep GUI optional. |
+| **P2** | **Gestures** | Give reusable gesture/action labels stable identities across choreography, role routers, and simulation boundaries | Name stable actions such as board, secure, connect hose, remove cover, signal launch, or abort without hard-coding UI text as identity | Express ordered or alternative action sequences for a choreography, when the current grammar model fits | Do not replace FSM state transitions, IK, physics, timing, or contact/failure simulation. Prototype one choreography and measure whether it reduces coupling. |
+| **P2** | **FSM_Physics** | Give cross-system event and material-operation types stable identities when they must be serialized or exchanged between microbundles | Identify event/material concepts independent of display names | Describe a constrained event or command envelope only if the current grammar can represent it cleanly | Physics remains deterministic and strongly typed internally. Do not encode every numeric simulation value as a symbol or add AI dependencies to the physics core. |
+| **P2** | **FSM_REST / external adapters** | Expose stable semantic operation IDs at an AI-facing or multi-client API edge | Stable operation and result identities | Optional request-shape constraints | REST core remains independent unless there is a real interoperability requirement. HTTP schema validation and authentication remain separate. |
+| **P3** | **FSM_Serialization / MicroBundleDomain / MicroBundleRepository** | Persist or distribute protocol/grammar definitions as versioned artifacts | Identity and compatibility metadata for vocabulary artifacts | Versioned grammar artifact and referenced protocol IDs | First define ownership, version compatibility, migration, and trust rules. Transport layers should not silently register or authorize contents. |
+| **P3** | **Renderer / Visualize / documentation** | Visualize semantic resolution and grammar validation as living diagrams | Show known-symbol, literal, and invalid outcomes from actual data | Show production expansion or a validation trace | Use only where it clarifies a real transformation; do not claim an illustrative SVG is live runtime state. |
+
+### Recommended experiment order
+
+1. **Strengthen the existing AnyApp contract**: test protocol resolution, grammar admission, host authorization, and execution as separate concepts. This is the clearest existing end-to-end seam.
+2. **Promote WebPage's composition test into the canonical teaching example**: show actual protocol and grammar objects, bundle dependency closure, and host boundary in one living flow.
+3. **Prototype HeadlessAi request/response semantics** without provider calls in ProtocolAi or GrammarAi. This is the most direct opportunity to make provider-independent exchange precise.
+4. **Prototype one GUI.SVG inspector** against real definition objects before committing to a generalized editor.
+5. **Run small, reversible Gestures and Physics spikes** only if stable cross-bundle identifiers solve a demonstrated problem. Do not add package references merely because a domain contains actions or events.
+
+### Cross-repository audit status
+
+- **Confirmed direct package references and API use:** AnyApp (`AnyApp.csproj`, `WorkshopSemanticExchange.cs`, runtime tests).
+- **Confirmed composition-level use:** WebPage (`AiExchangeCompositionBundle` and `SingularityHub.Tests/WorkshopCompositionTests.cs`); verify exact source and test paths on the active branch before using this as a release claim.
+- **Confirmed carrier boundary, not direct dependency:** FSM_UserIO (`SemanticIntent`); FSM_COS carries intent indirectly and should not acquire semantic-domain dependencies by default.
+- **Legacy local implementation:** The (`Architect/Workshop/Ai/ProtocolAi.cs`, `GrammarAi.cs`, `CommandAi.cs`, `TerminalAi.cs`). This is a separate implementation and needs a deliberate migration decision.
+- **Not yet confirmed as consumers:** HeadlessAi, Gestures, Physics, GUI/GUI.SVG, FSM_REST, FSM_Serialization, MicroBundleDomain/Repository, Renderer/Visualize. They remain candidates pending direct source and dependency inspection.
 ## Audit limitations
 
 This map is based on source files and repository search inspected for this pass. GitHub code search indexes default branches and can be stale or incomplete. It is not proof that every private, unindexed, or locally unpushed repository has been examined. Re-run the search and inspect active source before promoting a candidate to confirmed usage.
