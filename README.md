@@ -107,7 +107,7 @@ host policy checks permissions and context
 bounded interpreter performs approved operations
 ~~~
 
-The current library provides vocabulary definitions, stable identities, value encoding, payload resolution, and JSON representation. A host still owns grammar interpretation, authorization, and execution.
+The current library provides vocabulary definitions, stable identities, value encoding, payload resolution, and JSON representation. `ProtocolDefinition.CompareCompatibility(candidate)` also reports structural changes between a baseline and candidate: a changed protocol ID, removed symbol IDs, or changed names/values for existing symbol IDs. Adding new symbol IDs is compatible under this structural check. A host still owns grammar interpretation, authorization, and execution; the report cannot prove that domain meaning stayed the same.
 
 ## 🟢 04 See it in a minute
 

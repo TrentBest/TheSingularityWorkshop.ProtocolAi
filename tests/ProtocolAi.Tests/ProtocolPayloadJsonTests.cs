@@ -119,4 +119,27 @@ public sealed class ProtocolPayloadJsonTests
         Assert.Equal("json", error.ParamName);
     }
 
+
+    [Theory]
+    [InlineData("[]")]
+    [InlineData("null")]
+    [InlineData("{")]
+    [InlineData("{\"protocolId\":1001}")]
+    [InlineData("{\"protocolId\":1001,\"values\":null}")]
+    [InlineData("{\"protocolId\":0,\"values\":[]}")]
+    [InlineData("{\"protocolId\":1001,\"values\":[{\"symbolId\":0}]}")]
+    [InlineData("{\"protocolId\":1001,\"values\":[{\"literal\":\" \"}]}")]
+    public void Deserialize_rejects_invalid_root_shapes_and_domain_values(string json)
+    {
+        Assert.Throws<ArgumentException>(() => ProtocolPayloadJson.Deserialize(json));
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void Deserialize_rejects_empty_input(string json)
+    {
+        Assert.Throws<ArgumentException>(() => ProtocolPayloadJson.Deserialize(json));
+    }
+
 }

@@ -396,6 +396,34 @@ The vocabulary resolution performed by your application is not.
 
 ---
 
+## 13. Compare a candidate definition before adopting it
+
+Protocol IDs and symbol IDs are durable addresses. Before replacing a vocabulary definition, compare the currently accepted definition with the candidate:
+
+```csharp
+var baseline = new ProtocolBuilder(1001, "People")
+    .Define(2001, "bobId", "Bob")
+    .Build();
+
+var candidate = new ProtocolBuilder(1001, "People")
+    .Define(2001, "bobId", "Bob")
+    .Define(2002, "janeId", "Jane")
+    .Build();
+
+var compatibility = baseline.CompareCompatibility(candidate);
+if (!compatibility.IsCompatible)
+{
+    foreach (var issue in compatibility.Issues)
+        Console.WriteLine($"{issue.Code}: {issue.Message}");
+}
+```
+
+The baseline is the receiver of `CompareCompatibility`; the candidate is the proposed replacement. Adding new symbol IDs is structurally compatible. Changing the protocol ID, removing a published symbol ID, or changing an existing symbol's name/value is reported as incompatible.
+
+This check cannot determine whether your application has secretly changed the real-world meaning of an ID while keeping its text unchanged. Keep published identities stable, review compatibility findings as part of schema evolution, and make authorization decisions separately.
+
+---
+
 ## What ProtocolAI gives you
 
 - application-owned integer identities;
