@@ -35,6 +35,18 @@ These animated diagrams distinguish encoding, validation, resolution, and the ho
 
 The JSON representation transports protocol identity and values. It does not define application meaning, authorize actions, or contact an AI provider.
 
+## Read the three outcomes
+
+The three-outcomes visual is easiest to understand as a boundary decision, not as a confidence score:
+
+| Outcome | What it means | What the host still decides |
+|---|---|---|
+| **Known reference** | The value maps to an identity defined by the application-owned protocol. | Whether that identity is relevant and permitted in the current task. |
+| **Unknown literal** | The value is not in the known vocabulary but is preserved as explicit literal data where the contract allows it. | Whether to accept, transform, ask about, or reject that literal. |
+| **Invalid reference** | The input violates the protocol's identity or payload rules and cannot be treated as a valid reference. | How to report or recover from the invalid input. |
+
+These outcomes are deliberately different. An unknown value is not automatically an error, and a valid identity is not proof that the model understood the task or that the application should act on it. ProtocolAi makes identity handling explicit; it does not make model inference deterministic or grant authority.
+
 ## See actual behavior
 
 From the repository root:
