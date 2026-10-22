@@ -17,9 +17,11 @@ The project file on development declares version **0.1.0-alpha.3**. Treat the re
 
 ProtocolAi is small, but a small codebase is not automatically a stable contract. Moving to 1.0.0 means consumers can reasonably depend on the public API and its semantics.
 
-## Latest verified candidate — 2026-10-22 UTC
+## Latest verified CI baseline — 2026-10-22 UTC
 
-Candidate `development` commit: `de274589de9be1e7e345276641501e0ace02a024`. [Workflow run #39721680978](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/39721680978) passed for this exact commit, including restore, Release build, tests/coverage, package creation, packaged documentation-path verification, and a clean consumer smoke test. The publication job was skipped; the workflow gate is deliberately hard-disabled. This readiness-document correction must itself pass CI before its new head is treated as verified.
+Latest green `development` commit: `95205bdfdda3242d46bd32ef3c96b140c132dc15`. [Workflow run #39723603180](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/39723603180) passed for this exact commit, including restore, Release build, tests/coverage, package creation, packaged documentation-path verification, and a clean consumer smoke test. The publication job was skipped; the workflow gate is deliberately hard-disabled.
+
+This is the latest verified green baseline, not publication approval. This readiness-document update must itself pass CI before its new head is treated as verified.
 
 ## Visual companion
 
