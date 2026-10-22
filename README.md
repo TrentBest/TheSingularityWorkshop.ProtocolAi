@@ -105,7 +105,7 @@ host policy checks permissions and context
 bounded interpreter performs approved operations
 ~~~
 
-This is the design direction: the model can propose an integer-addressed program, while your ecosystem retains the definitions, validation rules, permissions, and code that determine what the program actually does. Integer indexing alone is not a safety proof; every stage needs its own contract.
+The current library provides vocabulary definitions, stable identities, value encoding, payload resolution, and JSON representation. A host still owns grammar interpretation, authorization, and execution.
 
 ## 🟢 04 See it in a minute
 
