@@ -55,13 +55,13 @@ This does **not** prove the model understood the user, guarantee it will choose 
 
 ## 🔺 03 How
 
-![Animated ProtocolAi flow: candidate language moves through the application-owned vocabulary; known values become references, unknown values remain literals, and the host decides what happens next.](docs/images/protocol-ai-living-flow.svg)
+![Animated ProtocolAi flow: candidate language moves through the application-owned vocabulary; known values become references, unknown values remain literals, and the host decides what happens next.](https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/development/docs/images/protocol-ai-living-flow.svg)
 
 *Follow the moving signals from language to identity. The animation is illustrative; the encoding, validation, and resolution below are real library operations.*
 
 ### Three outcomes, not one vague “AI result”
 
-![Animated comparison of a known value becoming a reference, an unknown value remaining a literal, and an undefined reference failing validation.](docs/images/protocol-ai-three-outcomes.svg)
+![Animated comparison of a known value becoming a reference, an unknown value remaining a literal, and an undefined reference failing validation.](https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/development/docs/images/protocol-ai-three-outcomes.svg)
 
 | Candidate | ProtocolAi outcome | What happens next |
 |---|---|---|
@@ -136,18 +136,18 @@ The candidate responses are labelled fixtures—not live model output or measure
 
 The guarantees are deliberately narrow and useful: for a fixed, unambiguous vocabulary, encoding is deterministic; a reference passes validation only if its protocol and symbol are defined; and resolution uses the application-owned definition.
 
-Read [Mathematical Foundations](docs/MATHEMATICAL_FOUNDATIONS.md) for definitions, proofs, limits, and a test plan. Read [ProtocolAi Theory](docs/THEORY.md) for the broader argument and [ProtocolAi Reflection](docs/REFLECTION.md) for open questions.
+Read [Mathematical Foundations](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/MATHEMATICAL_FOUNDATIONS.md) for definitions, proofs, limits, and a test plan. Read [ProtocolAi Theory](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/THEORY.md) for the broader argument and [ProtocolAi Reflection](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/REFLECTION.md) for open questions.
 
-- [Gallery](docs/GALLERY.md) — the visual tour, artifact classifications, and links from each diagram to executable evidence.
-- [Living Documentation](docs/LIVING_DOCUMENTATION.md) — the animated SVGs, interactive playground, accessibility, and the distinction between illustration and executable behavior.
-- [Release Readiness](docs/RELEASE_READINESS.md) — current alpha status and evidence required before a stable 1.0 release.
+- [Gallery](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/GALLERY.md) — the visual tour, artifact classifications, and links from each diagram to executable evidence.
+- [Living Documentation](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/LIVING_DOCUMENTATION.md) — the animated SVGs, interactive playground, accessibility, and the distinction between illustration and executable behavior.
+- [Release Readiness](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/RELEASE_READINESS.md) — current alpha status and evidence required before a stable 1.0 release.
 
-- [Consuming ProtocolAi](docs/CONSUMING.md) — installation and first integration.
-- [ProtocolAi Examples](docs/EXAMPLES.md) — practical domain examples.
-- [AI Exchange](docs/AI_EXCHANGE.md) — provider-neutral exchange boundaries.
-- [Ecosystem Integration](docs/ECOSYSTEM_INTEGRATION.md) — boundaries with FSM_UserIO, GrammarAi, FSM_COS, GUI, serialization, and ontology.
-- [Semantic Payload JSON](docs/PROTOCOL_PAYLOAD_JSON.md) — dependency-free wire representation and transport limits.
-- [Guides for every starting point](docs/GUIDES.md) — plain-language, beginner, C# integration, and developer guides.
+- [Consuming ProtocolAi](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/CONSUMING.md) — installation and first integration.
+- [ProtocolAi Examples](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/EXAMPLES.md) — practical domain examples.
+- [AI Exchange](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/AI_EXCHANGE.md) — provider-neutral exchange boundaries.
+- [Ecosystem Integration](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/ECOSYSTEM_INTEGRATION.md) — boundaries with FSM_UserIO, GrammarAi, FSM_COS, GUI, serialization, and ontology.
+- [Semantic Payload JSON](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/PROTOCOL_PAYLOAD_JSON.md) — dependency-free wire representation and transport limits.
+- [Guides for every starting point](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/GUIDES.md) — plain-language, beginner, C# integration, and developer guides.
 - [NuGet package](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi) · [Source](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi) · [Issues](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/issues)
 
 ### Build, test, and pack
@@ -180,8 +180,8 @@ NuGet publication remains disabled by default and requires an explicit Workshop 
 ## Find ProtocolAi in the Workshop
 
 
-For the full domain gap analysis and the order of remaining work, see [Domain Audit and Roadmap](docs/DOMAIN_AUDIT_AND_ROADMAP.md).
-The [cross-repository usage map](docs/ECOSYSTEM_USAGE_MAP.md) links to real consumer files, includes focused code excerpts, and distinguishes implemented integrations from candidates and legacy code. Start with [AnyApp's host-owned semantic exchange](https://github.com/TrentBest/AnyApp/blob/master/WorkshopSemanticExchange.cs) to see ProtocolAi paired with GrammarAi and FSM_UserIO without reversing dependency direction.
+For the full domain gap analysis and the order of remaining work, see [Domain Audit and Roadmap](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/DOMAIN_AUDIT_AND_ROADMAP.md).
+The [cross-repository usage map](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/ECOSYSTEM_USAGE_MAP.md) links to real consumer files, includes focused code excerpts, and distinguishes implemented integrations from candidates and legacy code. Start with [AnyApp's host-owned semantic exchange](https://github.com/TrentBest/AnyApp/blob/master/WorkshopSemanticExchange.cs) to see ProtocolAi paired with GrammarAi and FSM_UserIO without reversing dependency direction.
 
 ---
 
