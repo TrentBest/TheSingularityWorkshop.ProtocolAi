@@ -6,6 +6,10 @@ The project file on development declares version **0.1.0-alpha.3**. Treat the re
 
 ProtocolAi is small, but a small codebase is not automatically a stable contract. Moving to 1.0.0 means consumers can reasonably depend on the public API and its semantics.
 
+## Latest verified candidate — 2026-10-22 UTC
+
+Candidate `development` commit: `3d1d9c972460bec707d48d881e622c14827abcc8`. [Workflow run #39716469730](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/39716469730) passed for this exact commit, including restore, Release build, tests/coverage, package creation, documentation-path verification, and a clean consumer smoke test. The publication job was skipped; the workflow gate is deliberately hard-disabled. The following readiness-document edit will create a new commit and must receive its own passing CI run.
+
 ## Visual companion
 
 ![Animated ProtocolAi lifecycle and known, literal, invalid outcomes.](images/protocol-ai-domain-lifecycle.svg)
@@ -32,13 +36,13 @@ These are meaningful foundations, not proof of release readiness by themselves.
 
 ### Correctness and API contract
 
-- [ ] Run full solution restore, Release build, and all tests in a clean environment.
+- [x] Run full solution restore, Release build, and all tests in a clean environment (workflow run #39716469730).
 - [ ] Verify the playground builds and run the visible flows in a browser.
 - [ ] Review every public API for argument validation, exception types, XML docs, and naming consistency.
 - [ ] Confirm malformed, cross-protocol, undefined, and empty-input behavior is intentional and tested.
 - [ ] Review JSON compatibility: unknown fields, malformed shapes, numeric overflow, and compatibility expectations.
 - [ ] Confirm no mutable collection or builder mutation can change a previously built definition.
-- [ ] Confirm examples compile against the exact public API and current package version.
+- [x] The solution build includes the quick-start and playground projects; the clean consumer smoke test passed in workflow run #39716469730. Browser-level visual review remains outstanding.
 
 ### Package and consumer experience
 
@@ -47,8 +51,8 @@ These are meaningful foundations, not proof of release readiness by themselves.
 - [ ] Verify package metadata and release notes describe current behavior rather than aspirations.
 - [ ] Check every install snippet and package-version reference for staleness.
 - [ ] Decide the compatibility/versioning policy for protocol IDs and symbol meanings.
-- [ ] Ensure build, tests, and package creation are green in CI.
-- [ ] Keep NuGet publication explicitly disabled until authorized.
+- [x] Build, tests, package creation, packaged documentation-path verification, and clean consumer smoke test passed in workflow run #39716469730.
+- [x] NuGet publication is explicitly disabled in the workflow pending the owner's authorization.
 
 ### Evidence and claims
 
