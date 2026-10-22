@@ -28,8 +28,7 @@ The idea in one line:
 
 **The model proposes. ProtocolAi identifies. GrammarAi structures. Your host decides and executes.**
 
-## 🟣 01 Why
-
+## 🟣 01 — Why
 
 A language model may return different wording for the same intent, or an invented identifier. The application still needs a stable contract for what each value means.
 
@@ -41,8 +40,7 @@ This does **not** prove the model understood the user, guarantee it will choose 
 
 **Explore the Workshop:** [Find packages on NuGet](https://www.nuget.org/packages?q=TheSingularityWorkshop) · [Browse the repository guide](https://github.com/TrentBest/TheSingularityWorkshop.FSM_COS/blob/development/docs/WORKSHOP_REPOSITORIES.md)
 
-## 🟦 02 What
-
+## 🟦 02 — What
 
 **TheSingularityWorkshop.ProtocolAi** is a small, provider-neutral .NET library for defining application-owned vocabularies.
 
