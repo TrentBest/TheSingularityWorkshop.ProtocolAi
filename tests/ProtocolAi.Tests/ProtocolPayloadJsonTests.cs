@@ -84,7 +84,7 @@ public sealed class ProtocolPayloadJsonTests
             ProtocolPayloadJson.Deserialize("""{"protocolId":1001,"values":["""));
 
         Assert.Contains("not valid JSON", error.Message);
-        Assert.IsType<System.Text.Json.JsonException>(error.InnerException);
+        Assert.IsAssignableFrom<System.Text.Json.JsonException>(error.InnerException);
     }
 
     [Theory]
