@@ -32,7 +32,7 @@ The idea in one line:
 
 A language model may return different wording for the same intent, or an invented identifier. The application still needs a stable contract for what each value means.
 
-We *can* control the semantic contract on our side.
+Your application controls the semantic contract it accepts.
 
 Give the model a vocabulary of application-owned identities. When a candidate comes back, resolve known references against the expected definition, keep unknown literals explicit, and reject undefined references. The model remains probabilistic; the application's interpretation boundary becomes deterministic.
 
