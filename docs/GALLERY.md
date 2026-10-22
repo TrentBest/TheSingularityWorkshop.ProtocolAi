@@ -48,7 +48,7 @@ The playground calls the real library; tests cover encoding, validation, resolut
 
 ## Detailed recipe
 
-Start with [Living Documentation](LIVING_DOCUMENTATION.md), then follow the [consumer guide](CONSUMING.md), [JSON wire contract](PROTOCOL_PAYLOAD_JSON.md), [examples](EXAMPLES.md), and [release readiness checklist](RELEASE_READINESS.md).
+Start with the [consumer guide](CONSUMING.md), then explore the [examples](EXAMPLES.md) and [JSON wire contract](PROTOCOL_PAYLOAD_JSON.md).
 
 ---
 
@@ -73,4 +73,4 @@ Start with [Living Documentation](LIVING_DOCUMENTATION.md), then follow the [con
 
 ## Phone-first release review
 
-For a concise, evidence-oriented walkthrough, start with the [Release Review Brief](RELEASE_REVIEW_BRIEF.md). It summarizes the implemented contract, the boundary this package owns, the highest-value remaining review items, and the release decision path. Then use the detailed guides to inspect behavior and evidence.
+Start with [Consuming ProtocolAi](CONSUMING.md) to define a vocabulary, encode values, preserve unknown literals, and resolve known identities.
