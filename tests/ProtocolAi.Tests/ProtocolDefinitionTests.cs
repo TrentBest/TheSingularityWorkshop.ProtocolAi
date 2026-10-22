@@ -140,4 +140,70 @@ public sealed class ProtocolDefinitionTests
         Assert.Equal("東京 🛰️ e\u0301", unicode.Literal);
     }
 
+    [Fact]
+    public void Compatibility_allows_additive_symbols_without_reassigning_published_ids()
+    {
+        var baseline = new ProtocolBuilder(1001, "People")
+            .Define(2001, "bobId", "Bob")
+            .Build();
+        var candidate = new ProtocolBuilder(1001, "People")
+            .Define(2001, "bobId", "Bob")
+            .Define(2002, "janeId", "Jane")
+            .Build();
+
+        var report = baseline.CompareCompatibility(candidate);
+
+        Assert.True(report.IsCompatible);
+        Assert.Empty(report.Issues);
+    }
+
+    [Fact]
+    public void Compatibility_reports_protocol_id_removal_and_symbol_redefinition()
+    {
+        var baseline = new ProtocolBuilder(1001, "People")
+            .Define(2001, "bobId", "Bob")
+            .Define(2002, "janeId", "Jane")
+            .Build();
+        var candidate = new ProtocolBuilder(1001, "People")
+            .Define(2001, "bobId", "Robert")
+            .Build();
+
+        var report = baseline.CompareCompatibility(candidate);
+
+        Assert.False(report.IsCompatible);
+        Assert.Collection(report.Issues,
+            issue =>
+            {
+                Assert.Equal(ProtocolCompatibilityIssueCode.SymbolDefinitionChanged, issue.Code);
+                Assert.Equal((ulong)2001, issue.SymbolId);
+            },
+            issue =>
+            {
+                Assert.Equal(ProtocolCompatibilityIssueCode.SymbolRemoved, issue.Code);
+                Assert.Equal((ulong)2002, issue.SymbolId);
+            });
+    }
+
+    [Fact]
+    public void Compatibility_rejects_a_different_protocol_identity()
+    {
+        var baseline = new ProtocolBuilder(1001, "People").Build();
+        var candidate = new ProtocolBuilder(9001, "People").Build();
+
+        var report = baseline.CompareCompatibility(candidate);
+
+        Assert.False(report.IsCompatible);
+        var issue = Assert.Single(report.Issues);
+        Assert.Equal(ProtocolCompatibilityIssueCode.ProtocolIdChanged, issue.Code);
+        Assert.Null(issue.SymbolId);
+    }
+
+    [Fact]
+    public void Compatibility_requires_a_candidate()
+    {
+        var baseline = new ProtocolBuilder(1001, "People").Build();
+
+        Assert.Throws<ArgumentNullException>(() => baseline.CompareCompatibility(null!));
+    }
+
 }
