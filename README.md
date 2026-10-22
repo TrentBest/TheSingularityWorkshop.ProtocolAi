@@ -28,7 +28,21 @@ The idea in one line:
 
 **The model proposes. ProtocolAi identifies. GrammarAi structures. Your host decides and executes.**
 
-## 🟦 01 What
+## 🟣 01 Why
+
+
+A language model may return different wording for the same intent, or an invented identifier. The application still needs a stable contract for what each value means.
+
+We *can* control the semantic contract on our side.
+
+Give the model a vocabulary of application-owned identities. When a candidate comes back, resolve known references against the expected definition, keep unknown literals explicit, and reject undefined references. The model remains probabilistic; the application's interpretation boundary becomes deterministic.
+
+This does **not** prove the model understood the user, guarantee it will choose the correct integer, or make an authorized command safe. Those require additional validation, host policy, and testing.
+
+**Explore the Workshop:** [Find packages on NuGet](https://www.nuget.org/packages?q=TheSingularityWorkshop) · [Browse the repository guide](https://github.com/TrentBest/TheSingularityWorkshop.FSM_COS/blob/development/docs/WORKSHOP_REPOSITORIES.md)
+
+## 🟦 02 What
+
 
 **TheSingularityWorkshop.ProtocolAi** is a small, provider-neutral .NET library for defining application-owned vocabularies.
 
@@ -41,16 +55,6 @@ The idea in one line:
 The integer is an **address**, not the meaning itself. The application owns the mapping and must preserve the meaning of an identity once published.
 
 ProtocolAi does not contain a model, provider SDK, prompt engine, grammar compiler, authorization system, or command executor.
-
-## 🟣 02 Why
-
-A language model may return different wording for the same intent, or an invented identifier. The application still needs a stable contract for what each value means.
-
-We *can* control the semantic contract on our side.
-
-Give the model a vocabulary of application-owned identities. When a candidate comes back, resolve known references against the expected definition, keep unknown literals explicit, and reject undefined references. The model remains probabilistic; the application's interpretation boundary becomes deterministic.
-
-This does **not** prove the model understood the user, guarantee it will choose the correct integer, or make an authorized command safe. Those require additional validation, host policy, and testing.
 
 ## 🔺 03 How
 
