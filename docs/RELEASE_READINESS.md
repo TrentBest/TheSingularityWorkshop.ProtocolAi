@@ -11,6 +11,14 @@
 
 See [BRANCH_RECONCILIATION.md](BRANCH_RECONCILIATION.md) for the evidence-backed `master`/`development` comparison and preservation checklist. It is an audit record, not permission to merge or delete branches.
 
+
+
+## Phone-first release review — 2026-10-22 UTC
+
+Start with the [Release Review Brief](RELEASE_REVIEW_BRIEF.md) for the concise current contract, package boundaries, top remaining risks, and a guided reading order. It is a review aid, not a substitute for the checks below and not authorization to publish.
+
+Latest candidate checkpoint: [8cb1ffa59c731d8cefd5b5af8cd98dd030589185](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/8cb1ffa59c731d8cefd5b5af8cd98dd030589185). CI evidence: [workflow run #39726289235](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/39726289235). Current readiness estimate: **75%** (qualitative working estimate, not a test metric). Recheck CI on the exact final candidate after all changes.
+
 ## Current package status
 
 The project file on development declares version **0.1.0-alpha.3**. Treat the repository as pre-1.0 until a release decision is made. This document does not publish a package or change the version.
