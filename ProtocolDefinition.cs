@@ -37,6 +37,55 @@ public sealed class ProtocolDefinition
     public string Name { get; }
     public IReadOnlyList<ProtocolSymbol> Symbols => _symbols;
 
+    /// <summary>
+    /// Compares this definition (the published baseline) with a candidate definition.
+    /// Adding new symbol IDs is compatible; changing the protocol ID, removing an existing
+    /// symbol ID, or changing an existing symbol's name/value is reported as incompatible.
+    /// </summary>
+    /// <remarks>
+    /// This is a structural compatibility check, not proof that domain meaning or host behavior
+    /// is unchanged. Applications must still preserve the meaning assigned to published IDs.
+    /// </remarks>
+    /// <param name="candidate">The newer definition to compare with this baseline.</param>
+    /// <returns>A deterministic report of structural compatibility issues.</returns>
+    public ProtocolCompatibilityReport CompareCompatibility(ProtocolDefinition candidate)
+    {
+        ArgumentNullException.ThrowIfNull(candidate);
+        var issues = new List<ProtocolCompatibilityIssue>();
+
+        if (Id != candidate.Id)
+        {
+            issues.Add(new ProtocolCompatibilityIssue(
+                ProtocolCompatibilityIssueCode.ProtocolIdChanged,
+                null,
+                $"Protocol ID changed from '{Id}' to '{candidate.Id}'."));
+            return new ProtocolCompatibilityReport(issues);
+        }
+
+        foreach (var baseline in _symbols)
+        {
+            if (!candidate._byId.TryGetValue(baseline.Id, out var next))
+            {
+                issues.Add(new ProtocolCompatibilityIssue(
+                    ProtocolCompatibilityIssueCode.SymbolRemoved,
+                    baseline.Id,
+                    $"Published symbol ID '{baseline.Id}' was removed."));
+                continue;
+            }
+
+            if (!string.Equals(baseline.Name, next.Name, StringComparison.Ordinal) ||
+                !string.Equals(baseline.Value, next.Value, StringComparison.Ordinal))
+            {
+                issues.Add(new ProtocolCompatibilityIssue(
+                    ProtocolCompatibilityIssueCode.SymbolDefinitionChanged,
+                    baseline.Id,
+                    $"Published symbol ID '{baseline.Id}' changed name or value."));
+            }
+        }
+
+        return new ProtocolCompatibilityReport(issues);
+    }
+
     public ProtocolReference Reference(string name) =>
         _byName.TryGetValue(name, out var symbol) ? new ProtocolReference(Id, symbol.Id) :
         throw new KeyNotFoundException($"Protocol symbol '{name}' is not defined.");
