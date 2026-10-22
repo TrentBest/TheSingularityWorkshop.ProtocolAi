@@ -80,9 +80,22 @@ public static class ProtocolPayloadJson
                     $"Protocol payload value at index {index} must contain exactly one of 'symbolId' or 'literal'.",
                     nameof(json));
 
-            return hasReference
-                ? ProtocolValue.FromId(value.SymbolId!.Value)
-                : ProtocolValue.FromLiteral(value.Literal!);
+            if (hasReference)
+            {
+                if (value.SymbolId == 0)
+                    throw new ArgumentException(
+                        $"Protocol payload value at index {index} must contain a non-zero symbol ID.",
+                        nameof(json));
+
+                return ProtocolValue.FromId(value.SymbolId!.Value);
+            }
+
+            if (string.IsNullOrWhiteSpace(value.Literal))
+                throw new ArgumentException(
+                    $"Protocol payload value at index {index} must contain a non-empty literal.",
+                    nameof(json));
+
+            return ProtocolValue.FromLiteral(value.Literal!);
         }).ToArray();
 
         return new ProtocolPayload(wire.ProtocolId, values);
