@@ -206,4 +206,33 @@ public sealed class ProtocolDefinitionTests
         Assert.Throws<ArgumentNullException>(() => baseline.CompareCompatibility(null!));
     }
 
+    [Fact]
+    public void Compatibility_report_order_is_deterministic_in_baseline_symbol_order()
+    {
+        var baseline = new ProtocolBuilder(1001, "People")
+            .Define(20, "first", "First")
+            .Define(10, "second", "Second")
+            .Define(30, "third", "Third")
+            .Build();
+        var candidate = new ProtocolBuilder(1001, "People")
+            .Define(20, "renamed", "First")
+            .Define(30, "third", "Third")
+            .Build();
+
+        var report = baseline.CompareCompatibility(candidate);
+
+        Assert.Collection(report.Issues,
+            first =>
+            {
+                Assert.Equal(ProtocolCompatibilityIssueCode.SymbolDefinitionChanged, first.Code);
+                Assert.Equal((ulong)20, first.SymbolId);
+            },
+            second =>
+            {
+                Assert.Equal(ProtocolCompatibilityIssueCode.SymbolRemoved, second.Code);
+                Assert.Equal((ulong)10, second.SymbolId);
+            });
+    }
+
+
 }
