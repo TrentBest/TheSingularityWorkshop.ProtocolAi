@@ -182,7 +182,7 @@ NuGet publication remains disabled by default and requires an explicit Workshop 
 
 ## Find ProtocolAi in the Workshop
 
-[Documentation index](DOCUMENTATION_INDEX.md) · [Consuming guide](docs/CONSUMING.md) · [Gallery](docs/GALLERY.md)
+[Documentation index](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/DOCUMENTATION_INDEX.md) · [Consuming guide](docs/CONSUMING.md) · [Gallery](docs/GALLERY.md)
 
 
 For integration, start with the [Consuming ProtocolAi guide](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/CONSUMING.md).
