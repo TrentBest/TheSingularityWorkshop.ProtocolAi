@@ -76,4 +76,36 @@ public sealed class ProtocolPayloadJsonTests
 
         Assert.Contains("duplicate JSON property", error.Message);
     }
+
+    [Fact]
+    public void Deserialize_rejects_malformed_json_with_a_clear_argument_error()
+    {
+        var error = Assert.Throws<ArgumentException>(() =>
+            ProtocolPayloadJson.Deserialize("""{"protocolId":1001,"values":["""));
+
+        Assert.Contains("not valid JSON", error.Message);
+        Assert.IsType<System.Text.Json.JsonException>(error.InnerException);
+    }
+
+    [Theory]
+    [InlineData("""{"protocolId":18446744073709551616,"values":[]}""")]
+    [InlineData("""{"protocolId":1001,"values":[{"symbolId":18446744073709551616}]}""")]
+    public void Deserialize_rejects_unsigned_integer_overflow(string json)
+    {
+        var error = Assert.Throws<ArgumentException>(() => ProtocolPayloadJson.Deserialize(json));
+
+        Assert.Contains("not valid JSON", error.Message);
+        Assert.IsType<System.Text.Json.JsonException>(error.InnerException);
+    }
+
+    [Fact]
+    public void Deserialize_ignores_unknown_properties_for_forward_compatibility()
+    {
+        var payload = ProtocolPayloadJson.Deserialize(
+            """{"protocolId":1001,"futureField":true,"values":[{"literal":"Bob","annotation":"future"}]}""");
+
+        Assert.Equal((ulong)1001, payload.ProtocolId);
+        Assert.Equal(ProtocolValue.FromLiteral("Bob"), Assert.Single(payload.Values));
+    }
+
 }
