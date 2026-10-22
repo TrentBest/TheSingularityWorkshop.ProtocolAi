@@ -1,5 +1,9 @@
 # ProtocolAi Release Readiness
 
+## Branch reconciliation
+
+See [BRANCH_RECONCILIATION.md](BRANCH_RECONCILIATION.md) for the evidence-backed `master`/`development` comparison and preservation checklist. It is an audit record, not permission to merge or delete branches.
+
 ## Current package status
 
 The project file on development declares version **0.1.0-alpha.3**. Treat the repository as pre-1.0 until a release decision is made. This document does not publish a package or change the version.
