@@ -182,6 +182,8 @@ NuGet publication remains disabled by default and requires an explicit Workshop 
 
 ## Find ProtocolAi in the Workshop
 
+[Documentation index](DOCUMENTATION_INDEX.md) · [Consuming guide](docs/CONSUMING.md) · [Gallery](docs/GALLERY.md)
+
 
 For integration, start with the [Consuming ProtocolAi guide](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/CONSUMING.md).
 The [cross-repository usage map](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/ECOSYSTEM_USAGE_MAP.md) links to real consumer files, includes focused code excerpts, and distinguishes implemented integrations from candidates and legacy code. Start with [AnyApp's host-owned semantic exchange](https://github.com/TrentBest/AnyApp/blob/master/WorkshopSemanticExchange.cs) to see ProtocolAi paired with GrammarAi and FSM_UserIO without reversing dependency direction.
