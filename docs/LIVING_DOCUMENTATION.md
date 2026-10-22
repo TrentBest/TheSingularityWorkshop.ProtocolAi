@@ -1,3 +1,10 @@
+<!-- The Singularity Workshop moniker -->
+<p align="center">
+  <a href="https://github.com/TrentBest">
+    <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop — animated workshop moniker" width="720" />
+  </a>
+</p>
+
 # ProtocolAi Living Documentation
 
 > **A diagram should teach a concept. A living diagram should let the reader watch the concept unfold.**
@@ -91,3 +98,24 @@ The Workshop's visual repositories suggest a useful distinction for ProtocolAi:
 - **From the current ProtocolAi implementation:** use the actual library as the authority. An SVG can animate a known reference, literal, or rejection, but the interactive C# playground should produce the corresponding payload and validation result.
 
 The concrete next step is to connect each major visual stage to its matching source method and test. That makes the image a map into the implementation, not a substitute for it.
+
+---
+
+<p align="center">
+  <a href="https://github.com/TrentBest">
+    <img src="https://github.com/TrentBest.png?size=200" alt="The Singularity Workshop on GitHub" width="200">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/TrentBest">GitHub</a> ·
+  <a href="https://coderlegion.com/">Coder Legion</a> ·
+  <a href="https://www.patreon.com/c/TheSingularityWorkshop">Patreon</a> ·
+  <a href="https://www.paypal.com/donate/?hosted_button_id=3Z7263LCQMV9J">PayPal</a>
+  <br>
+  <a href="https://github.com/TrentBest/FSM_API">FSM_API</a> ·
+  <a href="https://github.com/TrentBest/TheSingularityWorkshop.FSM_Serialization">FSM_Serialization</a> ·
+  <a href="https://github.com/TrentBest/WebPage">WebPage</a>
+</p>
+
+<p align="center"><em>The Singularity Workshop — Tools for the curious, the bold, and the systemically inclined.</em><br><strong>Because state shouldn't be a mess.</strong><br><em>And because static boundaries are invitations to cause trouble.</em></p>

@@ -1,3 +1,10 @@
+<!-- The Singularity Workshop moniker -->
+<p align="center">
+  <a href="https://github.com/TrentBest">
+    <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop — animated workshop moniker" width="720" />
+  </a>
+</p>
+
 # ProtocolAi — Implementation and Documentation Roadmap
 
 Purpose: living, evidence-based checklist for bringing implementation, tests, examples, and documentation to Workshop standard.
@@ -138,3 +145,24 @@ Status discipline: checked means verified in source/tests or by reproducible com
 | 2026-10-19 | Fixed cross-line/control-character escaping in deterministic descriptions and rejected default/uninitialized `ProtocolValue` instances in direct resolution and payload validation. CI run 190 passed build, tests, coverage upload, pack, and artifact upload. Inspection of run 191 package exposed missing packaged Markdown guides and duplicated `docs/images` path prefixes; updated pack metadata to include docs and preserve asset paths. Rebuild and artifact inspection remain pending. | [ProtocolDefinition.cs](../ProtocolDefinition.cs) · [Protocol tests](../tests/ProtocolAi.Tests/ProtocolDefinitionTests.cs) · [Workflow run 191](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/39185503961) · [Project file](../TheSingularityWorkshop.ProtocolAi.csproj) | 38% |
 | 2026-10-19 | Added a CI package-content assertion after pack: fail if no Markdown guide is present under `docs/` or if the duplicated `docs/images/docs/images/` prefix returns. The latest workflow edit is committed; successful execution and rebuilt artifact inspection are still required before readiness changes. | [Build workflow](../.github/workflows/build.yml) · [Project file](../TheSingularityWorkshop.ProtocolAi.csproj) | 38% |
 | 2026-10-19 | Pinned all six external GitHub Actions references to upstream-verified immutable commit SHAs. The resulting development workflow run passed build, tests, coverage upload, pack, packaged-documentation-path checks, clean-consumer installation, and artifact upload; the NuGet publish job was skipped. Release authorization remains separate. | [Pinned workflow commit](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/d63e022e5ead7099e2eb8562e76d320d02a093e6) · [CI run #39334899306](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/39334899306) · [Build workflow](../.github/workflows/build.yml) | 65% |
+
+---
+
+<p align="center">
+  <a href="https://github.com/TrentBest">
+    <img src="https://github.com/TrentBest.png?size=200" alt="The Singularity Workshop on GitHub" width="200">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/TrentBest">GitHub</a> ·
+  <a href="https://coderlegion.com/">Coder Legion</a> ·
+  <a href="https://www.patreon.com/c/TheSingularityWorkshop">Patreon</a> ·
+  <a href="https://www.paypal.com/donate/?hosted_button_id=3Z7263LCQMV9J">PayPal</a>
+  <br>
+  <a href="https://github.com/TrentBest/FSM_API">FSM_API</a> ·
+  <a href="https://github.com/TrentBest/TheSingularityWorkshop.FSM_Serialization">FSM_Serialization</a> ·
+  <a href="https://github.com/TrentBest/WebPage">WebPage</a>
+</p>
+
+<p align="center"><em>The Singularity Workshop — Tools for the curious, the bold, and the systemically inclined.</em><br><strong>Because state shouldn't be a mess.</strong><br><em>And because static boundaries are invitations to cause trouble.</em></p>
