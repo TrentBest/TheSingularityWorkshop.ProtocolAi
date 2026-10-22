@@ -141,11 +141,8 @@ For the deeper model, see [ProtocolAi Theory](https://github.com/TrentBest/TheSi
 
 - [Gallery](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/GALLERY.md) — the visual tour, artifact classifications, and links from each diagram to executable evidence.
 - [Living Documentation](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/LIVING_DOCUMENTATION.md) — the animated SVGs, interactive playground, accessibility, and the distinction between illustration and executable behavior.
-
-
 - [Consuming ProtocolAi](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/CONSUMING.md) — installation and first integration.
 - [ProtocolAi Examples](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/EXAMPLES.md) — practical domain examples.
-- [Gallery](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/GALLERY.md) — visual guide to identities, values, and validation.
 - [Ecosystem Integration](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/ECOSYSTEM_INTEGRATION.md) — boundaries with FSM_UserIO, GrammarAi, FSM_COS, GUI, serialization, and ontology.
 - [Semantic Payload JSON](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/PROTOCOL_PAYLOAD_JSON.md) — dependency-free wire representation and transport limits.
 - [Guides for every starting point](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/GUIDES.md) — plain-language, beginner, C# integration, and developer guides.
