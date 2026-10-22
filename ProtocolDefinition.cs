@@ -61,9 +61,14 @@ public sealed class ProtocolDefinition
     }
 
     /// <summary>
-    /// Resolves one payload value. References are decoded through this definition;
+    /// Resolves one unqualified value. References are interpreted in this definition's symbol namespace;
     /// literals pass through unchanged.
     /// </summary>
+    /// <remarks>
+    /// A <see cref="ProtocolValue"/> reference carries a symbol ID but no protocol ID, so this overload
+    /// cannot verify where that reference originated. Use <see cref="Resolve(ProtocolPayload)"/> when
+    /// protocol ownership must be validated before resolving a collection of values.
+    /// </remarks>
     public string Resolve(ProtocolValue value)
     {
         if (value.IsReference)
