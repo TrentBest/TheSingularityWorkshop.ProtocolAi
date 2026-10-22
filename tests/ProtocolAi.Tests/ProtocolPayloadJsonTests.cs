@@ -108,4 +108,15 @@ public sealed class ProtocolPayloadJsonTests
         Assert.Equal(ProtocolValue.FromLiteral("Bob"), Assert.Single(payload.Values));
     }
 
+    [Theory]
+    [InlineData("""{"protocolId":1001,"values":[{"symbolId":0}]}""")]
+    [InlineData("""{"protocolId":1001,"values":[{"literal":""}]}""")]
+    [InlineData("""{"protocolId":1001,"values":[{"literal":"   "}]}""")]
+    public void Deserialize_rejects_invalid_domain_values_as_json_argument_errors(string json)
+    {
+        var error = Assert.Throws<ArgumentException>(() => ProtocolPayloadJson.Deserialize(json));
+
+        Assert.Equal("json", error.ParamName);
+    }
+
 }
