@@ -8,7 +8,7 @@ ProtocolAi is small, but a small codebase is not automatically a stable contract
 
 ## Latest verified candidate — 2026-10-22 UTC
 
-Candidate `development` commit: `3d1d9c972460bec707d48d881e622c14827abcc8`. [Workflow run #39716469730](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/39716469730) passed for this exact commit, including restore, Release build, tests/coverage, package creation, documentation-path verification, and a clean consumer smoke test. The publication job was skipped; the workflow gate is deliberately hard-disabled. The following readiness-document edit will create a new commit and must receive its own passing CI run.
+Candidate `development` commit: `751c4776689f11465b1a070df72ac2e7dd042257`. [Workflow run #39716862629](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/39716862629) passed for this exact commit, including restore, Release build, tests/coverage, package creation, documentation-path verification, and a clean consumer smoke test. The publication job was skipped; the workflow gate is deliberately hard-disabled. This status update is documentation-only and its resulting commit must also pass CI.
 
 ## Visual companion
 
