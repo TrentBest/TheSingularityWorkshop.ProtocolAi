@@ -21,6 +21,19 @@ ProtocolAi gives application-owned vocabulary values stable, protocol-qualified 
 | Understand how the host and protocol definitions share responsibilities | [Theory](docs/THEORY.md) |
 | Explore the formal model and its limits | [Mathematical foundations](docs/MATHEMATICAL_FOUNDATIONS.md) |
 
+
+## Source-level type guides and UML
+
+| Type | Contract and purpose | UML and use cases |
+|---|---|---|
+| ProtocolBuilder | [Type guide](ProtocolBuilder.md) | [UML](ProtocolBuilderUML.md) |
+| ProtocolDefinition | [Type guide](ProtocolDefinition.md) | [UML](ProtocolDefinitionUML.md) |
+| ProtocolPayload | [Type guide](ProtocolPayload.md) | [UML](ProtocolPayloadUML.md) |
+| ProtocolPayloadJson | [Type guide](ProtocolPayloadJson.md) | [UML](ProtocolPayloadJsonUML.md) |
+| ProtocolReference | [Type guide](ProtocolReference.md) | [UML](ProtocolReferenceUML.md) |
+| ProtocolSymbol | [Type guide](ProtocolSymbol.md) | [UML](ProtocolSymbolUML.md) |
+| ProtocolValue | [Type guide](ProtocolValue.md) | [UML](ProtocolValueUML.md) |
+
 ## Where it fits
 
 - [GrammarAi](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi) defines structure using protocol-owned terminal identities.
