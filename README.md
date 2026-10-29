@@ -8,11 +8,16 @@
 
 # ✳️ 00 The Singularity Workshop — ProtocolAi
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.ProtocolAi/build.yml?branch=development&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/build.yml)
 [![NuGet version](https://img.shields.io/nuget/v/TheSingularityWorkshop.ProtocolAi?style=flat-square&logo=nuget&logoColor=white)](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi)
 [![NuGet downloads](https://img.shields.io/nuget/dt/TheSingularityWorkshop.ProtocolAi?style=flat-square&logo=nuget&logoColor=white)](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi)
-[![Build](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.ProtocolAi/build.yml?branch=master&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/build.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/TrentBest/TheSingularityWorkshop.ProtocolAi?style=flat-square)](https://codecov.io/gh/TrentBest/TheSingularityWorkshop.ProtocolAi)
+[![Last commit](https://img.shields.io/github/last-commit/TrentBest/TheSingularityWorkshop.ProtocolAi?style=flat-square)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commits/development)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+
+
 
 > **An LLM can propose a program. Your application must own what its instructions mean.**
 
@@ -28,19 +33,7 @@ The idea in one line:
 
 **The model proposes. ProtocolAi identifies. GrammarAi structures. Your host decides and executes.**
 
-## 🟣 01 — Why
-
-A language model may return different wording for the same intent, or an invented identifier. The application still needs a stable contract for what each value means.
-
-Your application controls the semantic contract it accepts.
-
-Give the model a vocabulary of application-owned identities. When a candidate comes back, resolve known references against the expected definition, keep unknown literals explicit, and reject undefined references. The model remains probabilistic; the application's interpretation boundary becomes deterministic.
-
-This does **not** prove the model understood the user, guarantee it will choose the correct integer, or make an authorized command safe. Those require additional validation, host policy, and testing.
-
-**Explore the Workshop:** [Find packages on NuGet](https://www.nuget.org/packages?q=TheSingularityWorkshop) · [Browse the repository guide](https://github.com/TrentBest/TheSingularityWorkshop.FSM_COS/blob/development/docs/WORKSHOP_REPOSITORIES.md)
-
-## 🟦 02 — What
+## 🟦 01 — What
 
 **TheSingularityWorkshop.ProtocolAi** is a small, provider-neutral .NET library for defining application-owned vocabularies.
 
@@ -53,6 +46,18 @@ This does **not** prove the model understood the user, guarantee it will choose 
 The integer is an **address**, not the meaning itself. The application owns the mapping and must preserve the meaning of an identity once published.
 
 ProtocolAi does not contain a model, provider SDK, prompt engine, grammar compiler, authorization system, or command executor.
+
+## 🟣 02 — Why
+
+A language model may return different wording for the same intent, or an invented identifier. The application still needs a stable contract for what each value means.
+
+Your application controls the semantic contract it accepts.
+
+Give the model a vocabulary of application-owned identities. When a candidate comes back, resolve known references against the expected definition, keep unknown literals explicit, and reject undefined references. The model remains probabilistic; the application's interpretation boundary becomes deterministic.
+
+This does **not** prove the model understood the user, guarantee it will choose the correct integer, or make an authorized command safe. Those require additional validation, host policy, and testing.
+
+**Explore the Workshop:** [Find packages on NuGet](https://www.nuget.org/packages?q=TheSingularityWorkshop) · [Browse the repository guide](https://github.com/TrentBest/TheSingularityWorkshop.FSM_COS/blob/development/docs/WORKSHOP_REPOSITORIES.md)
 
 ## 🔺 03 How
 
@@ -134,6 +139,8 @@ The playground lets you:
 The candidate responses are labelled fixtures—not live model output or measured probabilities. The SVGs are living documentation, not a claim that a production GPU renderer is executing.
 
 ## 🟪 05 The math and the next layer
+
+[Problem domain](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/PROBLEM_DOMAIN.md) — vocabulary ownership, identity, resolution, and non-goals.
 
 The guarantees are deliberately narrow and useful: for a fixed, unambiguous vocabulary, encoding is deterministic; a reference passes validation only if its protocol and symbol are defined; and resolution uses the application-owned definition.
 
