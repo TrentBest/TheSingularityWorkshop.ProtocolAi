@@ -26,7 +26,7 @@ LLMs are powerful at proposing ideas and structures, but their output is not a s
 **ProtocolAi gives known concepts application-owned integer addresses.** Unknown values stay visible as literals; undefined references can be rejected. Compose those stable semantic primitives with [GrammarAi](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi), then let your host validate, authorize, and interpret the resulting program.
 
 <p align="center">
-  <img src="docs/images/protocol-ai-money-shot.svg" alt="ProtocolAi maps known vocabulary values to application-owned integer identities and keeps unknown values as literals for host policy." width="100%">
+  <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/development/docs/images/protocol-ai-money-shot.svg" alt="ProtocolAi maps known vocabulary values to application-owned integer identities and keeps unknown values as literals for host policy." width="100%">
 </p>
 
 The idea in one line:
