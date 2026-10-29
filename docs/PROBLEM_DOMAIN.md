@@ -46,3 +46,8 @@ These are responsibility boundaries, not a claim that every end-to-end adapter c
 ## Evidence and maturity
 
 The statements above describe the current source model in ProtocolDefinition, ProtocolSymbol, ProtocolReference, ProtocolValue, ProtocolPayload, and ProtocolBuilder. Consult the [consuming guide](CONSUMING.md), [theory](THEORY.md), and [AI exchange guide](AI_EXCHANGE.md) for usage and integration context. This page does not claim that an LLM obeys the vocabulary or that a structurally valid payload is safe to act upon.
+
+---
+
+<!-- THE SINGULARITY WORKSHOP FOOTER -->
+<p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop avatar" width="200" /></p>
