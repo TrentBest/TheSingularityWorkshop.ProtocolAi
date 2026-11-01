@@ -165,7 +165,7 @@ public sealed class ProtocolDefinitionTests
     {
         var builder = new ProtocolBuilder(1, "bounded");
         var value = new string('x', ProtocolLimits.MaxLiteralCharacters);
-        for (var i = 1; i < ProtocolLimits.MaxTotalSymbolTextCharacters / (ProtocolLimits.MaxLiteralCharacters + 1); i++)
+        for (var i = 1; i <= ProtocolLimits.MaxTotalSymbolTextCharacters / (ProtocolLimits.MaxLiteralCharacters + 1); i++)
             builder.Define((ulong)i, "s", value);
         Assert.Throws<InvalidOperationException>(() =>
             builder.Define(9_999, "s", value));
