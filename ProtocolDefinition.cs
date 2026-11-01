@@ -137,13 +137,13 @@ public sealed class ProtocolDefinition
     public string Describe()
     {
         var builder = new StringBuilder();
-        builder.Append('[').Append(Id).Append("] ").Append(Name);
+        builder.Append('[').Append(Id).Append("] ").Append(EscapeValue(Name));
 
         foreach (var symbol in _symbols)
         {
             builder.Append('\n');
             builder.Append("  [").Append(symbol.Id).Append("] ")
-                .Append(symbol.Name).Append(" = ")
+                .Append(EscapeValue(symbol.Name)).Append(" = ")
                 .Append('"').Append(EscapeValue(symbol.Value)).Append('"');
         }
 
