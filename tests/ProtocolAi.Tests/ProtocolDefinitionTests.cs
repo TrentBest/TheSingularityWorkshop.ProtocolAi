@@ -140,4 +140,23 @@ public sealed class ProtocolDefinitionTests
         Assert.Equal("東京 🛰️ e\u0301", unicode.Literal);
     }
 
+    [Fact]
+    public void Protocol_definition_and_payload_inputs_are_bounded()
+    {
+        Assert.Throws<ArgumentException>(() => new ProtocolBuilder(1, "p")
+            .Define(1, "symbol", new string('x', ProtocolLimits.MaxLiteralCharacters + 1)));
+        Assert.Throws<ArgumentException>(() => new ProtocolBuilder(1, new string('p', ProtocolLimits.MaxNameCharacters + 1)));
+        Assert.Throws<ArgumentException>(() => ProtocolValue.FromLiteral(new string('x', ProtocolLimits.MaxLiteralCharacters + 1)));
+        Assert.Throws<ArgumentException>(() => new ProtocolPayload(1,
+            Enumerable.Repeat(ProtocolValue.FromId(1), ProtocolLimits.MaxPayloadValues + 1)));
+    }
+
+    [Fact]
+    public void Protocol_builder_stops_accepting_symbols_at_the_limit()
+    {
+        var builder = new ProtocolBuilder(1, "bounded");
+        for (var i = 1; i <= ProtocolLimits.MaxSymbols; i++)
+            builder.Define((ulong)i, $"s{i}", $"v{i}");
+        Assert.Throws<InvalidOperationException>(() => builder.Define(ProtocolLimits.MaxSymbols + 1UL, "overflow", "overflow"));
+    }
 }
