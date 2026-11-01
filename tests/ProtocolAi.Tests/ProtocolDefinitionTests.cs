@@ -160,4 +160,14 @@ public sealed class ProtocolDefinitionTests
         Assert.Throws<InvalidOperationException>(() => builder.Define(ProtocolLimits.MaxSymbols + 1UL, "overflow", "overflow"));
     }
 
+    [Fact]
+    public void Protocol_builder_bounds_aggregate_symbol_text()
+    {
+        var builder = new ProtocolBuilder(1, "bounded");
+        var value = new string('x', ProtocolLimits.MaxLiteralCharacters);
+        for (var i = 1; i <= ProtocolLimits.MaxTotalSymbolTextCharacters / (ProtocolLimits.MaxLiteralCharacters + 1); i++)
+            builder.Define((ulong)i, "s", value);
+        Assert.Throws<InvalidOperationException>(() =>
+            builder.Define(9_999, "s", value));
+    }
 }
