@@ -625,3 +625,37 @@ That boundary is the point.
 </p>
 
 <p align="center"><em>The Singularity Workshop — Tools for the curious, the bold, and the systemically inclined.</em><br><strong>Because state shouldn't be a mess.</strong><br><em>And because static boundaries are invitations to cause trouble.</em></p>
+
+
+## Protocol evolution: an address is a contract
+
+A protocol definition is often persisted, exchanged, or consumed by more than one component. Once a protocol-qualified symbol address is published, changing what that address identifies can silently reinterpret old data. A structural compatibility comparison helps surface the mechanical changes before a host adopts a candidate definition.
+
+```text
+published definition (baseline)
+          |
+          v
+   compare candidate
+          |
+    +-----+------------------+
+    |                        |
+ additive new IDs       changed contract
+    |                        |
+    v                        v
+ structurally             review / reject /
+ compatible                migrate explicitly
+```
+
+The comparison intentionally uses a conservative structural rule:
+
+- A new symbol ID is additive.
+- A different protocol ID changes the namespace.
+- Removing an existing symbol ID breaks a previously valid address.
+- Changing the name or value associated with an existing symbol ID changes the published definition and is flagged.
+
+The report is deterministic and machine-readable, but it is not a semantic proof. Code cannot infer whether the domain meaning behind a symbol has changed while its ID, name, and value remain the same. Nor does structural compatibility imply authorization, data migration safety, or compatibility with every consumer's assumptions.
+
+Therefore, protocol evolution needs both automated checks and an owner-maintained contract: reserve stable IDs, never silently recycle removed IDs, review incompatible changes, and version or migrate the protocol deliberately. The compatibility API supports that review; it does not replace it.
+
+---
+
