@@ -164,10 +164,13 @@ public sealed class ProtocolDefinitionTests
     public void Protocol_builder_bounds_aggregate_symbol_text()
     {
         var builder = new ProtocolBuilder(1, "bounded");
-        var value = new string('x', ProtocolLimits.MaxLiteralCharacters);
-        for (var i = 1; i <= ProtocolLimits.MaxTotalSymbolTextCharacters / (ProtocolLimits.MaxLiteralCharacters + 1); i++)
-            builder.Define((ulong)i, "s", value);
+        for (var i = 1; i <= 63; i++)
+        {
+            var value = new string('x', ProtocolLimits.MaxLiteralCharacters - 8) + i.ToString("D8");
+            builder.Define((ulong)i, $"s{i}", value);
+        }
+
         Assert.Throws<InvalidOperationException>(() =>
-            builder.Define(9_999, "s", value));
+            builder.Define(9_999, "overflow", new string('y', ProtocolLimits.MaxLiteralCharacters)));
     }
 }
