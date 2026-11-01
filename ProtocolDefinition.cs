@@ -150,12 +150,31 @@ public sealed class ProtocolDefinition
         return builder.ToString();
     }
 
-    private static string EscapeValue(string value) =>
-        value.Replace("\\", "\\\\", StringComparison.Ordinal)
-            .Replace("\"", "\\\"", StringComparison.Ordinal)
-            .Replace("\r", "\\r", StringComparison.Ordinal)
-            .Replace("\n", "\\n", StringComparison.Ordinal)
-            .Replace("\t", "\\t", StringComparison.Ordinal);
+    private static string EscapeValue(string value)
+    {
+        var builder = new StringBuilder(value.Length);
+        foreach (var character in value)
+        {
+            switch (character)
+            {
+                case '\\\\': builder.Append("\\\\\\\\"); break;
+                case '\"': builder.Append("\\\\\""); break;
+                case '\\r': builder.Append("\\\\r"); break;
+                case '\\n': builder.Append("\\\\n"); break;
+                case '\\t': builder.Append("\\\\t"); break;
+                case '\\b': builder.Append("\\\\b"); break;
+                case '\\f': builder.Append("\\\\f"); break;
+                default:
+                    if (character < ' ')
+                        builder.Append("\\\\u").Append(((int)character).ToString("x4", System.Globalization.CultureInfo.InvariantCulture));
+                    else
+                        builder.Append(character);
+                    break;
+            }
+        }
+
+        return builder.ToString();
+    }
 
     public override string ToString() => Describe();
 }
