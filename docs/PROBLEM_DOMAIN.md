@@ -35,7 +35,7 @@ These are responsibility boundaries, not a claim that every end-to-end adapter c
 
 ## Resource boundaries
 
-Protocol definitions accept at most 4,096 symbols; payloads accept at most 65,536 values. Protocol and symbol names are limited to 256 UTF-16 characters, while vocabulary values and payload literals are limited to 16,384 UTF-16 characters. Builders and constructors enforce these limits before retaining the corresponding collections. These bounds protect representation and memory use; they do not establish semantic correctness or authorize a payload.
+Protocol definitions accept at most 4,096 symbols; payloads accept at most 65,536 values and 1,048,576 literal characters in aggregate. JSON payload input is capped at 8,388,608 UTF-16 characters and its array count is checked before wire records are materialized. Protocol and symbol names are limited to 256 UTF-16 characters, while vocabulary values and payload literals are limited to 16,384 UTF-16 characters. Builders and constructors enforce these limits before retaining the corresponding collections. These bounds protect representation and memory use; they do not establish semantic correctness or authorize a payload.
 
 ## Acceptance criteria
 
