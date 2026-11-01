@@ -159,13 +159,5 @@ public sealed class ProtocolDefinitionTests
             builder.Define((ulong)i, $"s{i}", $"v{i}");
         Assert.Throws<InvalidOperationException>(() => builder.Define(ProtocolLimits.MaxSymbols + 1UL, "overflow", "overflow"));
     }
-    [Fact]
-    public void Protocol_builder_stops_accepting_symbols_at_the_limit()
-    {
-        var builder = new ProtocolBuilder(1, "bounded");
-        for (var i = 1; i <= ProtocolLimits.MaxSymbols; i++)
-            builder.Define((ulong)i, $"s{i}", $"v{i}");
-        Assert.Throws<InvalidOperationException>(() =>
-            builder.Define((ulong)ProtocolLimits.MaxSymbols + 1UL, "overflow", "overflow"));
-    }
+
 }
