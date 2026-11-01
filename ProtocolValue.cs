@@ -27,6 +27,7 @@ public readonly record struct ProtocolValue
     public static ProtocolValue FromLiteral(string literal)
     {
         if (string.IsNullOrWhiteSpace(literal)) throw new ArgumentException("A literal value is required.", nameof(literal));
+        if (literal.Length > ProtocolLimits.MaxLiteralCharacters) throw new ArgumentException($"A literal cannot exceed {ProtocolLimits.MaxLiteralCharacters} characters.", nameof(literal));
         return new ProtocolValue(null, literal);
     }
 
