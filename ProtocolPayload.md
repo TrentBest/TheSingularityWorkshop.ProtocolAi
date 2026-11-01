@@ -17,7 +17,7 @@ Protocol-qualified collection of typed values to validate, resolve, or serialize
 
 ## Contract and use
 
-A protocol definition is limited to 4,096 symbols and a payload to 65,536 values. Protocol and symbol names are limited to 256 UTF-16 characters; vocabulary values and payload literals are limited to 16,384 UTF-16 characters. The constructors enforce these bounds before retaining collections or literals.
+A protocol definition is limited to 4,096 symbols and a payload to 65,536 values and 1,048,576 literal characters in aggregate. JSON input is limited to 8,388,608 UTF-16 characters; the values-array count is checked before wire records are materialized. Protocol and symbol names are limited to 256 UTF-16 characters; vocabulary values and payload literals are limited to 16,384 UTF-16 characters. The constructors enforce these bounds before retaining collections or literals.
 
 The protocol vocabulary is application-owned. IDs are unsigned 64-bit identities and a symbol address is qualified by its protocol ID. Known values can be encoded as references; unknown values remain explicit literals instead of being assigned invented IDs.
 
