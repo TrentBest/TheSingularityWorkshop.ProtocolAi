@@ -6,6 +6,7 @@ namespace TheSingularityWorkshop.ProtocolAi;
 public sealed class ProtocolBuilder
 {
     private readonly List<ProtocolSymbol> _symbols = [];
+    private long _totalSymbolTextCharacters;
 
     public ProtocolBuilder(ulong id, string name)
     {
@@ -22,7 +23,12 @@ public sealed class ProtocolBuilder
     public ProtocolBuilder Define(ulong symbolId, string name, string value)
     {
         if (_symbols.Count >= ProtocolLimits.MaxSymbols) throw new InvalidOperationException($"A protocol cannot define more than {ProtocolLimits.MaxSymbols} symbols.");
-        _symbols.Add(new ProtocolSymbol(symbolId, name, value));
+        var symbol = new ProtocolSymbol(symbolId, name, value);
+        var nextTotal = _totalSymbolTextCharacters + symbol.Name.Length + symbol.Value.Length;
+        if (nextTotal > ProtocolLimits.MaxTotalSymbolTextCharacters)
+            throw new InvalidOperationException($"A protocol cannot contain more than {ProtocolLimits.MaxTotalSymbolTextCharacters} symbol-name/value characters in total.");
+        _symbols.Add(symbol);
+        _totalSymbolTextCharacters = nextTotal;
         return this;
     }
 
