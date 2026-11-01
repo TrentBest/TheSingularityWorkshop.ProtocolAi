@@ -194,13 +194,13 @@ public sealed class ProtocolDefinitionTests
     [Fact]
     public void Describe_escapes_protocol_and_symbol_names()
     {
-        var protocol = new ProtocolBuilder(78, "protocol\\nname")
-            .Define(1, "symbol\\tname", "value")
+        var protocol = new ProtocolBuilder(78, "protocol\nname")
+            .Define(1, "symbol\tname", "value")
             .Build();
 
         var description = protocol.Describe();
 
-        Assert.Contains("[78] protocol\\\\nname", description);
-        Assert.Contains("[1] symbol\\\\tname", description);
+        Assert.Contains("[78] protocol\\nname", description);
+        Assert.Contains("[1] symbol\\tname", description);
     }
 }
