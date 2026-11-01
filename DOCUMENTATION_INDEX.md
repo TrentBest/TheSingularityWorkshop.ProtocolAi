@@ -34,6 +34,10 @@ ProtocolAi gives application-owned vocabulary values stable, protocol-qualified 
 | ProtocolSymbol | [Type guide](ProtocolSymbol.md) | [UML](ProtocolSymbolUML.md) |
 | ProtocolValue | [Type guide](ProtocolValue.md) | [UML](ProtocolValueUML.md) |
 
+## AI agent onboarding
+
+Before changing this repository, read [AGENTS.md](AGENTS.md) and the [shared FSM_COS Documentation Standard](https://github.com/TrentBest/TheSingularityWorkshop.FSM_COS/blob/development/DOCUMENTATION_STANDARD.md). The agent guide records ProtocolAi's vocabulary/identity boundary, compatibility expectations, branch policy, and verification requirements.
+
 ## Where it fits
 
 - [GrammarAi](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi) defines structure using protocol-owned terminal identities.
