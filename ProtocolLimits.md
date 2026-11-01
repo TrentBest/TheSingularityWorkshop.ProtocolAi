@@ -16,6 +16,8 @@ Limits applied to protocol definitions, payload collections, literal text, and J
 
 ## Contract and use
 
+The current limits are: 4,096 symbols per definition; 1,048,576 aggregate symbol-name/value characters per definition; 65,536 values and 1,048,576 aggregate literal characters per payload; 256 characters per name; 16,384 characters per individual literal; and 8,388,608 characters per JSON representation. The owning constructors and JSON codec enforce the applicable bounds.
+
 The public constants are enforced by the owning constructors/builders. Treat them as part of the current representation contract; do not silently bypass them in host adapters.
 
 ## Verification
