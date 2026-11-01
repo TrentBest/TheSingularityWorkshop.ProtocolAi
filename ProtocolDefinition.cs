@@ -22,6 +22,9 @@ public sealed class ProtocolDefinition
         var values = symbols.Take(ProtocolLimits.MaxSymbols + 1).ToArray();
         if (values.Length > ProtocolLimits.MaxSymbols)
             throw new ArgumentException($"A protocol cannot define more than {ProtocolLimits.MaxSymbols} symbols.", nameof(symbols));
+        var totalSymbolTextCharacters = values.Sum(symbol => (long)symbol.Name.Length + symbol.Value.Length);
+        if (totalSymbolTextCharacters > ProtocolLimits.MaxTotalSymbolTextCharacters)
+            throw new ArgumentException($"A protocol cannot contain more than {ProtocolLimits.MaxTotalSymbolTextCharacters} symbol-name/value characters in total.", nameof(symbols));
         if (values.GroupBy(x => x.Id).Any(g => g.Count() > 1))
             throw new ArgumentException("A protocol cannot define the same symbol ID more than once.", nameof(symbols));
         if (values.GroupBy(x => x.Name, StringComparer.Ordinal).Any(g => g.Count() > 1))
