@@ -17,6 +17,8 @@ One named vocabulary entry with stable identity and an application-owned value.
 
 ## Contract and use
 
+Symbol names are limited to 256 UTF-16 characters and symbol values to 16,384 UTF-16 characters. A containing protocol can define at most 4,096 symbols. These bounds keep vocabulary descriptions and lookups finite; they do not constrain the application's interpretation of a symbol.
+
 The protocol vocabulary is application-owned. IDs are unsigned 64-bit identities and a symbol address is qualified by its protocol ID. Known values can be encoded as references; unknown values remain explicit literals instead of being assigned invented IDs.
 
 ## Verification
