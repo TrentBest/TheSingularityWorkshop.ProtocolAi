@@ -11,6 +11,7 @@ public sealed class ProtocolBuilder
     {
         if (id == 0) throw new ArgumentOutOfRangeException(nameof(id));
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("A protocol name is required.", nameof(name));
+        if (name.Length > ProtocolLimits.MaxNameCharacters) throw new ArgumentException($"A protocol name cannot exceed {ProtocolLimits.MaxNameCharacters} characters.", nameof(name));
         Id = id;
         Name = name;
     }
@@ -20,6 +21,7 @@ public sealed class ProtocolBuilder
 
     public ProtocolBuilder Define(ulong symbolId, string name, string value)
     {
+        if (_symbols.Count >= ProtocolLimits.MaxSymbols) throw new InvalidOperationException($"A protocol cannot define more than {ProtocolLimits.MaxSymbols} symbols.");
         _symbols.Add(new ProtocolSymbol(symbolId, name, value));
         return this;
     }
