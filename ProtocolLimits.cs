@@ -11,6 +11,8 @@ public static class ProtocolLimits
     public const int MaxNameCharacters = 256;
     /// <summary>Maximum vocabulary value or payload literal length, in UTF-16 characters.</summary>
     public const int MaxLiteralCharacters = 16_384;
+    /// <summary>Maximum aggregate symbol-name and vocabulary-value characters in one definition.</summary>
+    public const int MaxTotalSymbolTextCharacters = 1_048_576;
     /// <summary>Maximum aggregate literal characters in one payload.</summary>
     public const int MaxTotalPayloadLiteralCharacters = 1_048_576;
     /// <summary>Maximum JSON payload size, in UTF-16 characters.</summary>
