@@ -16,8 +16,12 @@ public sealed class ProtocolDefinition
     {
         if (id == 0) throw new ArgumentOutOfRangeException(nameof(id));
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("A protocol name is required.", nameof(name));
+        if (name.Length > ProtocolLimits.MaxNameCharacters) throw new ArgumentException($"A protocol name cannot exceed {ProtocolLimits.MaxNameCharacters} characters.", nameof(name));
 
-        var values = symbols?.ToArray() ?? throw new ArgumentNullException(nameof(symbols));
+        ArgumentNullException.ThrowIfNull(symbols);
+        var values = symbols.Take(ProtocolLimits.MaxSymbols + 1).ToArray();
+        if (values.Length > ProtocolLimits.MaxSymbols)
+            throw new ArgumentException($"A protocol cannot define more than {ProtocolLimits.MaxSymbols} symbols.", nameof(symbols));
         if (values.GroupBy(x => x.Id).Any(g => g.Count() > 1))
             throw new ArgumentException("A protocol cannot define the same symbol ID more than once.", nameof(symbols));
         if (values.GroupBy(x => x.Name, StringComparer.Ordinal).Any(g => g.Count() > 1))
