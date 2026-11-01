@@ -33,6 +33,10 @@ ProtocolAi does not own model inference, prompts as an execution mechanism, endp
 
 These are responsibility boundaries, not a claim that every end-to-end adapter currently exists. Verify integration against the current source and tests before treating two packages as interoperable.
 
+## Resource boundaries
+
+Protocol definitions accept at most 4,096 symbols; payloads accept at most 65,536 values. Protocol and symbol names are limited to 256 UTF-16 characters, while vocabulary values and payload literals are limited to 16,384 UTF-16 characters. Builders and constructors enforce these limits before retaining the corresponding collections. These bounds protect representation and memory use; they do not establish semantic correctness or authorize a payload.
+
 ## Acceptance criteria
 
 1. Protocol and symbol identities are explicit and non-zero.
