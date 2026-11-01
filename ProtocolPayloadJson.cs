@@ -41,19 +41,29 @@ public static class ProtocolPayloadJson
                 : new WireValue(Literal: value.Literal))
             .ToArray();
 
-        return JsonSerializer.Serialize(new WirePayload(payload.ProtocolId, values), Options);
+        var json = JsonSerializer.Serialize(new WirePayload(payload.ProtocolId, values), Options);
+        if (json.Length > ProtocolLimits.MaxJsonCharacters)
+            throw new ArgumentException($"Serialized payload cannot exceed {ProtocolLimits.MaxJsonCharacters} characters.", nameof(payload));
+        return json;
     }
 
     public static ProtocolPayload Deserialize(string json)
     {
         if (string.IsNullOrWhiteSpace(json))
             throw new ArgumentException("JSON payload is required.", nameof(json));
+        if (json.Length > ProtocolLimits.MaxJsonCharacters)
+            throw new ArgumentException($"JSON payload cannot exceed {ProtocolLimits.MaxJsonCharacters} characters.", nameof(json));
 
         WirePayload? wire;
         try
         {
             using var document = JsonDocument.Parse(json);
             RejectDuplicateProperties(document.RootElement);
+            if (document.RootElement.ValueKind == JsonValueKind.Object &&
+                document.RootElement.TryGetProperty("values", out var valuesElement) &&
+                valuesElement.ValueKind == JsonValueKind.Array &&
+                valuesElement.GetArrayLength() > ProtocolLimits.MaxPayloadValues)
+                throw new ArgumentException($"A payload cannot contain more than {ProtocolLimits.MaxPayloadValues} values.", nameof(json));
             wire = JsonSerializer.Deserialize<WirePayload>(document.RootElement, Options);
         }
         catch (JsonException ex)
