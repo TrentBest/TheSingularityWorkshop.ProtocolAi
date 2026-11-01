@@ -12,7 +12,9 @@ public sealed class ProtocolPayload
         if (protocolId == 0) throw new ArgumentOutOfRangeException(nameof(protocolId));
         ArgumentNullException.ThrowIfNull(values);
 
-        var materialized = values.ToArray();
+        var materialized = values.Take(ProtocolLimits.MaxPayloadValues + 1).ToArray();
+        if (materialized.Length > ProtocolLimits.MaxPayloadValues)
+            throw new ArgumentException($"A payload cannot contain more than {ProtocolLimits.MaxPayloadValues} values.", nameof(values));
         if (materialized.Any(value => !value.IsReference && !value.IsLiteral))
             throw new ArgumentException(
                 "Each protocol payload value must contain exactly one of a symbol ID or a literal.",
