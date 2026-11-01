@@ -129,19 +129,17 @@ public sealed class ProtocolPayloadJsonTests
     [Fact]
     public void Deserialize_rejects_too_many_values_before_materializing_wire_records()
     {
-        var values = string.Join(",", Enumerable.Repeat("{\\"symbolId\\":1}", ProtocolLimits.MaxPayloadValues + 1));
-        var json = "{\\"protocolId\\":1,\\"values\\":[" + values + "]}";
+        var values = string.Join(",", Enumerable.Repeat("{\"symbolId\":1}", ProtocolLimits.MaxPayloadValues + 1));
+        var json = "{\"protocolId\":1,\"values\":[" + values + "]}";
         Assert.Throws<ArgumentException>(() => ProtocolPayloadJson.Deserialize(json));
     }
 
     [Fact]
     public void Payload_rejects_aggregate_literal_size_above_the_contract_limit()
     {
-        var values = new[]
-        {
-            ProtocolValue.FromLiteral(new string('a', ProtocolLimits.MaxLiteralCharacters)),
-            ProtocolValue.FromLiteral(new string('b', ProtocolLimits.MaxLiteralCharacters))
-        };
+        var values = Enumerable.Range(0, ProtocolLimits.MaxTotalPayloadLiteralCharacters / ProtocolLimits.MaxLiteralCharacters + 1)
+            .Select(index => ProtocolValue.FromLiteral(new string((char)('a' + index % 26), ProtocolLimits.MaxLiteralCharacters)));
+
         Assert.Throws<ArgumentException>(() => new ProtocolPayload(1, values));
     }
 }
