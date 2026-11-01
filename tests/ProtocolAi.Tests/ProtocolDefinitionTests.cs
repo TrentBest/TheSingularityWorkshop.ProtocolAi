@@ -173,4 +173,22 @@ public sealed class ProtocolDefinitionTests
         Assert.Throws<InvalidOperationException>(() =>
             builder.Define(9_999, "overflow", new string('y', ProtocolLimits.MaxLiteralCharacters)));
     }
+    [Fact]
+    public void Describe_escapes_all_json_control_characters_deterministically()
+    {
+        var protocol = new ProtocolBuilder(77, "controls")
+            .Define(1, "control", "quote:\" slash:\\ cr:\r lf:\n tab:\t backspace:\b formfeed:\f nul:\0")
+            .Build();
+
+        var description = protocol.Describe();
+
+        Assert.Contains("quote:\\\"", description);
+        Assert.Contains("slash:\\\\", description);
+        Assert.Contains("cr:\\r", description);
+        Assert.Contains("lf:\\n", description);
+        Assert.Contains("tab:\\t", description);
+        Assert.Contains("backspace:\\b", description);
+        Assert.Contains("formfeed:\\f", description);
+        Assert.Contains("nul:\\u0000", description);
+    }
 }
