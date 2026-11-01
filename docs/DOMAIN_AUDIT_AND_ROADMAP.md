@@ -91,7 +91,7 @@ The diagram separates implemented behavior from a future direction. The solid pa
 
 Protocol definitions, payloads, and JSON representations now enforce explicit per-item and aggregate resource limits. The JSON reader checks the encoded-size bound and values-array count before materializing wire records; payload construction also caps aggregate literal text. Companion type/UML documentation was added for `ProtocolLimits`.
 
-The latest full development workflow [#305](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/41281392637) passed on commit [9c80b9e](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/9c80b9e9864c2b69b6d9718ab5e4ced9f44c94aa): Release build, 39 ProtocolAi tests, 4 playground tests, package, and clean-consumer verification. Structural compatibility remains in open PR [#8](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/pull/8); no merge or publication has occurred.
+The latest full development workflow [#306](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/41281681476) passed on commit [6fe1b53](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/6fe1b5396a5c2afd3909cb1f34f8ea403912e97f): Release build, 39 ProtocolAi tests, 4 playground tests, package, and clean-consumer verification. Structural compatibility remains in open PR [#8](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/pull/8); no merge or publication has occurred.
 
 ## Status language
 
