@@ -20,6 +20,10 @@ public sealed class ProtocolPayload
                 "Each protocol payload value must contain exactly one of a symbol ID or a literal.",
                 nameof(values));
 
+        var totalLiteralCharacters = materialized.Where(value => value.IsLiteral).Sum(value => (long)value.Literal!.Length);
+        if (totalLiteralCharacters > ProtocolLimits.MaxTotalPayloadLiteralCharacters)
+            throw new ArgumentException($"A payload cannot contain more than {ProtocolLimits.MaxTotalPayloadLiteralCharacters} literal characters in total.", nameof(values));
+
         ProtocolId = protocolId;
         _values = Array.AsReadOnly(materialized);
     }
