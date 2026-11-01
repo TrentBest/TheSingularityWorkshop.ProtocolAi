@@ -10,6 +10,8 @@ public readonly record struct ProtocolSymbol
         if (id == 0) throw new ArgumentOutOfRangeException(nameof(id), "A protocol symbol ID must be non-zero.");
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("A protocol symbol name is required.", nameof(name));
         if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("A protocol symbol value is required.", nameof(value));
+        if (name.Length > ProtocolLimits.MaxNameCharacters) throw new ArgumentException($"A symbol name cannot exceed {ProtocolLimits.MaxNameCharacters} characters.", nameof(name));
+        if (value.Length > ProtocolLimits.MaxLiteralCharacters) throw new ArgumentException($"A symbol value cannot exceed {ProtocolLimits.MaxLiteralCharacters} characters.", nameof(value));
         Id = id;
         Name = name;
         Value = value;
