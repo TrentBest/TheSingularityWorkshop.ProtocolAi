@@ -37,7 +37,7 @@ The envelope is independent of the CommandAi proposal body. CommandAi/1 remains 
 
 ## Typed payload contracts (v1)
 
-`ProtocolEventPayloadJson` serializes the typed payloads as JSON objects using camel-case property names and string enum values. The envelope continues to carry the payload as JSON; consumers select the expected payload type from the envelope event kind and reject mismatched or unsupported contracts.
+`ProtocolEventPayloadJson` serializes the typed payloads as JSON objects using camel-case property names and string enum values. The envelope continues to carry the payload as JSON. `ProtocolTypedEventEnvelope.Create` provides typed overloads that bind each supported payload type to its only valid event kind; consumers should still validate the wire payload against that kind when deserializing untrusted messages. SourceEvent and DownstreamNotification remain generic because their domain payload contracts are not yet defined.
 
 - `ProtocolObserverRegistrationRequest` identifies the durable observer, scope, protocol version, and requested lifecycle.
 - `ProtocolObserverRegistrationAcknowledgement` echoes observer identity/scope/version and reports Accepted, Rejected, Active, Suspended, or Removed. Rejection requires a reason.
@@ -45,11 +45,11 @@ The envelope is independent of the CommandAi proposal body. CommandAi/1 remains 
 - `ProtocolGateTransition` identifies gate/version, state, positive causal revision, source message, predicate, reason, and optional superseded message.
 - `ProtocolCommandOutcome` identifies Accepted, Rejected, or Completed for a proposal, with the assigned command ID where applicable and a reason for rejection. The containing envelope still requires an idempotency key for all command outcomes.
 
-These types validate structural completeness only. A receiver still validates event-kind/payload pairing, observer scope, message ordering, provenance, and host policy. The host retains responsibility for durable replay/deduplication.
+The typed factory prevents local event-kind/payload mismatches for the five supported payload contracts and copies gate causal revision/superseded-message metadata from the gate payload into the envelope. This is not a trust boundary: a receiver still validates the wire payload, observer scope, message ordering, provenance, and host policy. The host retains responsibility for durable replay/deduplication.
 
 ## Deliberate next steps
 
-The typed payload foundation is now implemented and covered by round-trip/validation tests. Remaining work: enforce event-kind/payload pairing in a dedicated typed-envelope API; specify host replay/deduplication and stale-event acceptance tests without moving host responsibilities into ProtocolAi; and add end-to-end interoperability tests with CommandAi, GrammarAi, and CiAi.
+The typed payload foundation is now implemented and covered by round-trip/validation tests. Remaining work: specify host replay/deduplication and stale-event acceptance tests without moving host responsibilities into ProtocolAi; and add end-to-end interoperability tests with CommandAi, GrammarAi, and CiAi.
 ---
 
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
