@@ -19,6 +19,12 @@ The initial event kinds are observer registration requested/acknowledged, source
 
 Evidence-bearing source events, evaluations, gate transitions, and downstream notifications require candidate provenance. Command outcome messages require an idempotency key. Gate transitions require a positive causal revision and may name the message they supersede.
 
+## Schema compatibility rules
+
+The envelope schema identifier is stable for this contract family; `schemaVersion` selects the wire contract. Version 1 readers must reject an unknown schema identifier or unsupported schema version rather than guessing. A producer must not send a v2 payload while labeling it v1.
+
+Within v1, adding an optional property is compatible only when an older reader can safely ignore it without changing the meaning or safety of the message. Existing property meanings, requiredness, event-kind semantics, and enum values are immutable within v1. Changing any of those, adding an enum value that older readers must understand, or changing payload interpretation requires a new schema version and explicit consumer support. Consumers must treat missing required data, unknown event kinds, and unrecognized enum values as non-success and fail closed. Deployments should roll out readers that understand a new version before producers emit it.
+
 ## Exact-candidate provenance
 
 The provenance object keeps these identities separate: canonical repository owner/name; candidate ref and full candidate SHA; event SHA; tested checkout SHA; workflow-definition ref and workflow-definition SHA; workflow run ID and attempt; observed job identity; evidence reference; and evidence SHA-256 digest.
