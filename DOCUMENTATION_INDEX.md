@@ -17,6 +17,7 @@ ProtocolAi gives application-owned vocabulary values stable, protocol-qualified 
 | Add ProtocolAi to a .NET application | [Consuming ProtocolAi](docs/CONSUMING.md) |
 | Define a vocabulary and encode values | [Examples](docs/EXAMPLES.md) |
 | Understand the JSON payload contract | [ProtocolPayloadJson](docs/PROTOCOL_PAYLOAD_JSON.md) |
+| Define correlated, provenance-bound cross-repository events | [Event envelope contract](docs/EVENT_ENVELOPES.md) |
 | See identity, literal, and resolution flows | [Gallery](docs/GALLERY.md) |
 | Understand how the host and protocol definitions share responsibilities | [Theory](docs/THEORY.md) |
 | Explore the formal model and its limits | [Mathematical foundations](docs/MATHEMATICAL_FOUNDATIONS.md) |
