@@ -7,6 +7,54 @@ namespace TheSingularityWorkshop.ProtocolAi;
 /// </remarks>
 public static class ProtocolTypedEventEnvelope
 {
+    /// <summary>Deserializes a typed payload only when its event kind and envelope metadata agree.</summary>
+    /// <exception cref="ArgumentException">The requested payload type does not match the envelope kind or metadata.</exception>
+    public static T DeserializePayload<T>(ProtocolEventEnvelope envelope) where T : class
+    {
+        ArgumentNullException.ThrowIfNull(envelope);
+        var payload = ProtocolEventPayloadJson.Deserialize<T>(envelope.PayloadJson);
+        var expectedKind = typeof(T) switch
+        {
+            var type when type == typeof(ProtocolObserverRegistrationRequest) =>
+                ProtocolEventKind.ObserverRegistrationRequested,
+            var type when type == typeof(ProtocolObserverRegistrationAcknowledgement) =>
+                ProtocolEventKind.ObserverRegistrationAcknowledged,
+            var type when type == typeof(ProtocolSourceEvent) =>
+                ProtocolEventKind.SourceEvent,
+            var type when type == typeof(ProtocolObserverEvaluation) =>
+                ProtocolEventKind.ObserverEvaluation,
+            var type when type == typeof(ProtocolGateTransition) =>
+                ProtocolEventKind.GateTransition,
+            var type when type == typeof(ProtocolDownstreamNotification) =>
+                ProtocolEventKind.DownstreamNotification,
+            var type when type == typeof(ProtocolCommandOutcome) => CommandOutcomeKind((ProtocolCommandOutcome)(object)payload),
+            _ => throw new NotSupportedException($"No typed event mapping is registered for payload type '{typeof(T).FullName}'.")
+        };
+
+        if (envelope.Kind != expectedKind)
+            throw new ArgumentException($"Event kind '{envelope.Kind}' does not match payload type '{typeof(T).Name}'.", nameof(envelope));
+
+        if (payload is ProtocolGateTransition gate &&
+            (envelope.CausalRevision != gate.CausalRevision ||
+             !string.Equals(envelope.SupersedesMessageId, gate.SupersedesMessageId, StringComparison.Ordinal)))
+            throw new ArgumentException("Gate payload causality must match envelope causal metadata.", nameof(envelope));
+
+        if (payload is ProtocolDownstreamNotification notification &&
+            envelope.CausalRevision != notification.CausalRevision)
+            throw new ArgumentException("Downstream notification revision must match envelope causal metadata.", nameof(envelope));
+
+        return payload;
+    }
+
+    private static ProtocolEventKind CommandOutcomeKind(ProtocolCommandOutcome payload) =>
+        payload.Outcome switch
+        {
+            ProtocolCommandOutcomeKind.Accepted => ProtocolEventKind.CommandAccepted,
+            ProtocolCommandOutcomeKind.Rejected => ProtocolEventKind.CommandRejected,
+            ProtocolCommandOutcomeKind.Completed => ProtocolEventKind.CommandCompleted,
+            _ => throw new ArgumentOutOfRangeException(nameof(payload))
+        };
+
     public static ProtocolEventEnvelope Create(
         string messageId, string correlationId, string producerId,
         ProtocolObserverRegistrationRequest payload, DateTimeOffset occurredAt,
