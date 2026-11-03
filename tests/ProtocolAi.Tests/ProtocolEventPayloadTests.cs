@@ -176,6 +176,49 @@ public sealed class ProtocolEventPayloadTests
             "message", "correlation", "producer", payload, DateTimeOffset.UtcNow, null!));
     }
 
+    [Fact]
+    public void Source_event_round_trips_and_factory_requires_candidate_provenance()
+    {
+        var payload = new ProtocolSourceEvent("github-actions", "build-and-test.completed",
+            "owner/repo@candidate-sha", ProtocolSourceEventOutcome.Succeeded, "All required checks passed.");
+        var restored = ProtocolEventPayloadJson.Deserialize<ProtocolSourceEvent>(
+            ProtocolEventPayloadJson.Serialize(payload));
+        Assert.Equal(ProtocolSourceEventOutcome.Succeeded, restored.Outcome);
+        Assert.Equal(payload.Subject, restored.Subject);
+
+        var envelope = ProtocolTypedEventEnvelope.Create("source-1", "corr-1", "ci-host",
+            payload, DateTimeOffset.UtcNow, CreateProvenance());
+        Assert.Equal(ProtocolEventKind.SourceEvent, envelope.Kind);
+        Assert.NotNull(envelope.Provenance);
+    }
+
+    [Fact]
+    public void Downstream_notification_identifies_consumer_await_and_gate_revision()
+    {
+        var payload = new ProtocolDownstreamNotification("notice-1", "consumer/repo", "await-1",
+            "gate-1", "2", ProtocolGateState.Satisfied, 9, "gate-transition-9",
+            "The provider gate changed; reevaluate local prerequisites.");
+        var restored = ProtocolEventPayloadJson.Deserialize<ProtocolDownstreamNotification>(
+            ProtocolEventPayloadJson.Serialize(payload));
+        Assert.Equal("consumer/repo", restored.ConsumerRepository);
+        Assert.Equal("await-1", restored.AwaitId);
+        Assert.Equal(9, restored.CausalRevision);
+
+        var envelope = ProtocolTypedEventEnvelope.Create("notice-1", "corr-1", "host",
+            payload, DateTimeOffset.UtcNow, CreateProvenance());
+        Assert.Equal(ProtocolEventKind.DownstreamNotification, envelope.Kind);
+        Assert.Equal(9, envelope.CausalRevision);
+    }
+
+    [Fact]
+    public void Downstream_notification_rejects_nonpositive_revision_and_noncanonical_repository()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new ProtocolDownstreamNotification(
+            "n", "consumer/repo", "await", "gate", "1", ProtocolGateState.Satisfied, 0, "m", "reason"));
+        Assert.Throws<ArgumentException>(() => new ProtocolDownstreamNotification(
+            "n", "not-a-repository", "await", "gate", "1", ProtocolGateState.Satisfied, 1, "m", "reason"));
+    }
+
     private static ProtocolCandidateProvenance CreateProvenance() => new(
         "owner/repo", "refs/heads/development", new string('a', 40), new string('b', 40),
         new string('c', 40), "refs/heads/master", new string('d', 40), 42, 1,
