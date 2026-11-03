@@ -203,7 +203,7 @@ public static class ProtocolEventPayloadJson
         }
     }
 
-    private static string SerializePayload<T>(T payload)
+    internal static string SerializePayload<T>(T payload)
     {
         ArgumentNullException.ThrowIfNull(payload);
         return JsonSerializer.Serialize(payload, Options);
