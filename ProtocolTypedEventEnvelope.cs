@@ -74,6 +74,6 @@ public static class ProtocolTypedEventEnvelope
         long? causalRevision = null, string? supersedesMessageId = null,
         string? idempotencyKey = null) where T : class =>
         new(messageId, correlationId, producerId, kind, occurredAt,
-            ProtocolEventPayloadJson.Serialize(payload), idempotencyKey, causationId,
+            ProtocolEventPayloadJson.SerializePayload(payload), idempotencyKey, causationId,
             provenance, causalRevision, supersedesMessageId);
 }
