@@ -29,6 +29,29 @@ public static class ProtocolTypedEventEnvelope
 
     public static ProtocolEventEnvelope Create(
         string messageId, string correlationId, string producerId,
+        ProtocolSourceEvent payload, DateTimeOffset occurredAt,
+        ProtocolCandidateProvenance provenance, string? causationId = null)
+    {
+        ArgumentNullException.ThrowIfNull(payload);
+        ArgumentNullException.ThrowIfNull(provenance);
+        return CreateCore(messageId, correlationId, producerId,
+            ProtocolEventKind.SourceEvent, payload, occurredAt, causationId, provenance);
+    }
+
+    public static ProtocolEventEnvelope Create(
+        string messageId, string correlationId, string producerId,
+        ProtocolDownstreamNotification payload, DateTimeOffset occurredAt,
+        ProtocolCandidateProvenance provenance, string? causationId = null)
+    {
+        ArgumentNullException.ThrowIfNull(payload);
+        ArgumentNullException.ThrowIfNull(provenance);
+        return CreateCore(messageId, correlationId, producerId,
+            ProtocolEventKind.DownstreamNotification, payload, occurredAt, causationId, provenance,
+            payload.CausalRevision);
+    }
+
+    public static ProtocolEventEnvelope Create(
+        string messageId, string correlationId, string producerId,
         ProtocolObserverEvaluation payload, DateTimeOffset occurredAt,
         ProtocolCandidateProvenance provenance, string? causationId = null)
     {
