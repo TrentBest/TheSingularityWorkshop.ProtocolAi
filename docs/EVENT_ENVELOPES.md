@@ -35,9 +35,21 @@ Missing evidence and unknown/incomplete evaluation are non-success. A success ga
 
 The envelope is independent of the CommandAi proposal body. CommandAi/1 remains the proposal contract. A host can carry an encoded CommandAi/1 proposal or stable proposal identity in the payload without changing the command schema. Accepted, rejected, and completed outcomes are separate message kinds and share envelope correlation and idempotency fields. Rejection diagnostics must not be interpreted as successful completion.
 
+## Typed payload contracts (v1)
+
+`ProtocolEventPayloadJson` serializes the typed payloads as JSON objects using camel-case property names and string enum values. The envelope continues to carry the payload as JSON; consumers select the expected payload type from the envelope event kind and reject mismatched or unsupported contracts.
+
+- `ProtocolObserverRegistrationRequest` identifies the durable observer, scope, protocol version, and requested lifecycle.
+- `ProtocolObserverRegistrationAcknowledgement` echoes observer identity/scope/version and reports Accepted, Rejected, Active, Suspended, or Removed. Rejection requires a reason.
+- `ProtocolObserverEvaluation` identifies observer, predicate and predicate version, input message, and one of True, False, Unknown, or Incomplete. Every state includes an explanation; Unknown and Incomplete are explicitly not success.
+- `ProtocolGateTransition` identifies gate/version, state, positive causal revision, source message, predicate, reason, and optional superseded message.
+- `ProtocolCommandOutcome` identifies Accepted, Rejected, or Completed for a proposal, with the assigned command ID where applicable and a reason for rejection. The containing envelope still requires an idempotency key for all command outcomes.
+
+These types validate structural completeness only. A receiver still validates event-kind/payload pairing, observer scope, message ordering, provenance, and host policy. The host retains responsibility for durable replay/deduplication.
+
 ## Deliberate next steps
 
-This first contract slice establishes envelope versioning, candidate provenance, correlation, idempotency metadata, and causal ordering. Follow-on work must define typed payload schemas for observer registration, observer evaluation, gate transitions, and command outcomes; explicit true/false/unknown/incomplete states; deterministic replay policy; and cross-repository integration tests with CommandAi, GrammarAi, and CiAi.
+The typed payload foundation is now implemented and covered by round-trip/validation tests. Remaining work: enforce event-kind/payload pairing in a dedicated typed-envelope API; specify host replay/deduplication and stale-event acceptance tests without moving host responsibilities into ProtocolAi; and add end-to-end interoperability tests with CommandAi, GrammarAi, and CiAi.
 ---
 
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
