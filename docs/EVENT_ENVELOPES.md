@@ -51,11 +51,11 @@ The envelope is independent of the CommandAi proposal body. CommandAi/1 remains 
 - `ProtocolGateTransition` identifies gate/version, state, positive causal revision, source message, predicate, reason, and optional superseded message.
 - `ProtocolDownstreamNotification` identifies the consumer repository, Await, gate/version/state/revision, and the gate-transition message that triggered local reevaluation. It is a notification, not permission to proceed.\n- `ProtocolCommandOutcome` identifies Accepted, Rejected, or Completed for a proposal, with the assigned command ID where applicable and a reason for rejection. The containing envelope still requires an idempotency key for all command outcomes.
 
-The typed factory prevents local event-kind/payload mismatches for the five supported payload contracts and copies gate causal revision/superseded-message metadata from the gate payload into the envelope. This is not a trust boundary: a receiver still validates the wire payload, observer scope, message ordering, provenance, and host policy. The host retains responsibility for durable replay/deduplication.
+The typed factory prevents local event-kind/payload mismatches for the supported typed payload contracts and copies gate causal revision/superseded-message metadata from the gate payload into the envelope. This is not a trust boundary: a receiver still validates the wire payload, observer scope, message ordering, provenance, and host policy. The host retains responsibility for durable replay/deduplication.
 
 ## Deliberate next steps
 
-The typed payload foundation is now implemented and covered by round-trip/validation tests. Remaining work: define compatibility rules and host replay/deduplication acceptance behavior without moving host responsibilities into ProtocolAi; and add end-to-end interoperability tests with CommandAi, GrammarAi, and CiAi.
+The typed payload foundation and v1 schema-compatibility rules are implemented and covered by round-trip/validation tests. Remaining work: prove host-owned replay/deduplication, stale/out-of-order rejection, and durable delivery behavior without moving those responsibilities into ProtocolAi; and add end-to-end interoperability tests with CommandAi, GrammarAi, and CiAi.
 ---
 
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
