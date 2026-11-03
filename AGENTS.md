@@ -53,7 +53,7 @@ Do not add sibling package dependencies merely because capabilities compose. Ver
 - Report exact commit, commands/workflows, pass/fail outcomes, and remaining coverage gaps.
 - A build is not proof of release readiness; a green badge is not an explanation of test scope.
 - Do not claim live-provider interoperability unless it was actually exercised with the relevant provider and safe test credentials.
-- CiAi is outside the scope of these repositories unless the owner explicitly expands the task.
+- CiAi is outside the scope of routine ProtocolAi work, except where the owner explicitly directs cross-repository contract interoperability (currently ProtocolAi Issue #13). ProtocolAi must not duplicate CiAi's CI evidence or verdict authority.
 
 ---
 
