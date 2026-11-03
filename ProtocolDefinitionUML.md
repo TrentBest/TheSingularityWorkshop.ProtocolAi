@@ -10,7 +10,7 @@
 ```mermaid
 flowchart TD
   C[Consumers / related types] --> T[ProtocolDefinition]
-  T --> D[Declared dependencies and outputs]
+  T --> D[Declared dependencies and outputs]\n  T --> K[CompareCompatibility baseline to candidate]
   T -.-> H[Host-owned trust and execution policy]
 ```
 
@@ -33,7 +33,7 @@ flowchart TD
 - **Failure/alternative:** invalid or undefined identities are rejected at the relevant construction/validation boundary; unknown text remains literal where the API explicitly supports that case.
 - **Evidence/status:** authored use case grounded in source and test names; not inferred automatically from syntax.
 
-### UC-2 — Diagnose an invalid reference or payload
+### UC-3 — Compare a candidate definition before adoption\n\n- **Actor:** application host or schema maintainer.\n- **Goal:** detect structural changes before replacing a published vocabulary.\n- **Trigger:** a candidate definition is proposed.\n- **Outcome:** additive symbol IDs are reported as compatible; protocol-ID changes, removed IDs, and changed name/value pairs are reported as incompatibilities.\n- **Failure/alternative:** review, reject, or explicitly migrate an incompatible candidate; do not treat a compatible report as proof of unchanged domain meaning or as authorization.\n- **Evidence/status:** `ProtocolDefinition.CompareCompatibility` and named compatibility tests in `ProtocolDefinitionTests.cs`.\n\n### UC-2 — Diagnose an invalid reference or payload
 
 - **Actor:** application developer or test.
 - **Goal:** distinguish wrong-protocol, undefined-symbol, malformed-payload, and literal-value cases.
