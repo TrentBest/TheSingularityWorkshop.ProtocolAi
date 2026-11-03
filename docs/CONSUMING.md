@@ -396,6 +396,34 @@ The vocabulary resolution performed by your application is not.
 
 ---
 
+## 13. Compare a candidate definition before adopting it
+
+Protocol IDs and symbol IDs are durable addresses. Before replacing a vocabulary definition, compare the currently accepted definition with the candidate:
+
+```csharp
+var baseline = new ProtocolBuilder(1001, "People")
+    .Define(2001, "bobId", "Bob")
+    .Build();
+
+var candidate = new ProtocolBuilder(1001, "People")
+    .Define(2001, "bobId", "Bob")
+    .Define(2002, "janeId", "Jane")
+    .Build();
+
+var compatibility = baseline.CompareCompatibility(candidate);
+if (!compatibility.IsCompatible)
+{
+    foreach (var issue in compatibility.Issues)
+        Console.WriteLine($"{issue.Code}: {issue.Message}");
+}
+```
+
+The baseline is the receiver of `CompareCompatibility`; the candidate is the proposed replacement. Adding new symbol IDs is structurally compatible. Changing the protocol ID, removing a published symbol ID, or changing an existing symbol's name/value is reported as incompatible.
+
+This check cannot determine whether your application has secretly changed the real-world meaning of an ID while keeping its ID, name, and value unchanged. Keep published identities stable, review compatibility findings as part of schema evolution, and make authorization decisions separately.
+
+---
+
 ## What ProtocolAI gives you
 
 - application-owned integer identities;
@@ -437,11 +465,8 @@ If you are integrating ProtocolAI into the Workshop ecosystem, read **[Ecosystem
 
 ---
 
-<p align="center">
-  <a href="https://github.com/TrentBest">
-    <img src="https://github.com/TrentBest.png?size=200" alt="The Singularity Workshop on GitHub" width="200">
-  </a>
-</p>
+<!-- THE SINGULARITY WORKSHOP FOOTER -->
+<p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop" width="200" /></p>
 
 <p align="center">
   <a href="https://github.com/TrentBest">GitHub</a> ·
