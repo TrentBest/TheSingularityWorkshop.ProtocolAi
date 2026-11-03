@@ -183,6 +183,8 @@ public static class ProtocolEventPayloadJson
     public static string Serialize(ProtocolObserverRegistrationRequest payload) => SerializePayload(payload);
     public static string Serialize(ProtocolObserverRegistrationAcknowledgement payload) => SerializePayload(payload);
     public static string Serialize(ProtocolObserverEvaluation payload) => SerializePayload(payload);
+    public static string Serialize(ProtocolSourceEvent payload) => SerializePayload(payload);
+    public static string Serialize(ProtocolDownstreamNotification payload) => SerializePayload(payload);
     public static string Serialize(ProtocolGateTransition payload) => SerializePayload(payload);
     public static string Serialize(ProtocolCommandOutcome payload) => SerializePayload(payload);
 
