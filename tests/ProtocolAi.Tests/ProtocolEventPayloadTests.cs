@@ -219,6 +219,39 @@ public sealed class ProtocolEventPayloadTests
             "n", "not-a-repository", "await", "gate", "1", ProtocolGateState.Satisfied, 1, "m", "reason"));
     }
 
+    [Fact]
+    public void Typed_payload_reader_rejects_event_kind_payload_mismatch()
+    {
+        var payload = new ProtocolObserverRegistrationRequest("observer", "repo:owner/name", "1.0");
+        var envelope = ProtocolTypedEventEnvelope.Create(
+            "message", "correlation", "producer", payload, DateTimeOffset.UtcNow);
+
+        var restored = ProtocolTypedEventEnvelope.DeserializePayload<ProtocolObserverRegistrationRequest>(envelope);
+        Assert.Equal(payload.ObserverId, restored.ObserverId);
+
+        var mismatched = new ProtocolEventEnvelope(
+            "message-2", "correlation", "producer", ProtocolEventKind.ObserverEvaluation,
+            DateTimeOffset.UtcNow, envelope.PayloadJson,
+            provenance: CreateProvenance());
+
+        Assert.Throws<ArgumentException>(() =>
+            ProtocolTypedEventEnvelope.DeserializePayload<ProtocolObserverRegistrationRequest>(mismatched));
+    }
+
+    [Fact]
+    public void Typed_gate_reader_rejects_causality_metadata_mismatch()
+    {
+        var payload = new ProtocolGateTransition(
+            "gate", "1", ProtocolGateState.Satisfied, 7, "source-7", "predicate", "Evidence is complete.");
+        var envelope = new ProtocolEventEnvelope(
+            "message", "correlation", "producer", ProtocolEventKind.GateTransition,
+            DateTimeOffset.UtcNow, ProtocolEventPayloadJson.Serialize(payload),
+            provenance: CreateProvenance(), causalRevision: 8);
+
+        Assert.Throws<ArgumentException>(() =>
+            ProtocolTypedEventEnvelope.DeserializePayload<ProtocolGateTransition>(envelope));
+    }
+
     private static ProtocolCandidateProvenance CreateProvenance() => new(
         "owner/repo", "refs/heads/development", new string('a', 40), new string('b', 40),
         new string('c', 40), "refs/heads/master", new string('d', 40), 42, 1,
