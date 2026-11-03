@@ -1,3 +1,10 @@
+<!-- The Singularity Workshop moniker -->
+<p align="center">
+  <a href="https://github.com/TrentBest">
+    <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop animated moniker" width="720" />
+  </a>
+</p>
+
 # ProtocolAi Event Envelope — Initial Contract
 
 ## Responsibility boundary
@@ -31,3 +38,7 @@ The envelope is independent of the CommandAi proposal body. CommandAi/1 remains 
 ## Deliberate next steps
 
 This first contract slice establishes envelope versioning, candidate provenance, correlation, idempotency metadata, and causal ordering. Follow-on work must define typed payload schemas for observer registration, observer evaluation, gate transitions, and command outcomes; explicit true/false/unknown/incomplete states; deterministic replay policy; and cross-repository integration tests with CommandAi, GrammarAi, and CiAi.
+---
+
+<!-- THE SINGULARITY WORKSHOP FOOTER -->
+<p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop" width="200" /></p>
