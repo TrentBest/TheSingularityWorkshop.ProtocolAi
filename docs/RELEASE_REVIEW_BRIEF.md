@@ -1,6 +1,15 @@
+<!-- The Singularity Workshop moniker -->
+<p align="center">
+  <a href="https://github.com/TrentBest">
+    <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop animated moniker" width="720" />
+  </a>
+</p>
+
 # ProtocolAi — Release Review Brief
 
-> Phone-first review | Snapshot: 2026-10-22 UTC
+> Historical phone-first review | Snapshot: 2026-10-22 UTC | Not a current release decision
+
+> This document is a dated review snapshot. Use the live development branch and current CI runs for present status; its readiness percentage and candidate SHA are historical.
 
 ## The decision in one minute
 
@@ -65,3 +74,8 @@ Valid JSON is not a valid command; a resolved symbol is not an authorized operat
 ## Recommendation
 
 Keep ProtocolAi small and dependency-free. Resolve demonstrated contract or wire-format defects, verify the packed artifact and consumer experience, and keep publishing gated until explicit owner approval. GrammarAi can reference ProtocolAi identities but does not replace protocol validation.
+
+---
+
+<!-- THE SINGULARITY WORKSHOP FOOTER -->
+<p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop" width="200" /></p>
