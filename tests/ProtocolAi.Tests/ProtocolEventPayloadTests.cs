@@ -114,4 +114,71 @@ public sealed class ProtocolEventPayloadTests
         Assert.Throws<ArgumentException>(() =>
             ProtocolEventPayloadJson.Deserialize<ProtocolObserverEvaluation>("[]"));
     }
+
+    [Fact]
+    public void Typed_envelope_factory_fixes_registration_event_kind()
+    {
+        var payload = new ProtocolObserverRegistrationRequest("observer", "repo:owner/name", "1.0");
+
+        var envelope = ProtocolTypedEventEnvelope.Create(
+            "message-1", "correlation-1", "producer-1", payload, DateTimeOffset.UtcNow);
+
+        Assert.Equal(ProtocolEventKind.ObserverRegistrationRequested, envelope.Kind);
+        Assert.Equal(payload.ObserverId,
+            ProtocolEventPayloadJson.Deserialize<ProtocolObserverRegistrationRequest>(envelope.PayloadJson).ObserverId);
+    }
+
+    [Fact]
+    public void Typed_envelope_factory_copies_gate_causality_into_envelope_metadata()
+    {
+        var payload = new ProtocolGateTransition(
+            "gate", "1", ProtocolGateState.Satisfied, 7, "source-7", "predicate", "All required evidence is present.",
+            "message-6");
+        var provenance = CreateProvenance();
+
+        var envelope = ProtocolTypedEventEnvelope.Create(
+            "message-7", "correlation-1", "producer-1", payload, DateTimeOffset.UtcNow, provenance);
+
+        Assert.Equal(ProtocolEventKind.GateTransition, envelope.Kind);
+        Assert.Equal(7, envelope.CausalRevision);
+        Assert.Equal("message-6", envelope.SupersedesMessageId);
+        Assert.Same(provenance, envelope.Provenance);
+    }
+
+    [Theory]
+    [InlineData(ProtocolCommandOutcomeKind.Accepted, ProtocolEventKind.CommandAccepted)]
+    [InlineData(ProtocolCommandOutcomeKind.Rejected, ProtocolEventKind.CommandRejected)]
+    [InlineData(ProtocolCommandOutcomeKind.Completed, ProtocolEventKind.CommandCompleted)]
+    public void Typed_envelope_factory_maps_command_outcome_to_matching_event_kind(
+        ProtocolCommandOutcomeKind outcome, ProtocolEventKind expectedKind)
+    {
+        var payload = outcome switch
+        {
+            ProtocolCommandOutcomeKind.Accepted => new ProtocolCommandOutcome(outcome, "proposal", "command"),
+            ProtocolCommandOutcomeKind.Rejected => new ProtocolCommandOutcome(outcome, "proposal", null, "Rejected by host."),
+            _ => new ProtocolCommandOutcome(outcome, "proposal", "command")
+        };
+
+        var envelope = ProtocolTypedEventEnvelope.Create(
+            "message", "correlation", "producer", payload, DateTimeOffset.UtcNow, "idempotency-1");
+
+        Assert.Equal(expectedKind, envelope.Kind);
+        Assert.Equal("idempotency-1", envelope.IdempotencyKey);
+    }
+
+    [Fact]
+    public void Typed_envelope_factory_requires_provenance_for_evaluation_events()
+    {
+        var payload = new ProtocolObserverEvaluation("observer", "predicate", "1", "source",
+            ProtocolEvaluationState.True, "Evidence-backed result.");
+
+        Assert.Throws<ArgumentNullException>(() => ProtocolTypedEventEnvelope.Create(
+            "message", "correlation", "producer", payload, DateTimeOffset.UtcNow, null!));
+    }
+
+    private static ProtocolCandidateProvenance CreateProvenance() => new(
+        "owner/repo", "refs/heads/development", new string('a', 40), new string('b', 40),
+        new string('c', 40), "refs/heads/master", new string('d', 40), 42, 1,
+        "build-and-test", "https://example.invalid/evidence", new string('e', 64));
+
 }
