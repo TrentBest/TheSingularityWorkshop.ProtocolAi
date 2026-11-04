@@ -1,3 +1,4 @@
+using System.Text.Json;
 using TheSingularityWorkshop.ProtocolAi;
 using Xunit;
 
@@ -124,7 +125,7 @@ public sealed class ProtocolEventContractConformanceTests
     {
         var restored = ProtocolTypedEventEnvelope.DeserializePayload<T>(envelope);
         Assert.Equal(
-            ProtocolEventPayloadJson.SerializePayloadForTest(expected),
-            ProtocolEventPayloadJson.SerializePayloadForTest(restored));
+            JsonSerializer.Serialize(expected),
+            JsonSerializer.Serialize(restored));
     }
 }
