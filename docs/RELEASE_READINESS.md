@@ -13,11 +13,13 @@ See [BRANCH_RECONCILIATION.md](BRANCH_RECONCILIATION.md) for the evidence-backed
 
 
 
-## Phone-first release review — 2026-10-22 UTC
+## Current review checkpoint — 2026-11-05 UTC
 
-Start with the [Release Review Brief](RELEASE_REVIEW_BRIEF.md) for the concise current contract, package boundaries, top remaining risks, and a guided reading order. It is a review aid, not a substitute for the checks below and not authorization to publish.
+Start with the [Release Review Brief](RELEASE_REVIEW_BRIEF.md) for the concise contract, package boundaries, top remaining risks, and guided reading order. It is a review aid, not authorization to publish.
 
-Latest candidate checkpoint: [8cb1ffa59c731d8cefd5b5af8cd98dd030589185](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/8cb1ffa59c731d8cefd5b5af8cd98dd030589185). CI evidence: [workflow run #39726289235](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/39726289235). Current readiness estimate: **75%** (qualitative working estimate, not a test metric). Recheck CI on the exact final candidate after all changes.
+Current verified development checkpoint: [f6e2189b2f263a4a155e08edcc43c378f9a79f31](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/f6e2189b2f263a4a155e08edcc43c378f9a79f31). Exact-head CI evidence: [workflow run #41947386308](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/41947386308), conclusion **success**. Restore, build, tests/coverage, package creation, packaged-documentation-path verification, and clean-consumer installation passed. The NuGet publish job was skipped. This checkpoint verifies the code and documentation at that SHA; any subsequent commit requires a new exact-head run.
+
+The previous 75% estimate is retired: it was a qualitative estimate from the October review and is not a current measured readiness metric.
 
 ## Current package status
 
@@ -25,11 +27,11 @@ The project file on development declares version **0.1.0-alpha.3**. Treat the re
 
 ProtocolAi is small, but a small codebase is not automatically a stable contract. Moving to 1.0.0 means consumers can reasonably depend on the public API and its semantics.
 
-## Latest verified CI baseline — 2026-10-22 UTC
+## Latest verified CI baseline — 2026-11-05 UTC
 
-Latest green `development` commit: `95205bdfdda3242d46bd32ef3c96b140c132dc15`. [Workflow run #39723603180](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/39723603180) passed for this exact commit, including restore, Release build, tests/coverage, package creation, packaged documentation-path verification, and a clean consumer smoke test. The publication job was skipped; the workflow gate is deliberately hard-disabled.
+Latest green `development` commit: `f6e2189b2f263a4a155e08edcc43c378f9a79f31`. [Workflow run #41947386308](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/41947386308) passed for this exact commit, including restore, build, tests/coverage, package creation, packaged documentation-path verification, and clean consumer installation. The publication job was skipped.
 
-This is the latest verified green baseline, not publication approval. This readiness-document update must itself pass CI before its new head is treated as verified.
+This is not publication approval. Any update to this readiness document must itself pass CI before its new head is treated as verified.
 
 ## Visual companion
 
@@ -49,7 +51,7 @@ Release readiness is not just whether the happy path works: reviewers must verif
 - Deterministic self-description.
 - JSON transport has explicit reference-versus-literal representation.
 - Tests cover core mapping, duplicate definitions, invalid references, resolution, and JSON round trips.
-- README, guides, theory, mathematical foundations, and animated SVGs explain the boundaries.
+- README, guides, theory index, semantic identity chapter, payload transport/validation chapter, event-envelope chapter, mathematical foundations, and animated SVGs explain the boundaries.
 
 These are meaningful foundations, not proof of release readiness by themselves.
 
@@ -72,7 +74,7 @@ These are meaningful foundations, not proof of release readiness by themselves.
 - [ ] Verify package metadata and release notes describe current behavior rather than aspirations.
 - [ ] Check every install snippet and package-version reference for staleness.
 - [ ] Decide the compatibility/versioning policy for protocol IDs and symbol meanings.
-- [x] Build, tests, package creation, packaged documentation-path verification, and clean consumer smoke test passed in workflow run #39716469730.
+- [x] Build, tests, package creation, packaged documentation-path verification, and clean consumer installation passed in exact-head workflow run #41947386308.
 - [x] NuGet publication is explicitly disabled in the workflow pending the owner's authorization.
 
 ### Evidence and claims
