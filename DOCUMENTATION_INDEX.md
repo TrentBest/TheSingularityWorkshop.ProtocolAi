@@ -20,6 +20,7 @@ ProtocolAi gives application-owned vocabulary values stable, protocol-qualified 
 | Define correlated, provenance-bound cross-repository events | [Event envelope contract](docs/EVENT_ENVELOPES.md) |
 | See identity, literal, and resolution flows | [Gallery](docs/GALLERY.md) |
 | Follow the textbook-style theory learning path | [Theory index](docs/THEORY_INDEX.md) |
+| Understand durable symbol IDs and safe vocabulary evolution | [Identity lifecycle chapter](docs/IDENTITY_LIFECYCLE.md) |
 | Read the semantic identity chapter directly | [Theory](docs/THEORY.md) |
 | Explore the formal model and its limits | [Mathematical foundations](docs/MATHEMATICAL_FOUNDATIONS.md) |
 
@@ -58,4 +59,4 @@ ProtocolAi does not call a model, authorize an action, or execute application be
 ---
 
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
-<p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop avatar" width="200" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop" width="200" /></p>
