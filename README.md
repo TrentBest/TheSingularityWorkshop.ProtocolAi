@@ -144,7 +144,7 @@ The candidate responses are labelled fixtures—not live model output or measure
 
 The guarantees are deliberately narrow and useful: for a fixed, unambiguous vocabulary, encoding is deterministic; a reference passes validation only if its protocol and symbol are defined; and resolution uses the application-owned definition.
 
-For the deeper model, see [ProtocolAi Theory](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/THEORY.md).
+Follow the [ProtocolAi theory learning path](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/THEORY_INDEX.md), or read the [semantic identity chapter](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/THEORY.md) directly.
 
 - [Gallery](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/GALLERY.md) — the visual tour, artifact classifications, and links from each diagram to executable evidence.
 - [Living Documentation](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/LIVING_DOCUMENTATION.md) — the animated SVGs, interactive playground, accessibility, and the distinction between illustration and executable behavior.
