@@ -638,6 +638,39 @@ The report is deterministic and machine-readable, but it is not a semantic proof
 
 Therefore, protocol evolution needs both automated checks and an owner-maintained contract: reserve stable IDs, never silently recycle removed IDs, review incompatible changes, and version or migrate the protocol deliberately. The compatibility API supports that review; it does not replace it.
 
+## Implementation and evidence
+
+The semantic identity model maps to these current source contracts:
+
+- `ProtocolDefinition` owns a protocol's identity and vocabulary and provides encoding, validation, resolution, description, and structural compatibility comparison.
+- `ProtocolSymbol` represents an application-defined vocabulary entry.
+- `ProtocolReference` carries the protocol-qualified address.
+- `ProtocolValue` distinguishes a known reference from a literal.
+- `ProtocolPayload` carries ordered values under a protocol identity; `ProtocolPayloadJson` defines the JSON representation.
+
+The corresponding implementation is in [ProtocolDefinition.cs](../ProtocolDefinition.cs), [ProtocolSymbol.cs](../ProtocolSymbol.cs), [ProtocolReference.cs](../ProtocolReference.cs), [ProtocolValue.cs](../ProtocolValue.cs), [ProtocolPayload.cs](../ProtocolPayload.cs), and [ProtocolPayloadJson.cs](../ProtocolPayloadJson.cs). Relevant verification is in [ProtocolDefinitionTests.cs](../tests/ProtocolAi.Tests/ProtocolDefinitionTests.cs), [ProtocolResolutionTests.cs](../tests/ProtocolAi.Tests/ProtocolResolutionTests.cs), [ProtocolValueTests.cs](../tests/ProtocolAi.Tests/ProtocolValueTests.cs), and [ProtocolPayloadJsonTests.cs](../tests/ProtocolAi.Tests/ProtocolPayloadJsonTests.cs).
+
+**Evidence classification:** the definitions and source mappings above are source-checked against the current `development` implementation. The mathematical determinism and validation claims are reasoned guarantees under the assumptions stated in [Mathematical Foundations](MATHEMATICAL_FOUNDATIONS.md). No live-provider model-compliance, hallucination-reduction, token-savings, or latency experiment is claimed here.
+
+## Practice and assessment
+
+1. Why must a symbol address include its protocol identity instead of being only an integer?
+2. A candidate contains a known symbol, a new string, and an undefined symbol ID. Predict the result of encoding or validation for each.
+3. Explain why a valid reference can still represent the wrong choice for the user's intent.
+4. Give a case where adding a symbol is structurally compatible but still requires a domain-owner review.
+5. Design a controlled comparison between a string-only exchange and a ProtocolAi vocabulary exchange. What evidence would distinguish improved formatting compliance from improved task correctness?
+
+## Further reading
+
+- [Theory and learning-path index](THEORY_INDEX.md) — the ordered chapter map and implementation navigation.
+- [Mathematical foundations](MATHEMATICAL_FOUNDATIONS.md) — formal assumptions, propositions, proofs, and limits.
+- [Problem domain](PROBLEM_DOMAIN.md) — the owned vocabulary domain and package boundary.
+- [Consuming ProtocolAi](CONSUMING.md) — installation and integration steps.
+- [Protocol payload JSON](PROTOCOL_PAYLOAD_JSON.md) — the exact payload representation.
+- [Event envelopes](EVENT_ENVELOPES.md) — the separate versioned event-contract boundary.
+
+---
+
 <!-- THE SINGULARITY WORKSHOP FOOTER -->
 <p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop" width="200" /></p>
 
