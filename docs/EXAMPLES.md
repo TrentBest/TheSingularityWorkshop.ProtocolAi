@@ -135,7 +135,36 @@ Conceptually:
 
 This form is useful at boundaries where another subsystem needs to refer to the owned symbol without taking ownership of its meaning.
 
-## Example 6 — The full WHAT boundary
+## Example 6 — One identity model for every vocabulary
+
+ProtocolAi does not special-case GUI controls, data fields, properties, or network protocol names. Each is simply a vocabulary owned by the application:
+
+```csharp
+var buttons = new ProtocolBuilder(7300, "Buttons")
+    .Define(7301, "A", "A")
+    .Define(7302, "B", "B")
+    .Build();
+
+var requestFields = new ProtocolBuilder(7400, "RequestFields")
+    .Define(7401, "Endpoint", "endpoint")
+    .Define(7402, "Payload", "payload")
+    .Build();
+
+var transportNames = new ProtocolBuilder(7500, "TransportProtocols")
+    .Define(7501, "UDP", "UDP")
+    .Define(7502, "TCP", "TCP")
+    .Build();
+
+var selectedButton = buttons.Reference("A");
+var requestedTransport = transportNames.Reference("UDP");
+var endpointField = requestFields.Reference("Endpoint");
+```
+
+These references identify concepts; they do not raise a button event, open a socket, send a datagram, or grant permission. The consuming application interprets the request in its own domain. It validates the requested operation, applies authentication and authorization, and decides whether it can proceed automatically or requires human approval.
+
+The same pattern works for application-defined fields and properties. ProtocolAi supplies stable, vocabulary-qualified identity and deterministic resolution—not the behavior associated with an identity.
+
+## Example 7 — The full WHAT boundary
 
 A useful mental model for an AI-facing tool is:
 
@@ -174,7 +203,7 @@ A useful mental model for an AI-facing tool is:
 
 The package is most useful when the application already has authoritative meaning and wants an explicit identity layer around it.
 
-## Example 7 — Pairing with GrammarAI
+## Example 8 — Pairing with GrammarAI
 
 Once a vocabulary exists, GrammarAI can refer to its symbols:
 
