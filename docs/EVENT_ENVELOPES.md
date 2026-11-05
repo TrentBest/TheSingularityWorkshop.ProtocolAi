@@ -5,7 +5,7 @@
   </a>
 </p>
 
-# ProtocolAi Event Envelope — Initial Contract
+# ProtocolAi Event Envelope — Version 1 Contract
 
 ## Responsibility boundary
 
@@ -57,7 +57,7 @@ The envelope is independent of the CommandAi proposal body. CommandAi/1 remains 
 - `ProtocolObserverRegistrationAcknowledgement` echoes observer identity/scope/version and reports Accepted, Rejected, Active, Suspended, or Removed. Rejection requires a reason.
 - `ProtocolObserverEvaluation` identifies observer, predicate and predicate version, input message, and one of True, False, Unknown, or Incomplete. Every state includes an explanation; Unknown and Incomplete are explicitly not success.
 - `ProtocolGateTransition` identifies gate/version, state, positive causal revision, source message, predicate, reason, and optional superseded message.
-- `ProtocolDownstreamNotification` identifies the consumer repository, Await, gate/version/state/revision, and the gate-transition message that triggered local reevaluation. It is a notification, not permission to proceed.\n- `ProtocolCommandOutcome` identifies Accepted, Rejected, or Completed for a proposal, with the assigned command ID where applicable and a reason for rejection. The containing envelope still requires an idempotency key for all command outcomes.
+- `ProtocolDownstreamNotification` identifies the consumer repository, `awaitId`, gate/version/state/revision, and the gate-transition message that triggered local reevaluation. It is a notification, not permission to proceed.\n- `ProtocolCommandOutcome` identifies Accepted, Rejected, or Completed for a proposal, with the assigned command ID where applicable and a reason for rejection. The containing envelope still requires an idempotency key for all command outcomes.
 
 The typed factory and reader prevent local construction and deserialization from silently pairing a supported payload with the wrong event kind; the reader also checks causal metadata consistency. This is not a trust boundary: a receiver still validates observer scope, message ordering, provenance authenticity, evidence contents, and host policy. The host retains responsibility for durable replay/deduplication.
 
