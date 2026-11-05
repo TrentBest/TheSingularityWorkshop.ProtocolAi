@@ -12,7 +12,8 @@ This index organizes ProtocolAi's domain theory as a modular learning path. Read
 | 00 | [The semantic identity boundary](THEORY.md) | The motivating problem, application-owned vocabularies, known identities versus unknown literals, local determinism, and the separation between identity, structure, policy, and execution. | Conceptual synthesis grounded in the current domain model. Claims about hallucination, token savings, latency, and model compliance remain hypotheses until measured. |
 | 01 | [Mathematical foundations](MATHEMATICAL_FOUNDATIONS.md) | The qualified address space, deterministic encoding, reference validation, resolution, conditional execution boundary, and testable experimental claims. | Formal reasoning under stated assumptions; the host-side execution theorem is conditional on a correctly enforced gate. |
 | 02 | [Problem domain](PROBLEM_DOMAIN.md) | The owned domain, vocabulary entities, responsibility boundaries, resource limits, and acceptance criteria. | Source-mapped to the core definition, symbol, reference, value, payload, and builder types. |
-| 03 | [Versioned event envelopes](EVENT_ENVELOPES.md) | Correlation, provenance, typed event payloads, schema compatibility, replay semantics, and causal gate transitions. | Typed payload construction/reading and contract conformance are implemented; durable inbox/outbox, replay, and cross-host interoperability remain host/integration responsibilities. |
+| 03 | [Protocol identity lifecycle and evolution](IDENTITY_LIFECYCLE.md) | Durable protocol-qualified addresses, immutable definition snapshots, exact matching, structural compatibility, and safe evolution practices. | Source-checked against `ProtocolDefinition`, `ProtocolBuilder`, and named compatibility/identity tests; semantic meaning and migration remain application responsibilities. |
+| 04 | [Versioned event envelopes](EVENT_ENVELOPES.md) | Correlation, provenance, typed event payloads, schema compatibility, replay semantics, and causal gate transitions. | Typed payload construction/reading and contract conformance are implemented; durable inbox/outbox, replay, and cross-host interoperability remain host/integration responsibilities. |
 
 ## Implementation and verification map
 
@@ -31,8 +32,9 @@ The table names source files and test suites as navigation aids, not line-stable
 1. Start with [The semantic identity boundary](THEORY.md) to understand the problem before the vocabulary.
 2. Read [Mathematical foundations](MATHEMATICAL_FOUNDATIONS.md) to distinguish what follows from the model's assumptions from what still depends on a host.
 3. Read [Problem domain](PROBLEM_DOMAIN.md) alongside the source and tests to see how the abstract model is represented.
-4. Read [Versioned event envelopes](EVENT_ENVELOPES.md) for the separate event-contract domain; do not confuse event transport metadata with vocabulary identity.
-5. Try the [beginner's guide](BEGINNERS_GUIDE.md) and [examples](EXAMPLES.md), then use the [C# guide](CSHARP_GUIDE.md) and [consuming guide](CONSUMING.md) for integration.
+4. Read [Protocol identity lifecycle and evolution](IDENTITY_LIFECYCLE.md) before changing or publishing vocabulary IDs.
+5. Read [Versioned event envelopes](EVENT_ENVELOPES.md) for the separate event-contract domain; do not confuse event transport metadata with vocabulary identity.
+6. Try the [beginner's guide](BEGINNERS_GUIDE.md) and [examples](EXAMPLES.md), then use the [C# guide](CSHARP_GUIDE.md) and [consuming guide](CONSUMING.md) for integration.
 
 ## Practice and assessment
 
