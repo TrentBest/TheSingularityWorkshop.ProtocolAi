@@ -15,6 +15,8 @@ This README follows the Workshop's shared [Documentation Standard](https://githu
 [![Build](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.ProtocolAi/build.yml?branch=master&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/build.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/TrentBest/TheSingularityWorkshop.ProtocolAi?style=flat-square)](https://codecov.io/gh/TrentBest/TheSingularityWorkshop.ProtocolAi)
 
+[![Sith Policy](assets/sith-policy.svg)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/sith-policy.yml)
+
 # ProtocolAI is **for AI**, not AI.
 
 **TheSingularityWorkshop.ProtocolAi** is a small, provider-neutral .NET library for giving application-owned meaning a deterministic address space.
