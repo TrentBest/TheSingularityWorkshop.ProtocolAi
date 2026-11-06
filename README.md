@@ -19,7 +19,7 @@
 
 
 
-[![Sith Policy](assets/sith-policy.svg)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/sith-policy.yml)
+[![Sith Policy](https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.ProtocolAi/master/assets/sith-policy.svg)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/sith-policy.yml)
 > **An LLM can propose a program. Your application must own what its instructions mean.**
 
 LLMs are powerful at proposing ideas and structures, but their output is not a stable application contract. A name can drift, an identifier can be invented, and a plausible-looking response can still ask for the wrong thing.
