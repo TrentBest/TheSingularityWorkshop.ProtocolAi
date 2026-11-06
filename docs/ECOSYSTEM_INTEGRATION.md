@@ -416,7 +416,7 @@ FSM_UserIO is already a good demonstration of why this works: it can carry a pro
 1. Keep FSM_UserIO's ProtocolId primitive and dependency-free.
 2. Document the ProtocolAI to FSM_UserIO relationship here.
 3. Treat GrammarAI as the primary structural companion, without forcing a package dependency yet.
-4. Build the first real ProtocolAI + GrammarAI + FSM_UserIO exchange in a higher-level host.
+4. Expand the existing AnyApp ProtocolAI + GrammarAI + FSM_UserIO vertical slice with a protocol-known but grammar-unadmitted symbol test, and keep the host authorization boundary explicit.
 5. Revisit FSM_REST, GUI, Experiences, and MicroBundles only when an actual semantic use case appears.
 6. Keep FSM_COS neutral: it carries and composes; it does not become the AI semantics layer.
 
