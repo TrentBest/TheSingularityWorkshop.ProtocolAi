@@ -7,46 +7,55 @@
 
 # Branch Reconciliation Ledger
 
-**Review date:** 2026-10-22 UTC  
-**Scope:** `master` versus `development`  
-**Disposition:** Audit only. No merge, cherry-pick, reset, or branch deletion has been performed.
+**Review date:** 2026-11-06 UTC  
+**Scope:** All repository branches, open pull requests, and current development CI  
+**Disposition:** Audit only. No merge, cherry-pick, reset, branch deletion, PR closure, release, or publication has been performed.
 
-## Current branch evidence
+## Current branch inventory
 
-- `development`: `7b705da7eea1a190680aaf65853c386731a66cd3`
-- `master`: `d5f061b3b2e42e61ec391e2db98fc531f502ba1b`
-- GitHub comparison: `development` is 161 commits ahead and 3 commits behind `master`.
-- No open pull requests were reported during this review.
-- Latest CI for the current development head: [run #39717085352](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/39717085352) — passed.
+The Sith policy requires exactly `master` and `development`. GitHub currently reports five branches:
 
-## Work found only on master
+| Branch | Current head SHA | Relationship to `development` | Evidence / disposition |
+|---|---|---:|---|
+| `development` | `7489463a52f7fa85018f7f810128431e78c8cd77` | Baseline | Active source branch; latest build/test/package workflow passed. |
+| `master` | `239b2ab4e1f8597cb4bf9d3b2ac4728b6e4d69a9` | 8 ahead / 330 behind | Released baseline; preserve. Histories are diverged. |
+| `docs/development-build-badge` | `0fc2ea425d939b393bf8ceb3995d5ac7b77b9f30` | 1 ahead / 139 behind | PR #9 remains open; preserve pending review of its unique README change. |
+| `work/event-contract-conformance` | `e8dd3f2fa91c7a36799fea606aa397600a9cdd8e` | 2 ahead / 21 behind | Contains a distinct 131-line event-contract conformance test file; no PR found in this review. Preserve pending integration/review. |
+| `work/protocol-compatibility-audit` | `14ea58c772ea1b728190e38184bd216f28e5a00e` | 9 ahead / 139 behind | PR #8 remains open; preserve pending review of compatibility implementation, docs, and tests. |
 
-Master has three commits not present on development:
+Comparison direction above is expressed as commits unique to the named branch / commits by which it trails `development`. The comparison base for the three work branches is the current `development` head above. Their merge bases are:
+- `master`: `860fed18a9028793a0709a8158f6c7549a88913c`
+- `docs/development-build-badge`: `20ea8e6406dacb056edc9f3a9ff2a8c8352b30a2`
+- `work/event-contract-conformance`: `6e1a46f29771649cc230247e882a71e2a7673a72`
+- `work/protocol-compatibility-audit`: `20ea8e6406dacb056edc9f3a9ff2a8c8352b30a2`
 
-| Commit | Change | Reconciliation treatment |
-|---|---|---|
-| `6c510129926c` | Add shared Workshop moniker to README | Preserve the moniker and accessible image alternative when polishing the development README. |
-| `334cfd7f8fdc` | Standardize README identity heading | Preserve the standard identity heading. |
-| `d5f061b3b2e4` | Link shared Workshop documentation standard | Preserve the link, pointing at the canonical FSM_COS `master` documentation standard. |
+## Open pull requests
 
-The master README is a longer, 353-line historical version; development's README is 178 lines and links to separate detailed guides. Do not replace the development documentation with the older README wholesale. Compare its unique explanations and examples before any final consolidation.
+| PR | Head → base | Head SHA | State | Current GitHub mergeability |
+|---|---|---|---|---|
+| [#8 — Add structural protocol compatibility checks](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/pull/8) | `work/protocol-compatibility-audit` → `development` | `14ea58c772ea1b728190e38184bd216f28e5a00e` | Open | `dirty`, not mergeable |
+| [#9 — docs: point ProtocolAi build badge at development](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/pull/9) | `docs/development-build-badge` → `development` | `0fc2ea425d939b393bf8ceb3995d5ac7b77b9f30` | Open | `dirty`, not mergeable |
 
-## Release-critical differences
+The PR base SHA reported by GitHub is `20ea8e6406dacb056edc9f3a9ff2a8c8352b30a2`, which is behind the current development head. Do not merge either PR based solely on its title or old review state. Reassess its complete diff against the current development source first.
 
-- Project version: development `0.1.0-alpha.3`; master `0.1.0-alpha.2`.
-- Development has the dependency-free JSON payload transport and related guide/tests; keep that development implementation and its test coverage.
-- Both workflows currently hard-disable NuGet publication. Development pins NuGet Trusted Publishing's action to an immutable commit SHA; master uses a mutable version tag. Preserve the safer development workflow.
-- The project still suppresses CS1591 warnings. XML documentation and consumer-facing API coverage remain release-review items.
+## Verified development CI and policy result
 
-## Required before declaring branch reconciliation complete
+- Latest development build workflow: [run #42145038223](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42145038223) at `7489463a52f7fa85018f7f810128431e78c8cd77` — **passed**. Restore, build, tests with coverage, package, documentation-path verification, clean-consumer package verification, and artifact uploads all succeeded.
+- The `publish_nuget` job was **skipped**. No NuGet publication occurred in this run.
+- Latest development Sith evaluation: [run #42145038190](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42145038190) — **failed closed as NON-COMPLIANT** because the five-branch inventory violates the exact-two-branch policy. The log confirms that development did not publish badge evidence to `master`.
+- The workflow correction is therefore validated: development evaluations do not write the default-branch badge/evidence. The policy failure is expected until the surplus branches are reconciled.
 
-- [ ] Compare master README's older examples and explanations against current source/tests and harvest any still-useful material into the appropriate guide.
-- [ ] Confirm the moniker, identity heading, and canonical standard link are present and correct in the final development README.
-- [ ] Review project metadata, package contents, CI workflow permissions, and publication gates on both branches.
-- [ ] Re-run CI on the exact reconciled candidate.
-- [ ] Obtain repository-owner approval before merging or deleting any branch.
+## Reconciliation safeguards and next work
 
-**This ledger is not authorization to delete `master` or any other branch.**
+1. Review and harvest any still-useful unique commits from all three surplus work branches into `development` through deliberate, testable changes. In particular, review the compatibility report/definition/tests and the standalone event-contract conformance suite.
+2. Reassess PR #8 and PR #9 against the current `development` head; both currently report `dirty` and must not be merged blindly.
+3. Review the eight commits unique to `master` and the 330 commits unique to `development` before deciding how to reconcile the diverged released baseline. Never force-push or rewrite `master` as a shortcut.
+4. Re-run build/test and Sith evaluation after integration. The Sith gate should pass only when exactly `master` and `development` remain.
+5. Keep NuGet publication hard-disabled until the release gate is satisfied and the repository owner explicitly authorizes publication.
+
+## Owner deletion readiness
+
+**No branch is certified READY FOR OWNER DELETION.** All three surplus branches contain unique commits, and two are associated with open PRs. Preserve them until their unique work has been reviewed and safely integrated or explicitly rejected. This ledger is not authorization to delete branches, close PRs, merge histories, or publish packages.
 
 ---
 
