@@ -9,12 +9,11 @@
     "development",
     "docs/development-build-badge",
     "master",
-    "work/event-contract-conformance",
     "work/protocol-compatibility-audit"
   ],
-  "branch_count": 5,
+  "branch_count": 4,
   "status": "NON-COMPLIANT",
-  "evaluated_at": "2026-11-07T11:01:58Z",
-  "workflow_run": "https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42366423518",
-  "triggering_commit": "7751f1be8f77639b0b14492dd9e6269df3583989"
+  "evaluated_at": "2026-11-07T23:16:46Z",
+  "workflow_run": "https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42424503018",
+  "triggering_commit": "5d563d7e5f4c8bfcbc9a86e3d16107219be515c3"
 }
