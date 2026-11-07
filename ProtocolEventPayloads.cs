@@ -196,12 +196,32 @@ public static class ProtocolEventPayloadJson
             using var document = JsonDocument.Parse(json);
             if (document.RootElement.ValueKind != JsonValueKind.Object)
                 throw new ArgumentException("The typed event payload must be a JSON object.", nameof(json));
+            RejectDuplicateProperties(document.RootElement);
             var result = JsonSerializer.Deserialize<T>(json, Options);
             return result ?? throw new ArgumentException("The typed event payload cannot be null.", nameof(json));
         }
         catch (JsonException ex)
         {
             throw new ArgumentException("The typed event payload is invalid.", nameof(json), ex);
+        }
+    }
+
+    private static void RejectDuplicateProperties(JsonElement element)
+    {
+        if (element.ValueKind == JsonValueKind.Object)
+        {
+            var names = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var property in element.EnumerateObject())
+            {
+                if (!names.Add(property.Name))
+                    throw new ArgumentException($"Duplicate JSON property '{property.Name}' is not allowed.", "json");
+                RejectDuplicateProperties(property.Value);
+            }
+        }
+        else if (element.ValueKind == JsonValueKind.Array)
+        {
+            foreach (var item in element.EnumerateArray())
+                RejectDuplicateProperties(item);
         }
     }
 
