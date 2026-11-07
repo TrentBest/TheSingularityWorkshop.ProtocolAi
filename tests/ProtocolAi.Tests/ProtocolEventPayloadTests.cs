@@ -116,6 +116,20 @@ public sealed class ProtocolEventPayloadTests
     }
 
     [Fact]
+    public void Typed_payload_deserializer_rejects_duplicate_properties_recursively()
+    {
+        const string duplicateTopLevel =
+            "{\\"observerId\\":\\"first\\",\\"observerId\\":\\"second\\",\\"predicateId\\":\\"p\\",\\"predicateVersion\\":\\"1\\",\\"inputMessageId\\":\\"m\\",\\"state\\":\\"True\\",\\"reason\\":\\"ok\\"}";
+        const string duplicateNested =
+            "{\\"observerId\\":\\"o\\",\\"predicateId\\":\\"p\\",\\"predicateVersion\\":\\"1\\",\\"inputMessageId\\":\\"m\\",\\"state\\":\\"True\\",\\"reason\\":\\"ok\\",\\"extension\\":{\\"key\\":1,\\"key\\":2}}";
+
+        Assert.Throws<ArgumentException>(() =>
+            ProtocolEventPayloadJson.Deserialize<ProtocolObserverEvaluation>(duplicateTopLevel));
+        Assert.Throws<ArgumentException>(() =>
+            ProtocolEventPayloadJson.Deserialize<ProtocolObserverEvaluation>(duplicateNested));
+    }
+
+    [Fact]
     public void Typed_envelope_factory_fixes_registration_event_kind()
     {
         var payload = new ProtocolObserverRegistrationRequest("observer", "repo:owner/name", "1.0");
