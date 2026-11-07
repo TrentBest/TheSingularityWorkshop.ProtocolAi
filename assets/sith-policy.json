@@ -7,13 +7,11 @@
   ],
   "actual_branches": [
     "development",
-    "docs/development-build-badge",
-    "master",
-    "work/protocol-compatibility-audit"
+    "master"
   ],
-  "branch_count": 4,
-  "status": "NON-COMPLIANT",
-  "evaluated_at": "2026-11-07T23:16:46Z",
-  "workflow_run": "https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42424503018",
-  "triggering_commit": "5d563d7e5f4c8bfcbc9a86e3d16107219be515c3"
+  "branch_count": 2,
+  "status": "COMPLIANT",
+  "evaluated_at": "2026-11-07T23:16:58Z",
+  "workflow_run": "https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42424518718",
+  "triggering_commit": "2b957bcb61f7bd54d3f7c3949745e346b3a4cd3d"
 }
