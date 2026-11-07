@@ -87,11 +87,13 @@ The diagram separates implemented behavior from a future direction. The solid pa
 5. Consider hosting the playground after the static deployment is actually configured and validated.
 6. Make a release decision from evidence; do not treat documentation completeness as proof of API stability.
 
-## Latest development evidence — 2026-11-01
+## Latest development evidence — 2026-11-07
 
-Protocol definitions, payloads, and JSON representations now enforce explicit per-item and aggregate resource limits. The JSON reader checks the encoded-size bound and values-array count before materializing wire records; payload construction also caps aggregate literal text. Companion type/UML documentation was added for `ProtocolLimits`.
+The current `development` head is [2877496](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/28774960b59bec539b0cf978790ea64993d212c7). Its full development workflow [#402](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42422758183) completed successfully: restore, Release build, tests with coverage, Codecov upload, package creation, packaged-documentation path verification, clean-consumer installation, and artifact uploads all passed. The NuGet publication job was skipped. This is build/package evidence, not authorization to publish.
 
-The latest full development workflow [#308](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/41281835001) passed on commit [1102cbe](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/1102cbe779b7eb3d556378961ee16191c0485ad3): Release build, 39 ProtocolAi tests, 4 playground tests, package, and clean-consumer verification. Structural compatibility remains in open PR [#8](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/pull/8); no merge or publication has occurred.
+Structural compatibility is already implemented on `development` in `ProtocolDefinition.CompareCompatibility`, `ProtocolCompatibilityReport`, and the associated tests. Historical PR [#8](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/pull/8) is closed and unmerged; it is not outstanding work. The current open-PR inventory is empty. The only maintained branches are `master` and `development`.
+
+The next verification work remains the source-to-documentation contract audit, consumer-boundary review, browser-level playground verification, and explicit decisions about permanent identity, semantic versioning, canonicalization, and unknown-value registration. No release or publication is implied.
 
 ## Status language
 
