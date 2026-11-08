@@ -208,8 +208,10 @@ public static class ProtocolEventEnvelopeJson
         {
             using var document = JsonDocument.Parse(json);
             if (document.RootElement.ValueKind != JsonValueKind.Object
-                || !document.RootElement.TryGetProperty("kind", out _))
+                || !document.RootElement.TryGetProperty("kind", out var kind))
                 throw new ArgumentException("The event envelope must explicitly provide a kind.", nameof(json));
+            if (kind.ValueKind != JsonValueKind.String)
+                throw new ArgumentException("The event envelope kind must be a JSON string.", nameof(json));
             RejectDuplicateProperties(document.RootElement);
             var wire = JsonSerializer.Deserialize<WireEnvelope>(json, Options)
                 ?? throw new ArgumentException("Event envelope JSON cannot be null.", nameof(json));
