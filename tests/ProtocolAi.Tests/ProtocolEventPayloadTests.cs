@@ -267,6 +267,15 @@ public sealed class ProtocolEventPayloadTests
     }
 
     [Fact]
+    public void Typed_payload_reader_rejects_numeric_enum_tokens()
+    {
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolObserverEvaluation>(
+            """{"observerId":"o","predicateId":"p","predicateVersion":"1","inputMessageId":"m","state":0,"reason":"numeric"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolObserverRegistrationRequest>(
+            """{"observerId":"o","scope":"repo:owner/name","protocolVersion":"1","requestedLifecycle":0}"""));
+    }
+
+    [Fact]
     public void Typed_payload_reader_rejects_omitted_required_enum_properties()
     {
         Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolObserverRegistrationAcknowledgement>(
