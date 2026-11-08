@@ -42,6 +42,14 @@ public sealed class ProtocolEventEnvelopeTests
     }
 
     [Fact]
+    public void Envelope_rejects_a_default_occurrence_timestamp()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new ProtocolEventEnvelope(
+            "m1", "c1", "producer", ProtocolEventKind.ObserverRegistrationRequested,
+            default, "{}"));
+    }
+
+    [Fact]
     public void Evidence_events_require_exact_candidate_provenance()
     {
         Assert.Throws<ArgumentException>(() => new ProtocolEventEnvelope(
