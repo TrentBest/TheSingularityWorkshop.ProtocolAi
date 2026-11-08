@@ -200,6 +200,12 @@ public static class ProtocolEventPayloadJson
             if (requiredEnumProperty is not null
                 && !document.RootElement.TryGetProperty(requiredEnumProperty, out _))
                 throw new ArgumentException($"The typed event payload must explicitly provide '{requiredEnumProperty}'.", nameof(json));
+            foreach (var enumProperty in EnumProperties(typeof(T)))
+            {
+                if (document.RootElement.TryGetProperty(enumProperty, out var value)
+                    && value.ValueKind != JsonValueKind.String)
+                    throw new ArgumentException($"Typed event payload enum property '{enumProperty}' must be a JSON string.", nameof(json));
+            }
             RejectDuplicateProperties(document.RootElement);
             var result = JsonSerializer.Deserialize<T>(json, Options);
             return result ?? throw new ArgumentException("The typed event payload cannot be null.", nameof(json));
@@ -210,16 +216,25 @@ public static class ProtocolEventPayloadJson
         }
     }
 
-    private static string? RequiredEnumProperty(Type payloadType) => payloadType switch
+    private static string[] EnumProperties(Type payloadType) => payloadType switch
     {
-        var type when type == typeof(ProtocolObserverRegistrationAcknowledgement) => "status",
-        var type when type == typeof(ProtocolObserverEvaluation) => "state",
-        var type when type == typeof(ProtocolGateTransition) => "state",
-        var type when type == typeof(ProtocolCommandOutcome) => "outcome",
-        var type when type == typeof(ProtocolSourceEvent) => "outcome",
-        var type when type == typeof(ProtocolDownstreamNotification) => "state",
-        _ => null
+        var type when type == typeof(ProtocolObserverRegistrationRequest) => ["requestedLifecycle"],
+        var type when type == typeof(ProtocolObserverRegistrationAcknowledgement) => ["status"],
+        var type when type == typeof(ProtocolObserverEvaluation) => ["state"],
+        var type when type == typeof(ProtocolGateTransition) => ["state"],
+        var type when type == typeof(ProtocolCommandOutcome) => ["outcome"],
+        var type when type == typeof(ProtocolSourceEvent) => ["outcome"],
+        var type when type == typeof(ProtocolDownstreamNotification) => ["state"],
+        _ => []
     };
+
+    private static string? RequiredEnumProperty(Type payloadType) =>
+        payloadType == typeof(ProtocolObserverRegistrationAcknowledgement) ? "status" :
+        payloadType == typeof(ProtocolObserverEvaluation) ? "state" :
+        payloadType == typeof(ProtocolGateTransition) ? "state" :
+        payloadType == typeof(ProtocolCommandOutcome) ? "outcome" :
+        payloadType == typeof(ProtocolSourceEvent) ? "outcome" :
+        payloadType == typeof(ProtocolDownstreamNotification) ? "state" : null;
 
     private static void RejectDuplicateProperties(JsonElement element)
     {
