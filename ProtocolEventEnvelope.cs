@@ -104,6 +104,8 @@ public sealed class ProtocolEventEnvelope
         ProducerId = Required(producerId, nameof(producerId), 256);
         if (!Enum.IsDefined(kind)) throw new ArgumentOutOfRangeException(nameof(kind));
         Kind = kind;
+        if (occurredAt == default)
+            throw new ArgumentOutOfRangeException(nameof(occurredAt), "A non-default occurrence timestamp is required.");
         OccurredAt = occurredAt.ToUniversalTime();
         if (string.IsNullOrWhiteSpace(payloadJson)) throw new ArgumentException("A JSON object payload is required.", nameof(payloadJson));
         if (payloadJson.Length > MaxPayloadCharacters) throw new ArgumentException($"Payload cannot exceed {MaxPayloadCharacters} characters.", nameof(payloadJson));
