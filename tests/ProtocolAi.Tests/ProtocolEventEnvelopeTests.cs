@@ -50,6 +50,15 @@ public sealed class ProtocolEventEnvelopeTests
     }
 
     [Fact]
+    public void Deserialize_rejects_an_omitted_event_kind()
+    {
+        var json = ProtocolEventEnvelopeJson.Serialize(SourceEvent())
+            .Replace("\\"kind\\":\\"SourceEvent\\",", string.Empty, StringComparison.Ordinal);
+
+        Assert.Throws<ArgumentException>(() => ProtocolEventEnvelopeJson.Deserialize(json));
+    }
+
+    [Fact]
     public void Evidence_events_require_exact_candidate_provenance()
     {
         Assert.Throws<ArgumentException>(() => new ProtocolEventEnvelope(
