@@ -266,6 +266,23 @@ public sealed class ProtocolEventPayloadTests
             ProtocolTypedEventEnvelope.DeserializePayload<ProtocolGateTransition>(envelope));
     }
 
+    [Fact]
+    public void Typed_payload_reader_rejects_omitted_required_enum_properties()
+    {
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolObserverRegistrationAcknowledgement>(
+            """{"observerId":"observer","scope":"repo:owner/name","protocolVersion":"1.0"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolObserverEvaluation>(
+            """{"observerId":"observer","predicateId":"checks","predicateVersion":"1","inputMessageId":"m1","reason":"Incomplete"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolGateTransition>(
+            """{"gateId":"gate","gateVersion":"1","causalRevision":1,"sourceMessageId":"m1","predicateId":"checks","reason":"Closed"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolCommandOutcome>(
+            """{"proposalId":"proposal","commandId":"command"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolSourceEvent>(
+            """{"sourceId":"ci","eventType":"build.completed","subject":"owner/repo","summary":"Build completed"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolDownstreamNotification>(
+            """{"notificationId":"notice","consumerRepository":"owner/repo","awaitId":"await","gateId":"gate","gateVersion":"1","causalRevision":1,"gateTransitionMessageId":"m1","reason":"Reevaluate"}"""));
+    }
+
     private static ProtocolCandidateProvenance CreateProvenance() => new(
         "owner/repo", "refs/heads/development", new string('a', 40), new string('b', 40),
         new string('c', 40), "refs/heads/master", new string('d', 40), 42, 1,
