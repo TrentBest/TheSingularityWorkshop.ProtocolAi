@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace TheSingularityWorkshop.ProtocolAi;
 
 public enum ProtocolSourceEventOutcome
@@ -27,7 +25,6 @@ public sealed record ProtocolSourceEvent
     public string SourceId { get; }
     public string EventType { get; }
     public string Subject { get; }
-    [JsonRequired]
     public ProtocolSourceEventOutcome Outcome { get; }
     public string Summary { get; }
 }
@@ -62,7 +59,6 @@ public sealed record ProtocolDownstreamNotification
     public string AwaitId { get; }
     public string GateId { get; }
     public string GateVersion { get; }
-    [JsonRequired]
     public ProtocolGateState State { get; }
     public long CausalRevision { get; }
     public string GateTransitionMessageId { get; }
