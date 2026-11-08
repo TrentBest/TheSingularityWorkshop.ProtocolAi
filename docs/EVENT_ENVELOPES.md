@@ -13,7 +13,7 @@ ProtocolAi defines a versioned message boundary and stable correlation/provenanc
 
 ## Version 1 envelope
 
-Every envelope carries a schema identifier and version; unique message ID; work correlation ID; optional causation and idempotency IDs; producer identity as an asserted value (not an authentication result); event kind; UTC occurrence time; and a JSON-object payload. Optional causal revision and superseded-message identity support ordered gate transitions.
+Every envelope carries a schema identifier and version; unique message ID; work correlation ID; optional causation and idempotency IDs; producer identity as an asserted value (not an authentication result); event kind; UTC occurrence time; and a JSON-object payload. Optional causal revision and superseded-message identity support ordered gate transitions. The occurrence timestamp must be non-default; readers reject a missing/default timestamp rather than treating it as a meaningful event time.
 
 The initial event kinds are observer registration requested/acknowledged, source event, observer evaluation, gate transition, downstream notification, and command accepted/rejected/completed.
 
