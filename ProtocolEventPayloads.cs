@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace TheSingularityWorkshop.ProtocolAi;
 
@@ -88,7 +87,6 @@ public sealed record ProtocolObserverRegistrationAcknowledgement
     public string ObserverId { get; }
     public string Scope { get; }
     public string ProtocolVersion { get; }
-    [JsonRequired]
     public ProtocolObserverRegistrationStatus Status { get; }
     public string? Reason { get; }
 }
@@ -112,7 +110,6 @@ public sealed record ProtocolObserverEvaluation
     public string PredicateId { get; }
     public string PredicateVersion { get; }
     public string InputMessageId { get; }
-    [JsonRequired]
     public ProtocolEvaluationState State { get; }
     public string Reason { get; }
 }
@@ -139,7 +136,6 @@ public sealed record ProtocolGateTransition
 
     public string GateId { get; }
     public string GateVersion { get; }
-    [JsonRequired]
     public ProtocolGateState State { get; }
     public long CausalRevision { get; }
     public string SourceMessageId { get; }
@@ -169,7 +165,6 @@ public sealed record ProtocolCommandOutcome
             throw new ArgumentException("A completed command must identify its command.", nameof(commandId));
     }
 
-    [JsonRequired]
     public ProtocolCommandOutcomeKind Outcome { get; }
     public string ProposalId { get; }
     public string? CommandId { get; }
@@ -201,6 +196,10 @@ public static class ProtocolEventPayloadJson
             using var document = JsonDocument.Parse(json);
             if (document.RootElement.ValueKind != JsonValueKind.Object)
                 throw new ArgumentException("The typed event payload must be a JSON object.", nameof(json));
+            var requiredEnumProperty = RequiredEnumProperty(typeof(T));
+            if (requiredEnumProperty is not null
+                && !document.RootElement.TryGetProperty(requiredEnumProperty, out _))
+                throw new ArgumentException($"The typed event payload must explicitly provide '{requiredEnumProperty}'.", nameof(json));
             RejectDuplicateProperties(document.RootElement);
             var result = JsonSerializer.Deserialize<T>(json, Options);
             return result ?? throw new ArgumentException("The typed event payload cannot be null.", nameof(json));
@@ -210,6 +209,17 @@ public static class ProtocolEventPayloadJson
             throw new ArgumentException("The typed event payload is invalid.", nameof(json), ex);
         }
     }
+
+    private static string? RequiredEnumProperty(Type payloadType) => payloadType switch
+    {
+        var type when type == typeof(ProtocolObserverRegistrationAcknowledgement) => "status",
+        var type when type == typeof(ProtocolObserverEvaluation) => "state",
+        var type when type == typeof(ProtocolGateTransition) => "state",
+        var type when type == typeof(ProtocolCommandOutcome) => "outcome",
+        var type when type == typeof(ProtocolSourceEvent) => "outcome",
+        var type when type == typeof(ProtocolDownstreamNotification) => "state",
+        _ => null
+    };
 
     private static void RejectDuplicateProperties(JsonElement element)
     {
