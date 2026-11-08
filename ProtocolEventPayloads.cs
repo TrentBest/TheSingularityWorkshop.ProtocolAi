@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace TheSingularityWorkshop.ProtocolAi;
 
@@ -87,6 +88,7 @@ public sealed record ProtocolObserverRegistrationAcknowledgement
     public string ObserverId { get; }
     public string Scope { get; }
     public string ProtocolVersion { get; }
+    [JsonRequired]
     public ProtocolObserverRegistrationStatus Status { get; }
     public string? Reason { get; }
 }
@@ -110,6 +112,7 @@ public sealed record ProtocolObserverEvaluation
     public string PredicateId { get; }
     public string PredicateVersion { get; }
     public string InputMessageId { get; }
+    [JsonRequired]
     public ProtocolEvaluationState State { get; }
     public string Reason { get; }
 }
@@ -136,6 +139,7 @@ public sealed record ProtocolGateTransition
 
     public string GateId { get; }
     public string GateVersion { get; }
+    [JsonRequired]
     public ProtocolGateState State { get; }
     public long CausalRevision { get; }
     public string SourceMessageId { get; }
@@ -165,6 +169,7 @@ public sealed record ProtocolCommandOutcome
             throw new ArgumentException("A completed command must identify its command.", nameof(commandId));
     }
 
+    [JsonRequired]
     public ProtocolCommandOutcomeKind Outcome { get; }
     public string ProposalId { get; }
     public string? CommandId { get; }
