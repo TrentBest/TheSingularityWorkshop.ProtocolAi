@@ -62,7 +62,7 @@ public sealed class ProtocolEventEnvelopeTests
     public void Deserialize_rejects_numeric_event_kind_tokens()
     {
         var json = ProtocolEventEnvelopeJson.Serialize(SourceEvent())
-            .Replace("\\"kind\\":\\"SourceEvent\\"", "\\"kind\\":2", StringComparison.Ordinal);
+            .Replace("\"kind\":\"SourceEvent\"", "\"kind\":2", StringComparison.Ordinal);
 
         Assert.Throws<ArgumentException>(() => ProtocolEventEnvelopeJson.Deserialize(json));
     }
