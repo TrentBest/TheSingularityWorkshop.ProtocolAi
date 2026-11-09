@@ -292,6 +292,25 @@ public sealed class ProtocolEventPayloadTests
             """{"notificationId":"notice","consumerRepository":"owner/repo","awaitId":"await","gateId":"gate","gateVersion":"1","causalRevision":1,"gateTransitionMessageId":"m1","reason":"Reevaluate"}"""));
     }
 
+    [Fact]
+    public void Typed_payload_reader_rejects_missing_required_string_properties()
+    {
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolObserverRegistrationRequest>(
+            """{"scope":"repo:owner/name","protocolVersion":"1.0"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolObserverRegistrationAcknowledgement>(
+            """{"scope":"repo:owner/name","protocolVersion":"1.0","status":"Accepted"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolObserverEvaluation>(
+            """{"predicateId":"checks","predicateVersion":"1","inputMessageId":"m1","state":"True","reason":"Evidence"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolGateTransition>(
+            """{"gateVersion":"1","state":"Satisfied","causalRevision":1,"sourceMessageId":"m1","predicateId":"checks","reason":"Evidence"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolCommandOutcome>(
+            """{"outcome":"Accepted","commandId":"command"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolSourceEvent>(
+            """{"eventType":"build.completed","subject":"owner/repo","outcome":"Succeeded","summary":"Build completed"}"""));
+        Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolDownstreamNotification>(
+            """{"consumerRepository":"owner/repo","awaitId":"await","gateId":"gate","gateVersion":"1","state":"Satisfied","causalRevision":1,"gateTransitionMessageId":"m1","reason":"Reevaluate"}"""));
+    }
+
     private static ProtocolCandidateProvenance CreateProvenance() => new(
         "owner/repo", "refs/heads/development", new string('a', 40), new string('b', 40),
         new string('c', 40), "refs/heads/master", new string('d', 40), 42, 1,
