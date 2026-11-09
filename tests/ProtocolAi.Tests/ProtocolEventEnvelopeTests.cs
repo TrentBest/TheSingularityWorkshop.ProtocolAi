@@ -175,4 +175,28 @@ public sealed class ProtocolEventEnvelopeTests
             DateTimeOffset.UtcNow, "{}", provenance: Provenance(),
             causalRevision: 2, supersedesMessageId: "m1"));
     }
+
+    [Fact]
+    public void Envelope_enforces_payload_character_limit_at_the_boundary()
+    {
+        var maximumPayload = "{" + new string(' ', ProtocolEventEnvelope.MaxPayloadCharacters - 2) + "}";
+        var envelope = new ProtocolEventEnvelope(
+            "m1", "c1", "producer", ProtocolEventKind.ObserverRegistrationRequested,
+            DateTimeOffset.UtcNow, maximumPayload);
+
+        Assert.Equal(ProtocolEventEnvelope.MaxPayloadCharacters, envelope.PayloadJson.Length);
+        Assert.Throws<ArgumentException>(() => new ProtocolEventEnvelope(
+            "m2", "c1", "producer", ProtocolEventKind.ObserverRegistrationRequested,
+            DateTimeOffset.UtcNow, maximumPayload + " "));
+    }
+
+    [Fact]
+    public void Envelope_json_reader_enforces_total_character_limit()
+    {
+        var json = ProtocolEventEnvelopeJson.Serialize(SourceEvent());
+        var oversized = json + new string(' ', ProtocolEventEnvelope.MaxEnvelopeCharacters - json.Length + 1);
+
+        Assert.Throws<ArgumentException>(() => ProtocolEventEnvelopeJson.Deserialize(oversized));
+    }
+
 }
