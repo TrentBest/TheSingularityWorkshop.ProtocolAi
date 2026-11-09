@@ -125,11 +125,21 @@ public sealed class ProtocolEventEnvelope
         if (RequiresProvenance(kind) && provenance is null)
             throw new ArgumentException($"Event kind '{kind}' requires exact-candidate provenance.", nameof(provenance));
         Provenance = provenance;
-        if (kind == ProtocolEventKind.GateTransition && (!causalRevision.HasValue || causalRevision.Value <= 0))
-            throw new ArgumentOutOfRangeException(nameof(causalRevision), "Gate transitions require a positive causal revision.");
-        if (causalRevision.HasValue && causalRevision.Value <= 0)
-            throw new ArgumentOutOfRangeException(nameof(causalRevision));
+        if (kind is ProtocolEventKind.GateTransition or ProtocolEventKind.DownstreamNotification)
+        {
+            if (!causalRevision.HasValue || causalRevision.Value <= 0)
+                throw new ArgumentOutOfRangeException(nameof(causalRevision),
+                    $"{kind} events require a positive causal revision.");
+        }
+        else if (causalRevision.HasValue)
+        {
+            throw new ArgumentException(
+                $"Event kind '{kind}' does not define causal revision metadata.", nameof(causalRevision));
+        }
         CausalRevision = causalRevision;
+        if (supersedesMessageId is not null && kind != ProtocolEventKind.GateTransition)
+            throw new ArgumentException(
+                "Only gate transitions may identify a superseded message.", nameof(supersedesMessageId));
         SupersedesMessageId = Optional(supersedesMessageId, nameof(supersedesMessageId), 128);
         if (IsCommandOutcome(kind) && IdempotencyKey is null)
             throw new ArgumentException("Command outcome messages require an idempotency key.", nameof(idempotencyKey));
