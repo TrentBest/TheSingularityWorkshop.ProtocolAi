@@ -13,11 +13,11 @@ ProtocolAi defines a versioned message boundary and stable correlation/provenanc
 
 ## Version 1 envelope
 
-Every envelope carries a schema identifier and version; unique message ID; work correlation ID; optional causation and idempotency IDs; producer identity as an asserted value (not an authentication result); event kind; UTC occurrence time; and a JSON-object payload. Optional causal revision and superseded-message identity support ordered gate transitions. The occurrence timestamp must be non-default; readers reject a missing/default timestamp rather than treating it as a meaningful event time.
+Every envelope carries a schema identifier and version; unique message ID; work correlation ID; optional causation and idempotency IDs; producer identity as an asserted value (not an authentication result); event kind; UTC occurrence time; and a JSON-object payload. Causal metadata is event-kind constrained: gate transitions require a positive causal revision and may name the message they supersede; downstream notifications require a positive causal revision identifying the gate transition they reference, but cannot supersede a message. Other event kinds must not carry causal revision or supersession metadata. The occurrence timestamp must be non-default; readers reject a missing/default timestamp rather than treating it as a meaningful event time.
 
 The initial event kinds are observer registration requested/acknowledged, source event, observer evaluation, gate transition, downstream notification, and command accepted/rejected/completed.
 
-Evidence-bearing source events, evaluations, gate transitions, and downstream notifications require candidate provenance. Command outcome messages require an idempotency key. Gate transitions require a positive causal revision and may name the message they supersede.
+Evidence-bearing source events, evaluations, gate transitions, and downstream notifications require candidate provenance. Command outcome messages require an idempotency key. Gate transitions require a positive causal revision and may name the message they supersede. Downstream notifications require a positive causal revision matching their typed payload; no other event kind may carry causal revision metadata, and only gate transitions may carry supersession metadata.
 
 ## Schema compatibility rules
 
