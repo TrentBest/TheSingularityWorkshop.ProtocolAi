@@ -150,4 +150,29 @@ public sealed class ProtocolEventEnvelopeTests
         Assert.NotEqual(p.EventSha, p.TestedCheckoutSha);
         Assert.NotEqual(p.TestedCheckoutSha, p.WorkflowDefinitionSha);
     }
+
+    [Fact]
+    public void Causal_revision_is_restricted_to_gate_transitions_and_downstream_notifications()
+    {
+        Assert.Throws<ArgumentException>(() => new ProtocolEventEnvelope(
+            "m1", "c1", "producer", ProtocolEventKind.ObserverRegistrationRequested,
+            DateTimeOffset.UtcNow, "{}", causalRevision: 1));
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => new ProtocolEventEnvelope(
+            "m2", "c1", "host", ProtocolEventKind.DownstreamNotification,
+            DateTimeOffset.UtcNow, "{}", provenance: Provenance()));
+    }
+
+    [Fact]
+    public void Superseded_message_metadata_is_restricted_to_gate_transitions()
+    {
+        Assert.Throws<ArgumentException>(() => new ProtocolEventEnvelope(
+            "m1", "c1", "producer", ProtocolEventKind.ObserverRegistrationRequested,
+            DateTimeOffset.UtcNow, "{}", supersedesMessageId: "m0"));
+
+        Assert.Throws<ArgumentException>(() => new ProtocolEventEnvelope(
+            "m2", "c1", "host", ProtocolEventKind.DownstreamNotification,
+            DateTimeOffset.UtcNow, "{}", provenance: Provenance(),
+            causalRevision: 2, supersedesMessageId: "m1"));
+    }
 }
