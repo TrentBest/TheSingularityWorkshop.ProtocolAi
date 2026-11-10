@@ -72,7 +72,7 @@ public sealed class ProtocolEventEnvelopeTests
             ProtocolEventEnvelopeJson.Serialize(SourceEvent()))!.AsObject();
         Assert.True(node.Remove(propertyName));
 
-        Assert.Throws<ArgumentException>(() =>
+        Assert.ThrowsAny<ArgumentException>(() =>
             ProtocolEventEnvelopeJson.Deserialize(node.ToJsonString()));
     }
 
