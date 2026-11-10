@@ -82,6 +82,11 @@ public static class ProtocolPayloadJson
 
         var values = wire.Values.Select((value, index) =>
         {
+            if (value is null)
+                throw new ArgumentException(
+                    $"Protocol payload value at index {index} must be a JSON object.",
+                    nameof(json));
+
             var hasReference = value.SymbolId.HasValue;
             var hasLiteral = value.Literal is not null;
 
