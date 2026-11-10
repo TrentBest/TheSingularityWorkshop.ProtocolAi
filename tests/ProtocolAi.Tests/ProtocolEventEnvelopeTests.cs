@@ -246,7 +246,7 @@ public sealed class ProtocolEventEnvelopeTests
     public void Deserialize_rejects_case_mismatched_required_wire_property_names()
     {
         var json = ProtocolEventEnvelopeJson.Serialize(SourceEvent())
-            .Replace("\\"kind\\":", "\\"Kind\\":", StringComparison.Ordinal);
+            .Replace("\"kind\":", "\"Kind\":", StringComparison.Ordinal);
 
         Assert.Throws<ArgumentException>(() => ProtocolEventEnvelopeJson.Deserialize(json));
     }
