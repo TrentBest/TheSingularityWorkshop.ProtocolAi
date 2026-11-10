@@ -58,6 +58,24 @@ public sealed class ProtocolEventEnvelopeTests
         Assert.Throws<ArgumentException>(() => ProtocolEventEnvelopeJson.Deserialize(json));
     }
 
+    [Theory]
+    [InlineData("schema")]
+    [InlineData("schemaVersion")]
+    [InlineData("messageId")]
+    [InlineData("correlationId")]
+    [InlineData("producerId")]
+    [InlineData("occurredAt")]
+    [InlineData("payloadJson")]
+    public void Deserialize_rejects_omitted_required_envelope_properties(string propertyName)
+    {
+        var node = System.Text.Json.Nodes.JsonNode.Parse(
+            ProtocolEventEnvelopeJson.Serialize(SourceEvent()))!.AsObject();
+        Assert.True(node.Remove(propertyName));
+
+        Assert.Throws<ArgumentException>(() =>
+            ProtocolEventEnvelopeJson.Deserialize(node.ToJsonString()));
+    }
+
     [Fact]
     public void Deserialize_rejects_numeric_event_kind_tokens()
     {
