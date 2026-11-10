@@ -267,6 +267,26 @@ public sealed class ProtocolEventPayloadTests
     }
 
     [Fact]
+    public void Typed_payload_reader_preserves_optional_enum_defaults_and_rejects_unknown_enum_names()
+    {
+        const string omittedOptionalLifecycle =
+            """{"observerId":"observer","scope":"repo:owner/name","protocolVersion":"1.0"}""";
+        const string unknownOptionalLifecycle =
+            """{"observerId":"observer","scope":"repo:owner/name","protocolVersion":"1.0","requestedLifecycle":"Paused"}""";
+        const string unknownRequiredState =
+            """{"observerId":"observer","predicateId":"checks","predicateVersion":"1","inputMessageId":"m1","state":"Maybe","reason":"Unknown state"}""";
+
+        var restored = ProtocolEventPayloadJson.Deserialize<ProtocolObserverRegistrationRequest>(
+            omittedOptionalLifecycle);
+
+        Assert.Equal(ProtocolObserverLifecycle.Active, restored.RequestedLifecycle);
+        Assert.Throws<ArgumentException>(() =>
+            ProtocolEventPayloadJson.Deserialize<ProtocolObserverRegistrationRequest>(unknownOptionalLifecycle));
+        Assert.Throws<ArgumentException>(() =>
+            ProtocolEventPayloadJson.Deserialize<ProtocolObserverEvaluation>(unknownRequiredState));
+    }
+
+    [Fact]
     public void Typed_payload_reader_rejects_numeric_enum_tokens()
     {
         Assert.Throws<ArgumentException>(() => ProtocolEventPayloadJson.Deserialize<ProtocolObserverEvaluation>(
