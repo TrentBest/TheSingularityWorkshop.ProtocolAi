@@ -316,4 +316,27 @@ public sealed class ProtocolEventPayloadTests
         new string('c', 40), "refs/heads/master", new string('d', 40), 42, 1,
         "build-and-test", "https://example.invalid/evidence", new string('e', 64));
 
+
+    [Fact]
+    public void Typed_payload_reader_rejects_case_mismatched_required_enum_property()
+    {
+        const string json =
+            """{"observerId":"o","predicateId":"p","predicateVersion":"1","inputMessageId":"m","State":"True","reason":"case mismatch"}""";
+
+        Assert.Throws<ArgumentException>(() =>
+            ProtocolEventPayloadJson.Deserialize<ProtocolObserverEvaluation>(json));
+    }
+
+    [Fact]
+    public void Typed_payload_reader_ignores_unknown_v1_extension_properties()
+    {
+        const string json =
+            """{"observerId":"o","predicateId":"p","predicateVersion":"1","inputMessageId":"m","state":"True","reason":"ok","futureOptionalField":{"version":1}}""";
+
+        var restored = ProtocolEventPayloadJson.Deserialize<ProtocolObserverEvaluation>(json);
+
+        Assert.Equal("o", restored.ObserverId);
+        Assert.Equal(ProtocolEvaluationState.True, restored.State);
+    }
+
 }
