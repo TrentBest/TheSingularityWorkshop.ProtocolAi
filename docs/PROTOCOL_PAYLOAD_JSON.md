@@ -149,13 +149,21 @@ values
 
 The representation is intended to be predictable and compact. Consumers should treat it as a ProtocolAI transport representation rather than depending on incidental JSON formatting beyond the documented field semantics.
 
-## Compatibility
+## Compatibility and persisted definitions
 
-Alpha 3 does not introduce protocol negotiation or a second protocol-version field into every payload.
+Alpha 3 does not put a definition revision or fingerprint into every payload. The wire data identifies the protocol namespace and carries ordered symbol references or literals; it does **not** identify the exact historical `ProtocolDefinition` that produced it.
 
-Compatibility is currently established by the receiving application knowing which ProtocolAI vocabulary it expects and validating the received payload against that definition.
+The receiving host must therefore select the trusted definition against which a payload is validated. If the host needs historical interpretation, it must retain and select the corresponding immutable definition itself (for example, by storing a definition revision beside the payload in host-owned persistence metadata). ProtocolAI does not provide a definition registry, revision store, or automatic migration service.
 
-Future protocol negotiation can be added above this representation without changing the meaning of `ProtocolPayload`.
+Structural compatibility can help a host decide whether a candidate definition can read older payloads:
+
+- An additive candidate can resolve payloads written against the older definition, provided existing symbol IDs retain their meanings.
+- An older definition rejects a payload that references a symbol ID introduced only by a newer definition.
+- Removing or redefining an existing symbol is structurally incompatible; the host must retain the old definition or perform an explicit, domain-aware migration.
+
+The comparison is not a semantic proof. A host must preserve the meaning of published IDs and must not silently reinterpret historical data. Compatibility checks also do not replace authentication, authorization, or migration review.
+
+Future negotiation or definition-version metadata can be added above this representation without changing the meaning of `ProtocolPayload`. Adding a revision field to this wire format would itself be a wire-contract change and should be introduced only if the core package is explicitly made responsible for selecting historical definitions.
 
 ## Security boundary
 
