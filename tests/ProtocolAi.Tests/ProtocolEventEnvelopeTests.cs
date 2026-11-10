@@ -160,6 +160,30 @@ public sealed class ProtocolEventEnvelopeTests
         Assert.Throws<ArgumentException>(() => ProtocolEventEnvelopeJson.Deserialize(future));
     }
 
+    [Theory]
+    [InlineData("repository")]
+    [InlineData("candidateRef")]
+    [InlineData("candidateSha")]
+    [InlineData("eventSha")]
+    [InlineData("testedCheckoutSha")]
+    [InlineData("workflowDefinitionRef")]
+    [InlineData("workflowDefinitionSha")]
+    [InlineData("workflowRunId")]
+    [InlineData("workflowRunAttempt")]
+    [InlineData("observedJobIdentity")]
+    [InlineData("evidenceReference")]
+    [InlineData("evidenceSha256")]
+    public void Deserialize_rejects_omitted_required_provenance_properties(string propertyName)
+    {
+        var node = System.Text.Json.Nodes.JsonNode.Parse(
+            ProtocolEventEnvelopeJson.Serialize(SourceEvent()))!.AsObject();
+        var provenance = node["provenance"]!.AsObject();
+        Assert.True(provenance.Remove(propertyName));
+
+        Assert.ThrowsAny<ArgumentException>(() =>
+            ProtocolEventEnvelopeJson.Deserialize(node.ToJsonString()));
+    }
+
     [Fact]
     public void Provenance_keeps_event_checkout_and_workflow_hashes_distinct()
     {
