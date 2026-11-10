@@ -241,4 +241,30 @@ public sealed class ProtocolEventEnvelopeTests
         Assert.Throws<ArgumentException>(() => ProtocolEventEnvelopeJson.Deserialize(oversized));
     }
 
+
+    [Fact]
+    public void Deserialize_rejects_case_mismatched_required_wire_property_names()
+    {
+        var json = ProtocolEventEnvelopeJson.Serialize(SourceEvent())
+            .Replace("\\"kind\\":", "\\"Kind\\":", StringComparison.Ordinal);
+
+        Assert.Throws<ArgumentException>(() => ProtocolEventEnvelopeJson.Deserialize(json));
+    }
+
+    [Fact]
+    public void Deserialize_ignores_unknown_v1_extension_properties()
+    {
+        var node = System.Text.Json.Nodes.JsonNode.Parse(
+            ProtocolEventEnvelopeJson.Serialize(SourceEvent()))!.AsObject();
+        node["futureOptionalField"] = new System.Text.Json.Nodes.JsonObject
+        {
+            ["extensionVersion"] = 1
+        };
+
+        var restored = ProtocolEventEnvelopeJson.Deserialize(node.ToJsonString());
+
+        Assert.Equal(ProtocolEventKind.SourceEvent, restored.Kind);
+        Assert.Equal(SourceEvent().MessageId, restored.MessageId);
+    }
+
 }
