@@ -47,6 +47,17 @@ public sealed class ProtocolPayloadJsonTests
         Assert.Contains("exactly one", error.Message);
     }
 
+    [Theory]
+    [InlineData("""{"protocolId":1001,"values":[null]}""")]
+    [InlineData("""{"protocolId":1001,"values":[{"symbolId":2001},null]}""")]
+    public void Deserialize_rejects_null_value_entries_with_a_clear_argument_error(string json)
+    {
+        var error = Assert.Throws<ArgumentException>(() => ProtocolPayloadJson.Deserialize(json));
+
+        Assert.Contains("must be a JSON object", error.Message);
+        Assert.Equal("json", error.ParamName);
+    }
+
     [Fact]
     public void Deserialize_rejects_value_with_neither_reference_nor_literal()
     {
