@@ -49,4 +49,23 @@ public sealed class PortableEventEnvelopeFixtureTests
         Assert.Throws<ArgumentException>(() =>
             ProtocolTypedEventEnvelope.DeserializePayload<ProtocolObserverEvaluation>(envelope));
     }
+    [Fact]
+    public void Portable_fixture_manifest_pins_revision_and_unique_scenario_ids()
+    {
+        using var manifest = System.Text.Json.JsonDocument.Parse(
+            File.ReadAllText(Fixture("manifest.json")));
+
+        var root = manifest.RootElement;
+        Assert.Equal("TheSingularityWorkshop.ProtocolAi.EventEnvelope",
+            root.GetProperty("fixtureSet").GetString());
+        Assert.Equal(1, root.GetProperty("schemaVersion").GetInt32());
+        Assert.Equal("1.0.0", root.GetProperty("revision").GetString());
+
+        var scenarios = root.GetProperty("scenarios").EnumerateArray().ToArray();
+        Assert.Equal(4, scenarios.Length);
+        Assert.Equal(4, scenarios.Select(x => x.GetProperty("id").GetString()).Distinct().Count());
+        foreach (var scenario in scenarios)
+            Assert.True(File.Exists(Fixture(scenario.GetProperty("file").GetString()!)));
+    }
+
 }
