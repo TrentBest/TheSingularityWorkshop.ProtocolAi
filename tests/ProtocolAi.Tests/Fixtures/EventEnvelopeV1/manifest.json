@@ -1,0 +1,11 @@
+{
+  "fixtureSet": "TheSingularityWorkshop.ProtocolAi.EventEnvelope",
+  "schemaVersion": 1,
+  "revision": "1.0.0",
+  "scenarios": [
+    { "id": "envelope.source-event.valid", "file": "valid-source-event.json", "expect": "accept-envelope" },
+    { "id": "envelope.command-completed.valid", "file": "valid-command-completed.json", "expect": "accept-envelope" },
+    { "id": "envelope.schema-version.unsupported", "file": "unsupported-schema-version.json", "expect": "reject-envelope" },
+    { "id": "envelope.kind-payload.mismatch", "file": "kind-payload-mismatch.json", "expect": "accept-envelope-reject-typed-payload" }
+  ]
+}
