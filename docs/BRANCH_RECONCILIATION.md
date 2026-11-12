@@ -1,79 +1,75 @@
 <!-- The Singularity Workshop moniker -->
 <p align="center">
   <a href="https://github.com/TrentBest">
-    <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop — animated workshop moniker" width="720" />
+    <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop animated moniker" width="720" />
   </a>
 </p>
 
 # Branch Reconciliation Ledger
 
-**Review date:** 2026-11-07 UTC  
-**Audited development head:** `473f315b5790bab434dc8e32ae9170aff170d925`  
-**Disposition:** Audit and documentation refresh only. No branch deletion, PR closure, merge, reset, cherry-pick, release, deployment, or package publication has been performed.
+**Review date:** 2026-11-12 UTC  
+**Audited development head:** `76261afe6e5613d0d56de1b90ae32ceed4ed6d96`  
+**Audited master head:** `ba437078f8e324eec44af930ac1f526fc219f471`  
+**Disposition:** The live remote inventory contains exactly the two canonical branches. No noncanonical branches remain to classify. No branch deletion, PR closure, merge, reset, cherry-pick, release, deployment, or package publication was performed.
 
 ## Branch inventory
 
-The Sith policy requires exactly `master` and `development`. GitHub currently reports five branches:
+The Sith policy requires exactly `master` and `development`. GitHub branch search returned:
 
-| Branch | Head SHA | Ahead / behind development | Disposition |
-|---|---|---:|---|
-| `development` | `473f315b5790bab434dc8e32ae9170aff170d925` | Baseline | Active source branch. |
-| `master` | `5d563d7e5f4c8bfcbc9a86e3d16107219be515c3` | 10 / 336 | Released baseline; preserve. GitHub branch metadata currently reports protection disabled. |
-| `docs/development-build-badge` | `0fc2ea425d939b393bf8ceb3995d5ac7b77b9f30` | 1 / 145 | PR #9 is open; its sole README badge change is already present in development. Pending PR disposition. |
-| `work/event-contract-conformance` | `e8dd3f2fa91c7a36799fea606aa397600a9cdd8e` | 2 / 27 | Its only net changed file is byte-identical to development. Two unique commits reviewed; no open PR found. Candidate for owner deletion, but **not certified READY FOR OWNER DELETION** until workflow/consumer-reference checks are completed. |
-| `work/protocol-compatibility-audit` | `14ea58c772ea1b728190e38184bd216f28e5a00e` | 9 / 145 | PR #8 is open. Compatibility API/report, tests, README/consumer guidance, and theory material are represented in development. Pending PR disposition. |
+| Branch | Head SHA | Disposition |
+|---|---|---|
+| `development` | `76261afe6e5613d0d56de1b90ae32ceed4ed6d96` | Active source branch; preserve. |
+| `master` | `ba437078f8e324eec44af930ac1f526fc219f471` | Released/evidence baseline; preserve. |
 
-Comparison direction is commits unique to the named branch / commits by which it trails development. Merge bases:
-- `master`: `860fed18a9028793a0709a8158f6c7549a88913c`
-- `docs/development-build-badge`: `20ea8e6406dacb056edc9f3a9ff2a8c8352b30a2`
-- `work/event-contract-conformance`: `6e1a46f29771649cc230247e882a71e2a7673a72`
-- `work/protocol-compatibility-audit`: `20ea8e6406dacb056edc9f3a9ff2a8c8352b30a2`
+The branch search returned a second-page cursor; the follow-up page was empty. The complete observed inventory is therefore exactly two branches. The compare endpoint reports the histories are diverged; do not merge, reset, force-push, or rewrite `master` as a cleanup shortcut.
 
 ## Pull request disposition
 
-- [PR #8 — Add structural protocol compatibility checks](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/pull/8): open, not merged, GitHub reports not mergeable. Its original feature is represented on development: `ProtocolCompatibilityReport.cs` has blob `9d78d4880311e279767061979c56f84543fcd61f`; `ProtocolDefinition.cs`, `ProtocolDefinitionTests.cs`, README, consuming guide, and theory documentation also contain the compatibility work. The development versions evolved independently from the PR branch. Do not merge the stale PR. Owner must decide whether to close it before its branch enters the deletion batch.
-- [PR #9 — docs: point ProtocolAi build badge at development](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/pull/9): open, not merged, GitHub reports not mergeable. Its one-line build-badge change is already present in current development. The branch is superseded. Owner must decide whether to close it before its branch enters the deletion batch.
-- No PR has been closed and no branch has been deleted.
+The previously audited PRs #8 (structural protocol compatibility checks) and #9 (development build badge) were subsequently observed closed without merge. Their former head branches are absent from the current remote branch inventory. No open noncanonical branch or associated PR remains in the current inventory.
 
-## Content verification
+This ledger does not authorize reopening or closing PRs, or changing either canonical branch.
 
-### Event-contract conformance branch
+## Sith policy evidence
 
-The branch has two unique commits:
-- `bf4f90bdaa7c140fb6196fc63fa40064639c5746` — `test: cover every typed event envelope contract`
-- `e8dd3f2fa91c7a36799fea606aa397600a9cdd8e` — `test: compare typed event payload round trips`
+The master-hosted `assets/sith-policy.json` currently records:
 
-The compare endpoint reports one net changed file: `tests/ProtocolAi.Tests/ProtocolEventContractConformanceTests.cs`. Its blob is identical on development and the work branch (`77cb24feedd1c01615cb14dd4646e1c4eba6a8e0)). No open PR was found for this branch. The test is preserved in development, but branch-reference checks across workflows and consumers have not been conclusively completed. Therefore this branch remains a deletion candidate, **not yet certified READY FOR OWNER DELETION**.
+- Status: `COMPLIANT`
+- Actual branches: `development`, `master`
+- Branch count: `2`
+- Evaluation time: `2026-11-11T11:51:35Z`
+- Workflow run: [#43015393670](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43015393670)
+- Triggering commit: `9dc2bb712e7d58e8ad58fd625d798e2beac9c8ed`
 
-### Compatibility audit branch
+The Sith workflow job completed successfully. The evidence is a point-in-time observation, not a substitute for a fresh branch inventory at the instant of publication.
 
-The PR's compatibility report/API and associated tests and documentation are present in development. The development implementation supersedes the old PR branch; retain the branch only until PR #8 is explicitly resolved.
+## Build and publication status
 
-### Development build badge branch
+Development build [#42738326977](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42738326977), at `76261afe6e5613d0d56de1b90ae32ceed4ed6d96`, completed successfully. Restore, build, tests/coverage, Codecov upload, pack, packaged-documentation verification, clean-consumer build, and artifact uploads all succeeded. The `publish_nuget` job was skipped.
 
-The PR's exact build badge line targeting `development` is already in the current development README. Retain the branch only until PR #9 is explicitly resolved.
+The workflow's publication job remains hard-disabled with `if: \${{ false }}`. No package was published.
 
-## Master-only history and Sith policy evidence
+## Publish-gate design status
 
-The ten commits unique to master were reviewed at a high level. The master-only history contains the live Sith policy badge/evidence and related workflow history. The live `assets/sith-policy.svg` and `assets/sith-policy.json` remain on master, which is the stable badge/evidence host referenced by the development README.
+Issue #11's mandatory requirement is not yet implemented as an executable gate. The current hard-disabled job is safe, but it is not the final conditional gate. The proposed fail-closed design is recorded in [SITH_PUBLISH_GATE.md](SITH_PUBLISH_GATE.md).
 
-Development contains a newer Sith workflow implementation. Preserve master as the released baseline. The histories are diverged; do not merge, reset, force-push, or rewrite master as a cleanup shortcut. GitHub currently reports the master branch as not protected; this ledger does not change branch protection.
+The design requires both:
+1. a live, paginated remote branch inventory fetched immediately before publication; and
+2. recent, successful, master-hosted Sith evidence whose status and branch list agree with the live inventory.
 
-## CI and release safeguards
+Missing, malformed, stale, future-dated, contradictory, or unverifiable evidence must block publication. Build, test, and pack remain independent. The hard-disabled publication condition must remain in place until the gate is implemented, tested, and Trent explicitly authorizes changing the release path.
 
-- The latest recorded full development build/test/package workflow, [run #42342177808](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42342177808), passed at `473f315b5790bab434dc8e32ae9170aff170d925` on 2026-11-07. Restore, build, tests/coverage, pack, package-documentation verification, clean-consumer verification, and artifact uploads succeeded.
-- The `publish_nuget` job was skipped. No package was published.
-- Sith evaluation [run #42366423518](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42366423518) failed closed on 2026-11-07. The master-hosted `assets/sith-policy.json` records five actual branches against the required two and reports `NON-COMPLIANT`.
-- Keep NuGet publication disabled unless the remote branch inventory is exactly `master` + `development`, the publish gate independently verifies current Sith evidence, and the repository owner explicitly authorizes publication.
+## Event interoperability status
+
+ProtocolAi's typed v1 event envelope and payload contracts remain implemented and documented in [EVENT_ENVELOPES.md](EVENT_ENVELOPES.md). ProtocolAi does not own producer authentication, durable inbox/outbox storage, delivery, deduplication, evidence verification, authorization, or workflow execution.
+
+The cross-repository conformance plan is recorded in [CROSS_REPOSITORY_EVENT_CONFORMANCE.md](CROSS_REPOSITORY_EVENT_CONFORMANCE.md). Host-side proof remains outstanding in CommandAi, GrammarAi, and CiAi; ProtocolAi can provide shared fixtures and contract tests but must not absorb host responsibilities.
 
 ## Owner deletion readiness
 
-- **READY FOR OWNER DELETION:** None certified in this refresh.
-- **Deletion candidate pending final reference audit:** `TrentBest/TheSingularityWorkshop.ProtocolAi:work/event-contract-conformance`. Its unique test content is present byte-for-byte in development, but workflow/consumer-reference checks remain incomplete. Do not delete until it is certified and included in the owner's planned batch.
-- **Pending PR disposition:** `TrentBest/TheSingularityWorkshop.ProtocolAi:docs/development-build-badge` (PR #9) and `TrentBest/TheSingularityWorkshop.ProtocolAi:work/protocol-compatibility-audit` (PR #8). Their changes are superseded, but their PRs remain open. Do not delete while those PRs remain unresolved.
+- **READY FOR OWNER DELETION:** None. There are no noncanonical branches in the live inventory.
 - **Preserve:** `TrentBest/TheSingularityWorkshop.ProtocolAi:master` and `TrentBest/TheSingularityWorkshop.ProtocolAi:development`.
 
-This ledger is evidence and recommendation, not authorization to delete branches, close PRs, merge histories, publish packages, or release.
+No branch deletion is requested or required. This ledger is evidence and recommendation, not authorization to delete branches, merge histories, publish packages, or release.
 
 ---
 
