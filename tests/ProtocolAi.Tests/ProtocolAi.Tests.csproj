@@ -7,4 +7,7 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup><ProjectReference Include="..\..\TheSingularityWorkshop.ProtocolAi.csproj" /></ItemGroup>
+  <ItemGroup>
+    <None Include="Fixtures\\EventEnvelopeV1\\**\\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>
