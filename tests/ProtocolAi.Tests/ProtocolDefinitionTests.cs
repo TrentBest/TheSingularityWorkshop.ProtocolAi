@@ -17,7 +17,7 @@ public sealed class ProtocolDefinitionTests
         Assert.Equal((ulong)5000, buttonA.ProtocolId);
         Assert.Equal((ulong)5001, buttonA.SymbolId);
         Assert.Equal("A", buttons.Decode(buttonA));
-        Assert.Equal("[5000] Buttons\\n  [5001] A = \\"A\\"", buttons.Describe());
+        Assert.Equal("[5000] Buttons\n  [5001] A = \"A\"", buttons.Describe());
     }
 
     [Fact]
