@@ -1,0 +1,24 @@
+{
+  "schema": "TheSingularityWorkshop.ProtocolAi.EventEnvelope",
+  "schemaVersion": 99,
+  "messageId": "fixture-future-001",
+  "correlationId": "fixture-work-001",
+  "producerId": "CiAi",
+  "kind": "SourceEvent",
+  "occurredAt": "2026-11-04T00:00:00+00:00",
+  "payloadJson": "{\"source\":\"github-actions\",\"eventType\":\"build-and-test.completed\",\"subject\":\"owner/repository@candidate-sha\",\"outcome\":\"Succeeded\",\"summary\":\"Build completed.\"}",
+  "provenance": {
+    "repository": "owner/repository",
+    "candidateRef": "refs/heads/development",
+    "candidateSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "eventSha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "testedCheckoutSha": "cccccccccccccccccccccccccccccccccccccccc",
+    "workflowDefinitionRef": "refs/heads/master",
+    "workflowDefinitionSha": "dddddddddddddddddddddddddddddddddddddddd",
+    "workflowRunId": 123,
+    "workflowRunAttempt": 1,
+    "observedJobIdentity": "build-and-test/test",
+    "evidenceReference": "artifacts/evidence.json",
+    "evidenceSha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  }
+}
