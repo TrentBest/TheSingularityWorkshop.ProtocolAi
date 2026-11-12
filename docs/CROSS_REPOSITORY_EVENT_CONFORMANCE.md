@@ -106,18 +106,24 @@ A passing ProtocolAi unit/conformance suite proves only the library's local cont
 4. Collect exact commit/run evidence and review mismatches with the owning repository.
 5. Update ProtocolAi issue #13 only when all required host evidence is available and reviewed.
 
-## Executable local coverage and remaining fixture work
+## Executable local coverage and portable fixtures
 
-The current local conformance suite is implemented as deterministic in-code test builders rather than a checked-in, cross-repository JSON fixture directory:
+The local suite retains deterministic in-code tests for broad contract coverage and now also includes a checked-in, transport-neutral JSON fixture set:
 
-| Contract area | Executable tests |
+- Fixture directory: `tests/ProtocolAi.Tests/Fixtures/EventEnvelopeV1/`
+- Fixture manifest: `manifest.json`
+- Fixture-set revision: `1.0.0` (initial, intentionally small baseline)
+- Stable scenario IDs are declared in the manifest and asserted by `PortableEventEnvelopeFixtureTests`.
+
+| Contract area | Executable tests / fixtures |
 |---|---|
 | Every typed v1 event kind and typed payload round-trip | `ProtocolEventContractConformanceTests.Every_typed_event_contract_round_trips_through_its_envelope` |
 | Command outcome kind/payload agreement | `ProtocolEventContractConformanceTests.Command_payload_outcome_must_match_the_envelope_event_kind` |
 | Envelope shape, schema/version, required fields, timestamps, provenance, causal metadata, limits, duplicate properties, and extension behavior | `ProtocolEventEnvelopeTests` |
 | Payload required fields, enum behavior, event-kind pairing, typed causal metadata, and source/notification contracts | `ProtocolEventPayloadTests` |
+| Portable source event, command completion, unsupported schema version, and kind/payload mismatch cases | `PortableEventEnvelopeFixtureTests` |
 
-This is local contract coverage, not yet a portable fixture-set revision that another repository can consume directly. The next ProtocolAi-owned increment is to freeze stable scenario identifiers and a transport-neutral fixture distribution format, then have each host execute those exact cases. Do not claim cross-repository conformance until host repositories report their own commit/run evidence.
+The fixture set is a first portable baseline, not the complete negative/edge-case inventory described above. Extend it additively with stable scenario IDs before treating it as exhaustive. Another repository can consume the JSON files directly and record this exact fixture-set revision; it does not need a ProtocolAi package reference merely to read the fixtures. Do not claim cross-repository conformance until host repositories report their own commit/run evidence.
 
 For the operational-vocabulary decision and the explicit handler/execution boundary, see [Operational Vocabulary and Execution Boundary](OPERATIONAL_VOCABULARY_AND_EXECUTION_BOUNDARY.md).
 
