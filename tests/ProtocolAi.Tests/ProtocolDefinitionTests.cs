@@ -6,6 +6,21 @@ namespace ProtocolAi.Tests;
 public sealed class ProtocolDefinitionTests
 {
     [Fact]
+    public void Operational_vocabulary_uses_the_existing_protocol_definition_model()
+    {
+        var buttons = new ProtocolBuilder(5000, "Buttons")
+            .Define(5001, "A", "A")
+            .Build();
+
+        var buttonA = buttons.Reference("A");
+
+        Assert.Equal((ulong)5000, buttonA.ProtocolId);
+        Assert.Equal((ulong)5001, buttonA.SymbolId);
+        Assert.Equal("A", buttons.Decode(buttonA));
+        Assert.Equal("[5000] Buttons\\n  [5001] A = \\"A\\"", buttons.Describe());
+    }
+
+    [Fact]
     public void Builder_creates_self_defining_vocabulary()
     {
         var protocol = new ProtocolBuilder(1001, "People")
