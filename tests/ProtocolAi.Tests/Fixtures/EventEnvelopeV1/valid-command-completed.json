@@ -1,0 +1,11 @@
+{
+  "schema": "TheSingularityWorkshop.ProtocolAi.EventEnvelope",
+  "schemaVersion": 1,
+  "messageId": "fixture-command-001",
+  "correlationId": "fixture-work-001",
+  "producerId": "CommandAi",
+  "kind": "CommandCompleted",
+  "occurredAt": "2026-11-04T00:00:00+00:00",
+  "idempotencyKey": "fixture-idempotency-001",
+  "payloadJson": "{\"outcome\":\"Completed\",\"proposalId\":\"proposal-001\",\"commandId\":\"command-001\"}"
+}
