@@ -16,6 +16,8 @@ public sealed class PortableEventEnvelopeFixtureTests
 
         Assert.Equal(ProtocolEventKind.SourceEvent, envelope.Kind);
         var payload = ProtocolTypedEventEnvelope.DeserializePayload<ProtocolSourceEvent>(envelope);
+        Assert.Equal("github-actions", payload.SourceId);
+        Assert.Equal("build-and-test.completed", payload.EventType);
         Assert.Equal(ProtocolSourceEventOutcome.Succeeded, payload.Outcome);
     }
 
@@ -49,6 +51,7 @@ public sealed class PortableEventEnvelopeFixtureTests
         Assert.Throws<ArgumentException>(() =>
             ProtocolTypedEventEnvelope.DeserializePayload<ProtocolObserverEvaluation>(envelope));
     }
+
     [Fact]
     public void Portable_fixture_manifest_pins_revision_and_unique_scenario_ids()
     {
@@ -67,5 +70,4 @@ public sealed class PortableEventEnvelopeFixtureTests
         foreach (var scenario in scenarios)
             Assert.True(File.Exists(Fixture(scenario.GetProperty("file").GetString()!)));
     }
-
 }
