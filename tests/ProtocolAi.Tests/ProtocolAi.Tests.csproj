@@ -8,6 +8,6 @@
   </ItemGroup>
   <ItemGroup><ProjectReference Include="../../TheSingularityWorkshop.ProtocolAi.csproj" /></ItemGroup>
   <ItemGroup>
-    <None Include="Fixtures/EventEnvelopeV1/**/*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Fixtures/EventEnvelopeV1/**/*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
