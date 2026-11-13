@@ -53,6 +53,31 @@ public sealed class PortableEventEnvelopeFixtureTests
     }
 
     [Fact]
+    public void Portable_duplicate_nested_payload_property_is_rejected_by_typed_reader()
+    {
+        var envelope = ProtocolEventEnvelopeJson.Deserialize(
+            File.ReadAllText(Fixture("duplicate-nested-payload-property.json")));
+
+        Assert.Equal(ProtocolEventKind.ObserverEvaluation, envelope.Kind);
+        Assert.Throws<ArgumentException>(() =>
+            ProtocolTypedEventEnvelope.DeserializePayload<ProtocolObserverEvaluation>(envelope));
+    }
+
+    [Fact]
+    public void Portable_command_outcome_without_idempotency_key_is_rejected()
+    {
+        Assert.Throws<ArgumentException>(() => ProtocolEventEnvelopeJson.Deserialize(
+            File.ReadAllText(Fixture("command-outcome-missing-idempotency.json"))));
+    }
+
+    [Fact]
+    public void Portable_source_event_with_malformed_evidence_digest_is_rejected()
+    {
+        Assert.Throws<ArgumentException>(() => ProtocolEventEnvelopeJson.Deserialize(
+            File.ReadAllText(Fixture("source-event-malformed-evidence-digest.json"))));
+    }
+
+    [Fact]
     public void Portable_fixture_manifest_pins_revision_and_unique_scenario_ids()
     {
         using var manifest = System.Text.Json.JsonDocument.Parse(
@@ -65,8 +90,8 @@ public sealed class PortableEventEnvelopeFixtureTests
         Assert.Equal("1.0.0", root.GetProperty("revision").GetString());
 
         var scenarios = root.GetProperty("scenarios").EnumerateArray().ToArray();
-        Assert.Equal(4, scenarios.Length);
-        Assert.Equal(4, scenarios.Select(x => x.GetProperty("id").GetString()).Distinct().Count());
+        Assert.Equal(7, scenarios.Length);
+        Assert.Equal(7, scenarios.Select(x => x.GetProperty("id").GetString()).Distinct().Count());
         foreach (var scenario in scenarios)
             Assert.True(File.Exists(Fixture(scenario.GetProperty("file").GetString()!)));
     }
