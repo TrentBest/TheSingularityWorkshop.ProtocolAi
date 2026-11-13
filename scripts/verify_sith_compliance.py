@@ -78,8 +78,11 @@ def validate_evidence(evidence: dict, live_branches: list[str], run: dict,
         raise GateError("workflow run ID does not match evidence URL")
     if run.get("name") != "Sith Policy":
         raise GateError("referenced run is not the Sith Policy workflow")
-    if run.get("path") != ".github/workflows/sith-policy.yml":
+    workflow_path = run.get("path")
+    if not isinstance(workflow_path, str) or workflow_path.split("@", 1)[0] != ".github/workflows/sith-policy.yml":
         raise GateError("referenced run uses an unexpected workflow path")
+    if "@" in workflow_path and workflow_path.split("@", 1)[1] != "refs/heads/master":
+        raise GateError("referenced Sith workflow run is not master-hosted")
     if run.get("head_branch") != "master":
         raise GateError("Sith evidence was not produced from master")
     if run.get("status") != "completed" or run.get("conclusion") != "success":
