@@ -17,6 +17,7 @@ ProtocolAi gives application-owned vocabulary values stable, protocol-qualified 
 | Add ProtocolAi to a .NET application | [Consuming ProtocolAi](docs/CONSUMING.md) |
 | Define a vocabulary and encode values | [Examples](docs/EXAMPLES.md) |
 | Define application-owned operational vocabularies and understand the handler/execution boundary | [Operational vocabulary and execution boundary](docs/OPERATIONAL_VOCABULARY_AND_EXECUTION_BOUNDARY.md) |
+| Understand how each Workshop repository should adopt—or deliberately avoid—ProtocolAi | [Ecosystem adoption guide](docs/ECOSYSTEM_ADOPTION_GUIDE.md) |
 | Understand the JSON payload contract | [ProtocolPayloadJson](docs/PROTOCOL_PAYLOAD_JSON.md) |
 | Study transport validation, failure classes, and resource bounds | [Payload validation theory](docs/PAYLOAD_VALIDATION_THEORY.md) |
 | Define correlated, provenance-bound cross-repository events | [Event envelope contract](docs/EVENT_ENVELOPES.md) |
@@ -25,7 +26,6 @@ ProtocolAi gives application-owned vocabulary values stable, protocol-qualified 
 | Understand durable symbol IDs and safe vocabulary evolution | [Identity lifecycle chapter](docs/IDENTITY_LIFECYCLE.md) |
 | Read the semantic identity chapter directly | [Theory](docs/THEORY.md) |
 | Explore the formal model and its limits | [Mathematical foundations](docs/MATHEMATICAL_FOUNDATIONS.md) |
-
 
 ## Source-level type guides and UML
 
@@ -49,6 +49,7 @@ Before changing this repository, read [AGENTS.md](AGENTS.md) and the [shared FSM
 - [GrammarAi](https://github.com/TrentBest/TheSingularityWorkshop.GrammarAi) defines structure using protocol-owned terminal identities.
 - [HeadlessAi](https://github.com/TrentBest/TheSingularityWorkshop.HeadlessAi) communicates with configured AI-capable HTTP endpoints.
 - [FSM_COS](https://github.com/TrentBest/TheSingularityWorkshop.FSM_COS) composes reusable MicroBundle capabilities into a runtime assembly.
+- CiAi, CommandAi, FSM_Foundry, and the Experience host family may use ProtocolAi at explicit event-exchange boundaries; see the [ecosystem adoption guide](docs/ECOSYSTEM_ADOPTION_GUIDE.md) for exact responsibilities and non-adoption decisions.
 
 ProtocolAi does not call a model, authorize an action, or execute application behavior. The consuming application remains responsible for those decisions.
 
