@@ -1,0 +1,24 @@
+{
+  "schema": "TheSingularityWorkshop.ProtocolAi.EventEnvelope",
+  "schemaVersion": 1,
+  "messageId": "fixture-duplicate-payload-001",
+  "correlationId": "fixture-work-001",
+  "producerId": "ProtocolAi",
+  "kind": "ObserverEvaluation",
+  "occurredAt": "2026-11-04T00:00:00+00:00",
+  "payloadJson": "{\"observerId\":\"observer-001\",\"predicateId\":\"build-and-test\",\"predicateVersion\":\"1\",\"inputMessageId\":\"fixture-source-001\",\"state\":\"True\",\"reason\":\"Evidence accepted.\",\"extension\":{\"key\":1,\"key\":2}}",
+  "provenance": {
+    "repository": "owner/repository",
+    "candidateRef": "refs/heads/development",
+    "candidateSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "eventSha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "testedCheckoutSha": "cccccccccccccccccccccccccccccccccccccccc",
+    "workflowDefinitionRef": "refs/heads/master",
+    "workflowDefinitionSha": "dddddddddddddddddddddddddddddddddddddddd",
+    "workflowRunId": 123,
+    "workflowRunAttempt": 1,
+    "observedJobIdentity": "build-and-test/test",
+    "evidenceReference": "artifacts/evidence.json",
+    "evidenceSha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  }
+}
