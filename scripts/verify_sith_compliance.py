@@ -5,18 +5,16 @@ from __future__ import annotations
 import argparse
 import base64
 import json
-import os
 import re
 import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
-from urllib.parse import urlparse
 
 REPOSITORY = "TrentBest/TheSingularityWorkshop.ProtocolAi"
 REQUIRED_BRANCHES = {"development", "master"}
 POLICY = "exactly-master-and-development"
 MAX_AGE = timedelta(hours=24)
-RUN_URL = re.compile(r"^https://github\\.com/TrentBest/TheSingularityWorkshop\\.ProtocolAi/actions/runs/([0-9]+)$")
+RUN_URL = re.compile(r"^https://github\.com/TrentBest/TheSingularityWorkshop\.ProtocolAi/actions/runs/([0-9]+)$")
 
 
 class GateError(Exception):
