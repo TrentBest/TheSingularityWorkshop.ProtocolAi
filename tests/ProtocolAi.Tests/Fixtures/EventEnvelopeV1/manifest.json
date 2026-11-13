@@ -1,7 +1,7 @@
 {
   "fixtureSet": "TheSingularityWorkshop.ProtocolAi.EventEnvelope",
   "schemaVersion": 1,
-  "revision": "1.0.0",
+  "revision": "1.1.0",
   "scenarios": [
     { "id": "envelope.source-event.valid", "file": "valid-source-event.json", "expect": "accept-envelope" },
     { "id": "envelope.command-completed.valid", "file": "valid-command-completed.json", "expect": "accept-envelope" },
