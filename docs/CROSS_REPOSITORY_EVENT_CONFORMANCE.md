@@ -112,7 +112,7 @@ The local suite retains deterministic in-code tests for broad contract coverage 
 
 - Fixture directory: `tests/ProtocolAi.Tests/Fixtures/EventEnvelopeV1/`
 - Fixture manifest: `manifest.json`
-- Fixture-set revision: `1.0.0` (initial, intentionally small baseline)
+- Fixture-set revision: `1.1.0` (seven portable scenarios)
 - Stable scenario IDs are declared in the manifest and asserted by `PortableEventEnvelopeFixtureTests`.
 
 | Contract area | Executable tests / fixtures |
@@ -121,9 +121,9 @@ The local suite retains deterministic in-code tests for broad contract coverage 
 | Command outcome kind/payload agreement | `ProtocolEventContractConformanceTests.Command_payload_outcome_must_match_the_envelope_event_kind` |
 | Envelope shape, schema/version, required fields, timestamps, provenance, causal metadata, limits, duplicate properties, and extension behavior | `ProtocolEventEnvelopeTests` |
 | Payload required fields, enum behavior, event-kind pairing, typed causal metadata, and source/notification contracts | `ProtocolEventPayloadTests` |
-| Portable source event, command completion, unsupported schema version, and kind/payload mismatch cases | `PortableEventEnvelopeFixtureTests` |
+| Portable source event, command completion, unsupported schema version, kind/payload mismatch, nested duplicate payload property, missing command idempotency key, and malformed evidence digest | `PortableEventEnvelopeFixtureTests` |
 
-The fixture set is a first portable baseline, not the complete negative/edge-case inventory described above. Extend it additively with stable scenario IDs before treating it as exhaustive. Another repository can consume the JSON files directly and record this exact fixture-set revision; it does not need a ProtocolAi package reference merely to read the fixtures. Do not claim cross-repository conformance until host repositories report their own commit/run evidence.
+The fixture set is an expanded portable baseline, not the complete negative/edge-case inventory described above. It now includes representative failures at both validation layers: malformed outer-envelope metadata is rejected by the envelope reader, while a duplicate nested payload property is rejected by the typed reader after the envelope is accepted. The stable manifest revision is `1.1.0`; further additions must update the revision and retain unique scenario IDs. Another repository can consume the JSON files directly and record this exact fixture-set revision; it does not need a ProtocolAi package reference merely to read the fixtures. Do not claim cross-repository conformance until host repositories report their own commit/run evidence.
 
 For the operational-vocabulary decision and the explicit handler/execution boundary, see [Operational Vocabulary and Execution Boundary](OPERATIONAL_VOCABULARY_AND_EXECUTION_BOUNDARY.md).
 
