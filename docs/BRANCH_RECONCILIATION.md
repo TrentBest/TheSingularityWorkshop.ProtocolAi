@@ -18,8 +18,8 @@ The Sith policy requires exactly `master` and `development`. GitHub branch searc
 
 | Branch | Head SHA | Disposition |
 |---|---|---|
-| `development` | `76261afe6e5613d0d56de1b90ae32ceed4ed6d96` | Active source branch; preserve. |
-| `master` | `ba437078f8e324eec44af930ac1f526fc219f471` | Released/evidence baseline; preserve. |
+| `development` | `20c6388870e0fd6b3948f348cab92fb3940b70f3` | Active source branch; preserve. |
+| `master` | `268952b09c8942d2b3e40049424ae6d41a14b0ef` | Released/evidence baseline; preserve. |
 
 The branch search returned a second-page cursor; the follow-up page was empty. The complete observed inventory is therefore exactly two branches. The compare endpoint reports the histories are diverged: `development` is 413 commits ahead and 19 commits behind `master`. Do not merge, reset, force-push, or rewrite `master` as a cleanup shortcut.
 
@@ -44,7 +44,7 @@ The Sith workflow [#43503630133](https://github.com/TrentBest/TheSingularityWork
 
 ## Build and publication status
 
-Development build [#42738326977](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42738326977), at `76261afe6e5613d0d56de1b90ae32ceed4ed6d96`, completed successfully. Restore, build, tests/coverage, Codecov upload, pack, packaged-documentation verification, clean-consumer build, and artifact uploads all succeeded. The `publish_nuget` job was skipped.
+Development build [#42738326977](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42738326977), at `20c6388870e0fd6b3948f348cab92fb3940b70f3`, completed successfully. Restore, build, tests/coverage, Codecov upload, pack, packaged-documentation verification, clean-consumer build, and artifact uploads all succeeded. The `publish_nuget` job was skipped.
 
 The workflow's publication job remains hard-disabled with `if: \${{ false }}`. No package was published.
 
