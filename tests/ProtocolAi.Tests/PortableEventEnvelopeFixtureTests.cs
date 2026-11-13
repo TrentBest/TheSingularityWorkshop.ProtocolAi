@@ -87,7 +87,7 @@ public sealed class PortableEventEnvelopeFixtureTests
         Assert.Equal("TheSingularityWorkshop.ProtocolAi.EventEnvelope",
             root.GetProperty("fixtureSet").GetString());
         Assert.Equal(1, root.GetProperty("schemaVersion").GetInt32());
-        Assert.Equal("1.0.0", root.GetProperty("revision").GetString());
+        Assert.Equal("1.1.0", root.GetProperty("revision").GetString());
 
         var scenarios = root.GetProperty("scenarios").EnumerateArray().ToArray();
         Assert.Equal(7, scenarios.Length);
