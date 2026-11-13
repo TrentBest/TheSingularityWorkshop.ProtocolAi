@@ -6,6 +6,9 @@
     { "id": "envelope.source-event.valid", "file": "valid-source-event.json", "expect": "accept-envelope" },
     { "id": "envelope.command-completed.valid", "file": "valid-command-completed.json", "expect": "accept-envelope" },
     { "id": "envelope.schema-version.unsupported", "file": "unsupported-schema-version.json", "expect": "reject-envelope" },
-    { "id": "envelope.kind-payload.mismatch", "file": "kind-payload-mismatch.json", "expect": "accept-envelope-reject-typed-payload" }
+    { "id": "envelope.kind-payload.mismatch", "file": "kind-payload-mismatch.json", "expect": "accept-envelope-reject-typed-payload" },
+    { "id": "payload.duplicate-nested-property", "file": "duplicate-nested-payload-property.json", "expect": "accept-envelope-reject-typed-payload" },
+    { "id": "envelope.command-outcome.missing-idempotency", "file": "command-outcome-missing-idempotency.json", "expect": "reject-envelope" },
+    { "id": "envelope.source-event.malformed-evidence-digest", "file": "source-event-malformed-evidence-digest.json", "expect": "reject-envelope" }
   ]
 }
