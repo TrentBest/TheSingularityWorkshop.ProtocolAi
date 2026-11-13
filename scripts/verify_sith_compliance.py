@@ -120,7 +120,7 @@ def main() -> int:
         if encoded.get("encoding") != "base64" or not isinstance(encoded.get("content"), str):
             raise GateError("master-hosted Sith evidence is missing or not base64 content")
         try:
-            evidence = json.loads(base64.b64decode(encoded["content"], validate=True))
+            evidence = json.loads(base64.b64decode("".join(encoded["content"].split()), validate=True))
         except (ValueError, json.JSONDecodeError) as exc:
             raise GateError("master-hosted Sith evidence is malformed") from exc
         url = evidence.get("workflow_run") if isinstance(evidence, dict) else None
