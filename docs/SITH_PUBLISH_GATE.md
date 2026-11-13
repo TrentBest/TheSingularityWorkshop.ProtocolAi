@@ -7,7 +7,7 @@
 
 # Sith Publish Gate — Fail-Closed Design
 
-**Status:** Design specification; not yet wired into the publication workflow.  
+**Status:** Executable verification job implemented on `development`; publication remains hard-disabled.  
 **Policy:** Exactly `master` and `development`; no exceptions.  
 **Safety:** Package publication remains hard-disabled. This document does not authorize a release or a workflow change that enables publication.
 
@@ -88,7 +88,11 @@ There is no warning-only mode, fallback to cached evidence, or default-success o
 
 ## Current state
 
-The current `.github/workflows/build.yml` keeps `publish_nuget` hard-disabled. That is the correct safety posture while this design is reviewed and implemented. This document is not evidence that the executable gate exists.
+The current `.github/workflows/build.yml` contains an independent `verify-sith-compliance` job. It runs the standard-library unit tests, fetches the complete live branch inventory with `gh api --paginate`, reads `assets/sith-policy.json` from `master`, and validates the referenced Actions run before emitting `compliant=true`. Any failed command or validation exits nonzero; the job has read-only `contents` and `actions` permissions.
+
+The verifier is implemented in `scripts/verify_sith_compliance.py`; focused failure-case tests are in `scripts/tests/test_verify_sith_compliance.py`. These tests cover exact-set enforcement, duplicate entries, contradictory evidence, malformed/stale/future timestamps, foreign run URLs, and unsuccessful or mismatched workflow runs. CI execution is still required to establish that the implementation works against GitHub's live API response shape.
+
+The `publish_nuget` job depends on both `build-and-test` and `verify-sith-compliance`, but its unconditional `if: ${{ false }}` remains intact. The compliance output is diagnostic/prerequisite evidence only; it does not grant owner authorization. This implementation does not enable publication.
 
 Related: [Operation Sith issue #11](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/issues/11), [Branch Reconciliation Ledger](BRANCH_RECONCILIATION.md).
 
