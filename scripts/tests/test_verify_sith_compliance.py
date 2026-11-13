@@ -75,6 +75,14 @@ class SithGateTests(unittest.TestCase):
                              ("conclusion", "failure"), ("head_sha", "b" * 40)):
             self.assert_blocked(run=dict(BASE_RUN, **{field: value}))
 
+    def test_missing_run_and_non_master_workflow_ref_block(self):
+        self.assert_blocked(run={})
+        self.assert_blocked(run=dict(BASE_RUN, path=".github/workflows/sith-policy.yml@refs/heads/development"))
+
+    def test_master_ref_qualified_workflow_path_is_accepted(self):
+        run = dict(BASE_RUN, path=".github/workflows/sith-policy.yml@refs/heads/master")
+        self.assertEqual(validate_evidence(BASE_EVIDENCE, ["development", "master"], run, NOW), 12345)
+
     def test_missing_or_malformed_commit_blocks(self):
         self.assert_blocked(evidence=dict(BASE_EVIDENCE, triggering_commit="bad"))
 
