@@ -8,9 +8,9 @@
 # Branch Reconciliation Ledger
 
 **Review date:** 2026-11-14 UTC  
-**Latest confirmed development commit:** `444b6112c2390e6e123fee280a45adadf6367a65`  
+**Development branch tip at audit:** `04958cb5b34b740868c1a18ab1a0047539025314`  
 **Latest confirmed master commit:** `268952b09c8942d2b3e40049424ae6d41a14b0ef`  
-**Inventory limitation:** GitHub branch search confirms the complete branch-name set, but this connector does not expose branch-tip SHAs; the development commit above is the latest directly confirmed commit, not an independently resolved ref SHA.  
+**Ref verification:** GitHub's branch API independently resolved both branch-tip SHAs during this audit; the values below are the live refs observed at that time.  
 **Disposition:** The live remote inventory contains exactly the two canonical branches. No noncanonical branches remain to classify. No branch deletion, PR closure, merge, reset, cherry-pick, release, deployment, or package publication was performed.
 
 ## Branch inventory
@@ -19,10 +19,10 @@ The Sith policy requires exactly `master` and `development`. GitHub branch searc
 
 | Branch | Head SHA | Disposition |
 |---|---|---|
-| `development` | `444b6112c2390e6e123fee280a45adadf6367a65` (latest confirmed commit; ref SHA not exposed) | Active source branch; preserve. |
+| `development` | `04958cb5b34b740868c1a18ab1a0047539025314` (live branch tip at audit) | Active source branch; preserve. |
 | `master` | `268952b09c8942d2b3e40049424ae6d41a14b0ef` | Released/evidence baseline; preserve. |
 
-The branch search returned a second-page cursor; the follow-up page was empty. The complete observed inventory is therefore exactly two branches. The compare endpoint reports the histories are diverged: `development` is 413 commits ahead and 19 commits behind `master`. Do not merge, reset, force-push, or rewrite `master` as a cleanup shortcut.
+The branch search returned a second-page cursor; the follow-up page was empty. The complete observed inventory is therefore exactly two branches. The compare endpoint reports the histories are diverged: `development` is 428 commits ahead and 19 commits behind `master`. Do not merge, reset, force-push, or rewrite `master` as a cleanup shortcut.
 
 ## Pull request disposition
 
@@ -41,19 +41,19 @@ The master-hosted `assets/sith-policy.json` observed by the live verifier record
 - Workflow run: [#43422877852](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43422877852)
 - Triggering commit: `c2d6527372fbb2fdc99b552b8c25232df4fdb69e`
 
-The Sith workflow [#43503630133](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43503630133) also completed successfully for the development-head update. The live gate independently fetched the complete remote inventory and validated this evidence during build workflow [#43532070642](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43532070642) at `2026-11-14T00:08Z`. Both evidence and live inventory are point-in-time observations; the gate must run immediately before any future publication attempt, and the evidence will expire under the 24-hour freshness rule.
+The Sith workflow [#43503630133](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43503630133) also completed successfully for the development-head update. The live gate independently fetched the complete remote inventory and validated this evidence during build workflow [#43533454758](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43533454758) at `2026-11-14T00:19Z`. Both evidence and live inventory are point-in-time observations; the gate must run immediately before any future publication attempt, and the evidence will expire under the 24-hour freshness rule.
 
 ## Build and publication status
 
-Development build [#43532070642](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43532070642), at `7cd44824a29bcb83bce098c6ecfbde0a4b59914c`, completed successfully. Restore, build, tests/coverage, Codecov upload, pack, packaged-documentation verification, clean-consumer build, and artifact uploads all succeeded. The `publish_nuget` job was skipped.
+Development build [#43533454758](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43533454758), at `04958cb5b34b740868c1a18ab1a0047539025314`, completed successfully. Restore, build, tests/coverage, Codecov upload, pack, packaged-documentation verification, clean-consumer build, and artifact uploads all succeeded. The `publish_nuget` job was skipped.
 
 The workflow's publication job remains hard-disabled with `if: \${{ false }}`. No package was published.
 
 ## Publish-gate implementation status
 
-Issue #11's fail-closed verifier and independent CI job are implemented and live-CI-verified on `development` (latest confirmed commit `444b6112c2390e6e123fee280a45adadf6367a65`). The job runs 11 standard-library unit tests, fetches the live branch inventory with pagination, reads master-hosted Sith evidence, validates the referenced master workflow run, and emits a compliance output only after every check passes. The implementation is documented in [SITH_PUBLISH_GATE.md](SITH_PUBLISH_GATE.md).
+Issue #11's fail-closed verifier and independent CI job are implemented and live-CI-verified on `development`; the latest observed successful verification is build run [#43533454758](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43533454758) on branch tip `04958cb5b34b740868c1a18ab1a0047539025314`. The job runs 11 standard-library unit tests, fetches the live branch inventory with pagination, reads master-hosted Sith evidence, validates the referenced master workflow run, and emits a compliance output only after every check passes. The implementation is documented in [SITH_PUBLISH_GATE.md](SITH_PUBLISH_GATE.md).
 
-**Live CI verification passed.** Build workflow [#43532326421](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43532326421) completed successfully on `444b6112c2390e6e123fee280a45adadf6367a65`. Its `Verify live Sith compliance` job passed all 11 verifier unit tests and the live paginated GitHub API/evidence/workflow-run checks; its independent `build-and-test` job also passed. The `publish_nuget` job was skipped. The separate Sith Policy workflow [#43532326395](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43532326395) also succeeded. The gate is verified as a compliance prerequisite; this does not enable or authorize publication.
+**Latest live CI verification passed.** Build workflow [#43533454758](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43533454758) completed successfully on `04958cb5b34b740868c1a18ab1a0047539025314`. Its `Verify live Sith compliance` and independent `build-and-test` jobs both succeeded; `publish_nuget` was skipped. The separate Sith Policy workflow [#43533454740](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43533454740) also succeeded. The gate is verified as a compliance prerequisite; this does not enable or authorize publication.
 
 The workflow's `publish_nuget` job depends on build/test and compliance verification but remains unconditionally disabled with `if: ${{ false }}`. Build, test, and pack remain independent. Compliance is not owner authorization; no publication, merge, release, deployment, or branch deletion is authorized.
 
