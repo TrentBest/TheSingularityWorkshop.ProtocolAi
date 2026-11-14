@@ -8,7 +8,7 @@
 # Branch Reconciliation Ledger
 
 **Review date:** 2026-11-14 UTC  
-**Latest confirmed development commit:** `791706313554f0fc913dac2a5ec9f3afb87b7023`  
+**Latest confirmed development commit:** `444b6112c2390e6e123fee280a45adadf6367a65`  
 **Latest confirmed master commit:** `268952b09c8942d2b3e40049424ae6d41a14b0ef`  
 **Inventory limitation:** GitHub branch search confirms the complete branch-name set, but this connector does not expose branch-tip SHAs; the development commit above is the latest directly confirmed commit, not an independently resolved ref SHA.  
 **Disposition:** The live remote inventory contains exactly the two canonical branches. No noncanonical branches remain to classify. No branch deletion, PR closure, merge, reset, cherry-pick, release, deployment, or package publication was performed.
@@ -19,7 +19,7 @@ The Sith policy requires exactly `master` and `development`. GitHub branch searc
 
 | Branch | Head SHA | Disposition |
 |---|---|---|
-| `development` | `791706313554f0fc913dac2a5ec9f3afb87b7023` (latest confirmed commit; ref SHA not exposed) | Active source branch; preserve. |
+| `development` | `444b6112c2390e6e123fee280a45adadf6367a65` (latest confirmed commit; ref SHA not exposed) | Active source branch; preserve. |
 | `master` | `268952b09c8942d2b3e40049424ae6d41a14b0ef` | Released/evidence baseline; preserve. |
 
 The branch search returned a second-page cursor; the follow-up page was empty. The complete observed inventory is therefore exactly two branches. The compare endpoint reports the histories are diverged: `development` is 413 commits ahead and 19 commits behind `master`. Do not merge, reset, force-push, or rewrite `master` as a cleanup shortcut.
@@ -51,9 +51,9 @@ The workflow's publication job remains hard-disabled with `if: \${{ false }}`. N
 
 ## Publish-gate implementation status
 
-Issue #11's fail-closed verifier and independent CI job are implemented and live-CI-verified on `development` (latest confirmed commit `791706313554f0fc913dac2a5ec9f3afb87b7023`). The job runs 11 standard-library unit tests, fetches the live branch inventory with pagination, reads master-hosted Sith evidence, validates the referenced master workflow run, and emits a compliance output only after every check passes. The implementation is documented in [SITH_PUBLISH_GATE.md](SITH_PUBLISH_GATE.md).
+Issue #11's fail-closed verifier and independent CI job are implemented and live-CI-verified on `development` (latest confirmed commit `444b6112c2390e6e123fee280a45adadf6367a65`). The job runs 11 standard-library unit tests, fetches the live branch inventory with pagination, reads master-hosted Sith evidence, validates the referenced master workflow run, and emits a compliance output only after every check passes. The implementation is documented in [SITH_PUBLISH_GATE.md](SITH_PUBLISH_GATE.md).
 
-**Live CI verification passed.** Build workflow [#43532070642](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43532070642) completed successfully on `7cd44824a29bcb83bce098c6ecfbde0a4b59914c`. Its `Verify live Sith compliance` job passed all 11 verifier unit tests and the live paginated GitHub API/evidence/workflow-run checks; its independent `build-and-test` job also passed. The `publish_nuget` job was skipped. The separate Sith Policy workflow [#43532070636](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43532070636) also succeeded. The gate is verified as a compliance prerequisite; this does not enable or authorize publication.
+**Live CI verification passed.** Build workflow [#43532326421](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43532326421) completed successfully on `444b6112c2390e6e123fee280a45adadf6367a65`. Its `Verify live Sith compliance` job passed all 11 verifier unit tests and the live paginated GitHub API/evidence/workflow-run checks; its independent `build-and-test` job also passed. The `publish_nuget` job was skipped. The separate Sith Policy workflow [#43532326395](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43532326395) also succeeded. The gate is verified as a compliance prerequisite; this does not enable or authorize publication.
 
 The workflow's `publish_nuget` job depends on build/test and compliance verification but remains unconditionally disabled with `if: ${{ false }}`. Build, test, and pack remain independent. Compliance is not owner authorization; no publication, merge, release, deployment, or branch deletion is authorized.
 
