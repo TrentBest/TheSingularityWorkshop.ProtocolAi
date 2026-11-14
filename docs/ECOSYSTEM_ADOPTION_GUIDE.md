@@ -153,6 +153,21 @@ This supplement records additional active Workshop repositories found in the cur
 | **SingularityWorkshopAcademy, SingularityShipBuilder, SingularitySoldiers, SingularityBunnies, ShowcasePong** | **No source-based assessment possible** | The repository contents endpoint reports these repositories as empty. Reassess if source is added. |
 | **SingularityWarehouse** | **Defer / separate legacy review** | It describes a broader data-fabric concept, but this pass did not establish an active consumer contract that justifies ProtocolAi integration. Do not conflate it with the separate low-level DataWarehouse library. |
 
+### Broader account-repository screening
+
+The installed-repository inventory also contains older samples, personal projects, business/BIM utilities, static documentation repositories, and empty scaffolds. The following were screened at repository-metadata/README level during this pass. None currently justifies a ProtocolAi issue or runtime dependency; this is a negative screen, not a claim that every historical source file in each repository was deeply audited.
+
+| Repository group | Screened repositories | Result |
+|---|---|---|
+| **FSM/API examples and legacy integrations** | `FSM_API.ConsoleApp`, `FSM_API_Unity`, `FSM_UnityIntegration`, `FSM_UnityIntegrationAdvanced`, `FSM_UnityCompatability`, `FSM_LayerTemplate`, `FSM_Layer_Serialization`, `FSM_Layer_Generics`, `FSM_Layer_DependencyInjection`, `FSM_ProjectTemplates`, `FSM_PackageManager`, `DoctorFSM`, `DiceFSM`, `FSM_Bot_Editor`, `FSM_Dungeon`, `FSM_API_Benchmark` | Examples, adapters, templates, benchmarks, or legacy scaffolds. No independent message/event contract was identified. |
+| **BIM / Revit / business tools** | `TrentCoRetailManager`, `DynamoNodes`, `AmazonBIM`, `DSD_BIM`, `FTI_BIM`, `ZeroTouchFTI`, `RevitFamilyManagerBuilders` | The inspected material describes local Revit document operations, UI/builders, or tutorial work. Stable local domain types are sufficient unless a real cross-application event/API contract is introduced. |
+| **Static, learning, ranking, and utility repositories** | `Tutorials`, `Rankings`, `RankingLists`, `Diagrams`, `GitHackforFun`, `SimpleDemos`, `TrentBest.github.io`, `AnyApp-2026-06-28_19-34-37` | Static content, archived snapshot, or standalone utilities; no runtime protocol boundary. |
+| **Older bot/game experiments** | `FSM_Bot`, `B4G-Bot`, `B4G_Bot`, `B4GBot`, `MineField`, `MyCity` | ExampleBot is a blank SC2 client-protocol sample; the B4G/MyCity/MineField material inspected here does not establish a current interoperable consumer. The active bot/session path is SingularityBot + ServerSC2 + ServerApp. |
+| **Empty repository scaffolds** | `ConstructorBots`, `SingularityWorkshopAcademy`, `SingularityShipBuilder`, `SingularitySoldiers`, `SingularityBunnies`, `ShowcasePong` | GitHub reports no repository contents. No source-based adoption decision is possible until code is added. |
+| **Unrelated or historical projects** | `FaithTechInc`, `FSM_Helix`, `TheForge`, `SingularityWarehouse` | FaithTechInc returned no README content; FSM_Helix explicitly preserves an old rendering experiment; TheForge is a Unity-era editor/meta-framework; SingularityWarehouse is a separate data-fabric exploration with no current typed event contract established. Reassess only if an active cross-system protocol boundary appears. |
+
+This screening does not imply that ProtocolAi should become a common dependency across all Workshop repositories. The default remains **no dependency** until a concrete producer/consumer boundary demonstrates a need for stable shared identity or interoperable event contracts.
+
 ### Recommended next sequence
 
 1. **ServerSC2 ↔ ServerApp:** agree on one match lifecycle/evidence event boundary, with ServerSC2 authoritative for SC2-specific result/replay evidence and ServerApp owning the game-neutral session contract.
