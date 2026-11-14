@@ -107,3 +107,49 @@ The current portable EventEnvelope v1 fixture set is an initial baseline, not ex
 5. avoid referencing an unreleased API or adding a package dependency until the required contract is present in a released package version.
 
 No NuGet publication, merge, deployment, or release is implied by this guide.
+
+
+## 7. Supplemental repository audit — 2026-11-14
+
+This supplement records additional active Workshop repositories found in the current installed-repository inventory and checked against their `development` source. It extends the earlier 27-repository map; it does not convert every repository into a ProtocolAi consumer. The original classifications and dependency guardrails above remain authoritative.
+
+### New candidates and handoffs
+
+| Repository | Assessment | ProtocolAi-shaped boundary | Handoff |
+|---|---|---|---|
+| **SingularityBot** | **Candidate — cross-boundary only** | Bot command lifecycle and match/session observations exchanged with ServerSC2/ServerApp. ProtocolAi can identify event kinds and carry correlation, causation, idempotency, and provenance. | [SingularityBot #15](https://github.com/TrentBest/TheSingularityWorkshop.SingularityBot/issues/15) |
+| **ServerSC2** | **Strong candidate — match evidence exchange** | Typed match lifecycle and terminal result/replay-evidence events consumed by ServerApp/CiAi. ServerSC2 owns the payload semantics and authoritative SC2 evidence; ProtocolAi supplies the interoperable envelope and shared event identity. | [ServerSC2 #1 discussion](https://github.com/TrentBest/TheSingularityWorkshop.ServerSC2/issues/1#issuecomment-6875447415) |
+| **CreatorNetwork** | **Candidate — publication federation** | Publication finalized/revised/published/unpublished/revoked/exported/imported events exchanged between independent nodes, providers, discovery services, and clients. | [CreatorNetwork #7 discussion](https://github.com/TrentBest/TheSingularityWorkshop.CreatorNetwork/issues/7#issuecomment-6875446884) |
+| **Hermit** | **Deferred candidate — future cross-host lifecycle** | Task, capability, approval, execution, and evidence observations only when they cross a process/host boundary or need durable external observers. Keep the in-process runtime independent for now. | [Hermit #5](https://github.com/TrentBest/TheSingularityWorkshop.Hermit/issues/5) |
+| **ServerApp** | **Existing candidate — shared host contract** | Game-neutral server-role, session, and downstream lifecycle events. Coordinate one shared event vocabulary with ServerSC2 rather than duplicating SC2-specific result semantics. | [ServerApp #11](https://github.com/TrentBest/TheSingularityWorkshop.ServerApp/issues/11#issuecomment-6839798702) |
+
+### Exact ownership guardrails for these candidates
+
+**SingularityBot and ServerSC2 are not a request to replace the SC2 protocol.** Blizzard's protobuf/WebSocket API remains the game transport and command schema. Game-version-specific unit, ability, order, and raw action IDs remain owned by the SC2 adapter/game-data mapping. SingularityBot's `BotCommandVocabulary` remains the bot-owned proposal vocabulary; `BehaviorCommand`, strategy arbitration, validation, observation reconciliation, and action dispatch remain in SingularityBot. Do not send per-frame observations or actions through ProtocolAi. Use ProtocolAi only for semantic identities and low-frequency events that genuinely cross a host/process boundary.
+
+**ServerSC2 remains authoritative for match evidence.** A ProtocolAi envelope can correlate a match result and replay-evidence payload; it cannot prove that the producer is authentic, that the replay is valid, or that the result is correct. Preserve exact session/participant/build identities, SC2 game/map version, terminal player results, replay artifact digest, and validation outcome in the ServerSC2-owned payload. Unknown, incomplete, contradictory, or replay-mismatched evidence remains non-success.
+
+**CreatorNetwork retains publication and rights semantics.** ProtocolAi may correlate publication lifecycle events across providers. It does not authenticate a creator, establish copyright ownership, prove licensing, grant access, enforce audience disclosure, or authorize publication. Hashes and envelope validity are not rights or trust proofs. Credentials and private profile projections do not belong in portable event payloads.
+
+**Hermit retains orchestration and authority.** ProtocolAi may make task lifecycle observations interoperable; it does not become the task state machine, capability registry, approval engine, execution runtime, durable memory, or audit store. A fixture-only test is the correct first step until a real remote consumer exists.
+
+### Additional screened repositories
+
+| Repository / group | Result | Reason |
+|---|---|---|
+| **FSM_NeuralNetworks** | **No direct adoption now** | Neural graph, node, port, and tensor identities are local model semantics. If execution traces later cross a service boundary, wrap a bounded domain-owned trace/event in ProtocolAi at the adapter edge; do not make the neural core depend on it. |
+| **Benchmarks.GUI / Benchmarks.DataWarehouse and other benchmark projects** | **Fixture-only when testing a consumer contract** | Benchmark identity and measurement evidence belong to the benchmark domain. No runtime ProtocolAi dependency. |
+| **TheForge (legacy Unity-era repository)** | **No current candidate established** | Its inspected README describes a Unity editor/meta-framework and package registry/arbitration concepts, but no current interoperable ProtocolAi boundary was established in this pass. Revisit only if an active external protocol consumer is identified. |
+| **Agents.LLM** | **Insufficient active domain evidence** | The inspected development README is only a minimal shell; no concrete message or cross-process contract was established. Do not infer adoption from the repository name. |
+| **SingularityWorkshopAcademy, SingularityShipBuilder, SingularitySoldiers, SingularityBunnies, ShowcasePong** | **No source-based assessment possible** | The repository contents endpoint reports these repositories as empty. Reassess if source is added. |
+| **SingularityWarehouse** | **Defer / separate legacy review** | It describes a broader data-fabric concept, but this pass did not establish an active consumer contract that justifies ProtocolAi integration. Do not conflate it with the separate low-level DataWarehouse library. |
+
+### Recommended next sequence
+
+1. **ServerSC2 ↔ ServerApp:** agree on one match lifecycle/evidence event boundary, with ServerSC2 authoritative for SC2-specific result/replay evidence and ServerApp owning the game-neutral session contract.
+2. **SingularityBot:** decide whether the bot-to-host boundary needs a shared event vocabulary. Preserve the current bot command vocabulary and the SC2 adapter; do not create a global catalog of every game ability.
+3. **CreatorNetwork:** identify one publication lifecycle event that is actually exchanged between independent providers/consumers; start with fixture-only conformance.
+4. **Hermit:** defer runtime adoption until its first real multi-host consumer exists; use fixtures for a task/approval event in the deterministic fake-environment test.
+5. Promote any candidate from fixture-only to direct package consumption only after the owning repositories identify a real boundary, pass exact-revision consumer tests, and the required ProtocolAi API exists in an explicitly released package.
+
+The handoffs above are assessment issues/comments, not implementation mandates. No consuming repository received a ProtocolAi package dependency in this pass.
