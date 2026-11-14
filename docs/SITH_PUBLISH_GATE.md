@@ -7,7 +7,7 @@
 
 # Sith Publish Gate — Fail-Closed Design
 
-**Status:** Executable verification job implemented on `development`; publication remains hard-disabled.  
+**Status:** Executable verification job implemented and live-CI-verified on `development`; publication remains hard-disabled.  
 **Policy:** Exactly `master` and `development`; no exceptions.  
 **Safety:** Package publication remains hard-disabled. This document does not authorize a release or a workflow change that enables publication.
 
@@ -90,9 +90,9 @@ There is no warning-only mode, fallback to cached evidence, or default-success o
 
 The current `.github/workflows/build.yml` contains an independent `verify-sith-compliance` job. It runs the standard-library unit tests, fetches the complete live branch inventory with `gh api --paginate`, reads `assets/sith-policy.json` from `master`, and validates the referenced Actions run before emitting `compliant=true`. Any failed command or validation exits nonzero; the job has read-only `contents` and `actions` permissions.
 
-The verifier is implemented in `scripts/verify_sith_compliance.py`; focused failure-case tests are in `scripts/tests/test_verify_sith_compliance.py`. These tests cover exact-set enforcement, duplicate entries, contradictory evidence, malformed/stale/future timestamps, foreign run URLs, and unsuccessful or mismatched workflow runs. CI execution is still required to establish that the implementation works against GitHub's live API response shape.
+The verifier is implemented in `scripts/verify_sith_compliance.py`; focused failure-case tests are in `scripts/tests/test_verify_sith_compliance.py`. These tests cover exact-set enforcement, duplicate entries, contradictory evidence, malformed/stale/future timestamps, foreign run URLs, and unsuccessful or mismatched workflow runs. Live verification succeeded in Actions run [#43532070642](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43532070642) on commit `7cd44824a29bcb83bce098c6ecfbde0a4b59914c`: all 11 unit tests passed, and the live `gh api --paginate` inventory/evidence/run validation completed successfully. The verifier observed exactly `development` and `master`, with master-hosted evidence run `43422877852` evaluated at `2026-11-13T12:10:10Z`.
 
-The `publish_nuget` job depends on both `build-and-test` and `verify-sith-compliance`, but its unconditional `if: ${{ false }}` remains intact. The compliance output is diagnostic/prerequisite evidence only; it does not grant owner authorization. This implementation does not enable publication.
+The same Actions run also completed `build-and-test` successfully; restore, build, tests/coverage, Codecov, pack, documentation-path checks, clean-consumer build, and artifact uploads all passed. The `publish_nuget` job was skipped as intended. It depends on both `build-and-test` and `verify-sith-compliance`, but its unconditional `if: ${{ false }}` remains intact. The compliance output is diagnostic/prerequisite evidence only; it does not grant owner authorization. This implementation does not enable publication.
 
 Related: [Operation Sith issue #11](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/issues/11), [Branch Reconciliation Ledger](BRANCH_RECONCILIATION.md).
 
