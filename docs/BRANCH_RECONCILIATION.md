@@ -7,9 +7,10 @@
 
 # Branch Reconciliation Ledger
 
-**Review date:** 2026-11-13 UTC  
-**Audited development head:** `20c6388870e0fd6b3948f348cab92fb3940b70f3`  
-**Audited master head:** `268952b09c8942d2b3e40049424ae6d41a14b0ef`  
+**Review date:** 2026-11-14 UTC  
+**Latest confirmed development commit:** `c91345ef5bba6e5526b1f7511a2a0c7630b6e607`  
+**Latest confirmed master commit:** `268952b09c8942d2b3e40049424ae6d41a14b0ef`  
+**Inventory limitation:** GitHub branch search confirms the complete branch-name set, but this connector does not expose branch-tip SHAs; the development commit above is the latest directly confirmed commit, not an independently resolved ref SHA.  
 **Disposition:** The live remote inventory contains exactly the two canonical branches. No noncanonical branches remain to classify. No branch deletion, PR closure, merge, reset, cherry-pick, release, deployment, or package publication was performed.
 
 ## Branch inventory
@@ -18,7 +19,7 @@ The Sith policy requires exactly `master` and `development`. GitHub branch searc
 
 | Branch | Head SHA | Disposition |
 |---|---|---|
-| `development` | `20c6388870e0fd6b3948f348cab92fb3940b70f3` | Active source branch; preserve. |
+| `development` | `c91345ef5bba6e5526b1f7511a2a0c7630b6e607` (latest confirmed commit; ref SHA not exposed) | Active source branch; preserve. |
 | `master` | `268952b09c8942d2b3e40049424ae6d41a14b0ef` | Released/evidence baseline; preserve. |
 
 The branch search returned a second-page cursor; the follow-up page was empty. The complete observed inventory is therefore exactly two branches. The compare endpoint reports the histories are diverged: `development` is 413 commits ahead and 19 commits behind `master`. Do not merge, reset, force-push, or rewrite `master` as a cleanup shortcut.
@@ -48,15 +49,13 @@ Development build [#42738326977](https://github.com/TrentBest/TheSingularityWork
 
 The workflow's publication job remains hard-disabled with `if: \${{ false }}`. No package was published.
 
-## Publish-gate design status
+## Publish-gate implementation status
 
-Issue #11's mandatory requirement is not yet implemented as an executable gate. The current hard-disabled job is safe, but it is not the final conditional gate. The proposed fail-closed design is recorded in [SITH_PUBLISH_GATE.md](SITH_PUBLISH_GATE.md).
+Issue #11's fail-closed verifier and independent CI job are now implemented on `development` (latest confirmed commit `c91345ef5bba6e5526b1f7511a2a0c7630b6e607`). The job runs 11 standard-library unit tests, fetches the live branch inventory with pagination, reads master-hosted Sith evidence, validates the referenced master workflow run, and emits a compliance output only after every check passes. The implementation is documented in [SITH_PUBLISH_GATE.md](SITH_PUBLISH_GATE.md).
 
-The design requires both:
-1. a live, paginated remote branch inventory fetched immediately before publication; and
-2. recent, successful, master-hosted Sith evidence whose status and branch list agree with the live inventory.
+**Live CI verification remains pending.** The available GitHub connector does not expose a general Actions run listing for push-triggered runs; its commit-run lookup is limited to pull-request-triggered runs. Therefore this audit cannot establish that the new verifier job has executed successfully against GitHub's live API response shape. Do not describe the gate as operational until a real Actions run proves both the unit tests and live API verification pass.
 
-Missing, malformed, stale, future-dated, contradictory, or unverifiable evidence must block publication. Build, test, and pack remain independent. The hard-disabled publication condition must remain in place until the gate is implemented, tested, and Trent explicitly authorizes changing the release path.
+The workflow's `publish_nuget` job depends on build/test and compliance verification but remains unconditionally disabled with `if: ${{ false }}`. Build, test, and pack remain independent. Compliance is not owner authorization; no publication, merge, release, deployment, or branch deletion is authorized.
 
 ## Event interoperability status
 
