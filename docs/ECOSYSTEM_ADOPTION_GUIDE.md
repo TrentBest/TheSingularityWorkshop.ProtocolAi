@@ -191,6 +191,9 @@ The adoption map above is the living design reference. The following repository-
 | Hermit | [#5 — cross-host task lifecycle assessment](https://github.com/TrentBest/TheSingularityWorkshop.Hermit/issues/5#issuecomment-6885039060) |
 | SingularityBot | [#15 — cross-boundary bot command and match lifecycle](https://github.com/TrentBest/TheSingularityWorkshop.SingularityBot/issues/15#issuecomment-6885037439) |
 | AnyApp | [#8 — AnyApp ↔ WebApp local bridge and desktop deep-link contract](https://github.com/TrentBest/AnyApp/issues/8#issuecomment-6885194891) |
+| StoryBuilder | [#8 — real timeline model and cross-host event boundary assessment](https://github.com/TrentBest/StoryBuilder/issues/8#issuecomment-6886866255) |
+| MicroBundleIngestor | [#5 — ingestion request/result envelope assessment](https://github.com/TrentBest/TheSingularityWorkshop.MicroBundleIngestor/issues/5#issuecomment-6886866916) |
+| FSM_REST | [#18 — optional Extensions adapter boundary assessment](https://github.com/TrentBest/TheSingularityWorkshop.FSM_REST/issues/18#issuecomment-6886867594) |
 
 Other repository discussions already contain this guide's link and repository-specific boundaries, including ServerSC2, ServerApp, HeadlessAi, WebApp, MyVR, CreatorNetwork, MicroBundleRepository, DataWarehouse, FSM_REST, and FSM_COS. Their existing issues remain the place to update adoption notes; do not create duplicate tracking issues.
 
