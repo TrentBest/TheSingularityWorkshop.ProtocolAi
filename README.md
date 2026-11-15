@@ -121,7 +121,7 @@ The current library provides vocabulary definitions, stable identities, value en
 
 The interactive playground embeds the behavior being explained. It uses the real ProtocolAi C# library, while FSM_API drives the visible state progression.
 
-From the repository root, with the .NET 8 SDK installed:
+From the repository root, with the .NET 10 SDK installed:
 
 ~~~powershell
 dotnet run --project samples/ProtocolAi.Playground/ProtocolAi.Playground.csproj
