@@ -11,7 +11,7 @@
   ],
   "branch_count": 2,
   "status": "COMPLIANT",
-  "evaluated_at": "2026-11-18T13:00:17Z",
-  "workflow_run": "https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44309266504",
-  "triggering_commit": "263587144351877bcaff0ef6083818b562301fc4"
+  "evaluated_at": "2026-11-19T12:59:21Z",
+  "workflow_run": "https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44528975916",
+  "triggering_commit": "9a01a3e75fc0b2e0c09d5ccb185e28e13890130d"
 }
