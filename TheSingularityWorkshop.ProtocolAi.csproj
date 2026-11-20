@@ -17,7 +17,6 @@
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>Alpha 3: add dependency-free JSON wire transport for protocol payloads.</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="tests\**" />
