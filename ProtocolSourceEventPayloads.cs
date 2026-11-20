@@ -37,11 +37,7 @@ public sealed record ProtocolDownstreamNotification
         long causalRevision, string gateTransitionMessageId, string reason)
     {
         NotificationId = ProtocolObserverRegistrationRequest.Required(notificationId, nameof(notificationId), 256);
-        var repository = ProtocolObserverRegistrationRequest.Required(consumerRepository, nameof(consumerRepository), 256);
-        var parts = repository.Split('/');
-        if (parts.Length != 2 || parts.Any(string.IsNullOrWhiteSpace))
-            throw new ArgumentException("Consumer repository must use canonical owner/name form.", nameof(consumerRepository));
-        ConsumerRepository = repository;
+        ConsumerRepository = ProtocolRepositoryIdentity.Validate(consumerRepository, nameof(consumerRepository));
         AwaitId = ProtocolObserverRegistrationRequest.Required(awaitId, nameof(awaitId), 256);
         GateId = ProtocolObserverRegistrationRequest.Required(gateId, nameof(gateId), 256);
         GateVersion = ProtocolObserverRegistrationRequest.Required(gateVersion, nameof(gateVersion), 128);
