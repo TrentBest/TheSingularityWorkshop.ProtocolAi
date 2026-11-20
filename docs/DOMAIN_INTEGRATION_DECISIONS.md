@@ -150,7 +150,7 @@ The ProtocolAi usage map records WebPage's `AiExchangeCompositionBundle` and `Wo
 | FSM_Serialization | Adapter only if demanded | Serialize a ProtocolAi definition/payload through a dedicated adapter | Serialization owns bytes; ProtocolAi owns semantic identity |
 | MicroBundleDomain / MicroBundleRepository | No adoption by default | Associate a capability with a semantic identity at a higher composition boundary if needed | BundleId, version, and content hash identify artifacts, not domain meaning |
 | Renderer / Visualize | No core adoption | Visualize real protocol resolution or grammar-validation state in a separate view | They own rendering/visualization; do not add GUI or renderer dependencies to ProtocolAi |
-| The / Architect legacy AI stack | Legacy review | Compare the local ProtocolAi implementation and vocabulary against this package before any migration | It is a separate implementation; do not silently treat it as the NuGet contract or create two competing identity authorities |
+| The / Architect parallel AI stack | Migration/interop review | Compare the local ProtocolAi implementation and vocabulary against this package before any migration | It is a separate in-repository implementation used by the Architect terminal; do not silently treat it as the NuGet contract or assume identity/API parity |
 
 ## ProtocolAi usage pattern
 
