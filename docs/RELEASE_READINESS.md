@@ -19,23 +19,23 @@
 
 ## Latest verified candidate evidence
 
-The latest verified implementation candidate is [`61aa751f90f18195332cfc0a4b1ca1a85ee20c75`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/61aa751f90f18195332cfc0a4b1ca1a85ee20c75), with exact-head [workflow run #44655795462](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44655795462).
+The latest verified implementation candidate is [`cc005f69d2aec817267ea713bad184dc36a4283b`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/cc005f69d2aec817267ea713bad184dc36a4283b), with exact-head [workflow run #44656283163](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44656283163).
 
 That run passed the live Sith compliance job and the complete development build/test job: .NET 10 restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, and clean-consumer installation/build. The NuGet publication job was skipped. It also passed after removing the `CS1591` suppression, so public XML documentation is now compiler-checked. The verified candidate also includes the .NET 10 Blazor WebAssembly and DevServer 10.0.0 sample dependencies. Subsequent changes to the integration map, event-envelope scope guidance, and readiness ledger are documentation-only; the current exact-head workflow is verifying those final documentation updates.
 
 ## Packed artifact inspection
 
-The CI artifact (artifact ID `14593297026`) from [workflow run #44655795462](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44655795462) was downloaded and inspected directly.
+The CI artifact (artifact ID `14593068994`) from [workflow run #44656283163](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44656283163) was downloaded and inspected directly.
 
 - Package: `TheSingularityWorkshop.ProtocolAi.0.1.0-alpha.3.nupkg`
-- NuGet repository metadata: `commit="61aa751f90f18195332cfc0a4b1ca1a85ee20c75"`
+- NuGet repository metadata: `commit="cc005f69d2aec817267ea713bad184dc36a4283b"`
 - Target framework: `net10.0`
 - Dependencies: none declared
 - Package contents: assembly, generated XML API docs, README, MIT license, Markdown guides, and intended SVG/raster documentation assets
 - License entry: `LICENSE.txt`, with `Copyright (c) 2026 Trent Best`
-- Package SHA-256: `cbb1e76f6f7c77061db157e4475c4229d0db113ec9f72900e8ed0ae0161f97ba`
+- Package SHA-256: `8de4705891ac0e693f407cce6597e88b9cd723d195573c7ed8bac7fe542687aa`
 
-The package contains the Domain Integration Decisions guide and the refreshed ecosystem map as of the recorded source SHA. Later documentation-only changes clarify additional repository boundaries and the fixed v1 event-kind scope. The artifact is a CI build output only; it was not pushed to NuGet. A separate symbol/source package is not currently present and remains a package-quality decision.
+The package contains the current Domain Integration Decisions guide, expanded ecosystem usage map, and fixed v1 event-kind scope guidance. The artifact is a CI build output only; it was not pushed to NuGet. A separate symbol/source package is not currently present and remains a package-quality decision.
 
 ## Repository integrity
 
