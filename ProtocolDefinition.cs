@@ -40,8 +40,11 @@ public sealed class ProtocolDefinition
         _byValue = values.ToDictionary(x => x.Value, StringComparer.Ordinal);
     }
 
+    /// <summary>Gets the stable, non-zero identity of this protocol namespace.</summary>
     public ulong Id { get; }
+    /// <summary>Gets the human-readable protocol name.</summary>
     public string Name { get; }
+    /// <summary>Gets the immutable symbols defined by this protocol.</summary>
     public IReadOnlyList<ProtocolSymbol> Symbols => _symbols;
 
 
@@ -94,14 +97,17 @@ public sealed class ProtocolDefinition
         return new ProtocolCompatibilityReport(issues);
     }
 
+    /// <summary>Finds a symbol by its exact, ordinal name and returns its qualified reference.</summary>
     public ProtocolReference Reference(string name) =>
         _byName.TryGetValue(name, out var symbol) ? new ProtocolReference(Id, symbol.Id) :
         throw new KeyNotFoundException($"Protocol symbol '{name}' is not defined.");
 
+    /// <summary>Finds a symbol by its exact, ordinal literal value and returns its qualified reference.</summary>
     public ProtocolReference ReferenceByValue(string value) =>
         _byValue.TryGetValue(value, out var symbol) ? new ProtocolReference(Id, symbol.Id) :
         throw new KeyNotFoundException($"Protocol value '{value}' is not defined.");
 
+    /// <summary>Decodes a symbol ID using this protocol definition.</summary>
     public string Decode(ulong symbolId) =>
         _byId.TryGetValue(symbolId, out var symbol) ? symbol.Value :
         throw new KeyNotFoundException($"Protocol symbol ID '{symbolId}' is not defined.");
@@ -167,6 +173,7 @@ public sealed class ProtocolDefinition
         }
     }
 
+    /// <summary>Encodes one known value as a symbol reference or preserves an unknown value as a literal.</summary>
     public ProtocolValue Encode(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
@@ -175,6 +182,7 @@ public sealed class ProtocolDefinition
             : ProtocolValue.FromLiteral(value);
     }
 
+    /// <summary>Encodes an ordered collection of known values and unknown literals into a protocol-scoped payload.</summary>
     public ProtocolPayload Encode(IEnumerable<string> values)
     {
         ArgumentNullException.ThrowIfNull(values);
@@ -226,5 +234,6 @@ public sealed class ProtocolDefinition
         return builder.ToString();
     }
 
+    /// <summary>Returns the deterministic textual description of this protocol.</summary>
     public override string ToString() => Describe();
 }
