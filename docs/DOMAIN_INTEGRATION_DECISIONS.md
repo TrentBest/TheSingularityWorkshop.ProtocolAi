@@ -117,6 +117,42 @@ Do not add ProtocolAi merely because a repository uses integers, enums, JSON, ev
 
 **Required proof:** manual/clipboard and connected-provider flows should share the same semantic request/response contract; test round trips, partial/invalid responses, unresolved references, and the rule that validation never authorizes execution. When the existing bridge issue is advanced, its old .NET 8 acceptance wording should be reconciled with the Workshop's .NET 10 baseline.
 
+### Hermit — optional semantic identity; generic event use deferred
+
+**Status: target architecture, not an implemented dependency.**
+
+**Evidence:** [Hermit's README](https://github.com/TrentBest/TheSingularityWorkshop.Hermit/blob/development/README.md) lists ProtocolAi as deterministic semantic identity for resolving application-owned concepts. [Hermit #5](https://github.com/TrentBest/TheSingularityWorkshop.Hermit/issues/5) evaluates ProtocolAi for cross-host task lifecycle event contracts.
+
+**Decision**
+- ProtocolAi may resolve Hermit-owned capability/task vocabulary at an explicit semantic adapter boundary.
+- Hermit owns task identity/meaning, planning, capability resolution, policy, approval, execution, evidence, memory, and audit.
+- The deterministic in-process Hermit core must not require ProtocolAi.
+- Defer runtime event integration until a real cross-process/durable consumer exists and the event-kind contract is suitable.
+
+**Important v1 limitation:** ProtocolAi's current event envelope has a fixed event-kind set for observer registration, source events, observer evaluation, gate transitions, downstream notifications, and command outcomes. It is not a generic task-lifecycle event bus. Do not encode Hermit task-created, planning, approval, or execution events as unrelated `SourceEvent` or command-outcome kinds.
+
+### Ontology — explicit no-dependency boundary
+
+<badge color="success">Documented no-dependency</badge>
+
+**Evidence:** [Ontology README](https://github.com/TrentBest/TheSingularityWorkshop.Ontology/blob/development/README.md) explicitly states there is no ProtocolAi package reference. Ontology owns concepts, semantic addresses, indexes, and relationships. Its `OntologyIndex` is a protocol-neutral integer primitive. [Ontology #8](https://github.com/TrentBest/TheSingularityWorkshop.Ontology/issues/8) coordinates this separation.
+
+**Decision:** keep Ontology independent. A consuming application may map a ProtocolAi symbol ID into an `OntologyIndex`; Ontology must not need to know where the integer originated. ProtocolAi vocabulary identity and ontology semantic-address/relationship truth remain distinct.
+
+### ServerApp — host boundary candidate, not a generic event consumer yet
+
+**Status: candidate; no ProtocolAi runtime dependency confirmed.**
+
+**Evidence:** [ServerApp README](https://github.com/TrentBest/TheSingularityWorkshop.ServerApp/blob/development/README.md) describes manifest-driven server roles and explicitly assigns server provisioning/hosting to ServerApp, composition to FSM_COS, and execution lifecycle to Foundry. [ServerApp #12](https://github.com/TrentBest/TheSingularityWorkshop.ServerApp/issues/12) asks for a concrete protocol/manifest boundary.
+
+**Decision**
+- ProtocolAi may provide stable identities for a genuinely shared server-facing message or operation vocabulary.
+- GrammarAi may validate a structured Experience manifest or session request where structural constraints are useful.
+- ServerApp retains server-role semantics, identity/context, persistence, trust, policy, authorization, network behavior, and execution.
+- Do not make ProtocolAi a dependency of server provisioning or all manifest code by default.
+
+**Important v1 limitation:** arbitrary session, hangout, world, and server-lifecycle messages do not fit ProtocolAi's current fixed event-kind set. Identify one concrete contract and consumer test first; otherwise defer.
+
 ## Indirect carriers and composition boundaries
 
 ### FSM_UserIO — carry intent, do not own vocabulary
@@ -142,11 +178,19 @@ The ProtocolAi usage map records WebPage's `AiExchangeCompositionBundle` and `Wo
 | Domain / repository | Decision | Where ProtocolAi could fit | Why it should not be a default dependency |
 |---|---|---|---|
 | Experiences / WebApp / MyVR | Candidate | Stable intent/capability identities shared across manifestations when the same semantic contract truly crosses hosts | Each Experience/host owns vocabulary and policy; local manifest IDs alone do not justify a dependency |
-| FSM_Foundry / host | Event-contract consumer at the boundary | Consume typed gate/notification/outcome envelopes and preserve correlation/provenance | Foundry owns durable delivery, replay, authorization, lifecycle, and execution; ProtocolAi does not |
+| FSM_Foundry / host | Event-contract consumer only for matching external boundaries | Consume typed gate/notification/outcome envelopes where the event kinds fit | Foundry owns durable delivery, replay, authorization, lifecycle, and execution; the current ProtocolAi v1 event-kind set is not a universal event bus |
 | GUI / GUI.SVG | Optional presentation adapter | Inspect/edit a host-owned vocabulary and display known/literal/invalid states | GUI is presentation; do not make GUI foundations depend on semantic identity |
 | Gestures | Conditional candidate | Stable action labels across choreography, role routers, and simulation boundaries; grammar for sequences if needed | Do not replace FSM transitions, IK, timing, Physics, or contact/failure simulation |
 | Physics | Conditional candidate | Event/material-operation identity only when serialized or exchanged across independent systems | Keep numeric simulation state strongly typed and deterministic; do not encode every scalar as a symbol |
 | FSM_REST | No core adoption | Optional semantic operation identity at an AI-facing adapter or MicroBundle edge | REST core already owns HTTP capability shape and transport concerns |
+| FSM_API / FSM_Layer | No adoption | None in the state-machine primitive; a host may attach semantic intent above it | State progression and context lifecycle are lower-level execution primitives, not vocabulary ownership |
+| FSM_NeuralNetworks | No model-core adoption | Optional mapping at a model-facing language/agent adapter if stable concepts cross that boundary | NeuralNetworks owns tensors, operations, graph/node/port identities, inference, and execution evidence; do not encode tensor/model internals as ProtocolAi symbols |
+| DataWarehouse | No adoption | Store serialized definitions/payloads only through a higher-level adapter if a persistence need is demonstrated | DataWarehouse owns fixed-record memory layout, shelves, slots, and handles; keep storage generic and independent of semantic identity |
+| Economy | No core adoption | Optional identities for shared operation vocabulary at an AI/host adapter | Economy owns money-like values, offers, transfer intent, fictional currency, and simulation ledger; do not turn currency values or local commerce models into ProtocolAi identities |
+| Learning | Indirect carrier | Course/experience intent may pass through FSM_UserIO when a host needs a shared identity | Learning owns course and teaching semantics; do not assign ProtocolAi IDs to every lesson or learning concept by default |
+| Profiles | No adoption by default | Optional mapping for shared entity categories at an application boundary | Profiles owns entity/profile, claims, relationships, disclosure, and observer representation semantics |
+| MyVR | No adoption for artifact identity | Optional shared Experience intent at the host boundary | MyVR's BundleId + Version + ContentHash identifies artifacts; it is not a semantic protocol identity |
+| Ontology | Explicit no dependency | Consumer-side mapping from ProtocolAi symbol IDs to OntologyIndex when useful | Ontology owns concepts, semantic addresses, indexes, and relationships; it intentionally has no ProtocolAi dependency |
 | FSM_Serialization | Adapter only if demanded | Serialize a ProtocolAi definition/payload through a dedicated adapter | Serialization owns bytes; ProtocolAi owns semantic identity |
 | MicroBundleDomain / MicroBundleRepository | No adoption by default | Associate a capability with a semantic identity at a higher composition boundary if needed | BundleId, version, and content hash identify artifacts, not domain meaning |
 | Renderer / Visualize | No core adoption | Visualize real protocol resolution or grammar-validation state in a separate view | They own rendering/visualization; do not add GUI or renderer dependencies to ProtocolAi |
@@ -181,6 +225,18 @@ For actual cross-repository events, use the typed event envelope and payload con
 - A causal revision is not a delivery guarantee.
 - A provenance object is a claim until the receiving host verifies the authoritative source.
 - Structural compatibility is not proof that the domain meaning stayed the same.
+
+## Event envelope v1: scope and extension gap
+
+The current `ProtocolEventEnvelope` is a typed, versioned contract for the event kinds currently defined by ProtocolAi: observer registration, source event, observer evaluation, gate transition, downstream notification, and command accepted/rejected/completed outcomes.
+
+It is **not yet a universal application event bus**:
+- The event kind is a closed `ProtocolEventKind` enum in schema version 1.
+- Several event kinds have specific provenance or causal-revision requirements.
+- Typed payload factories enforce the current kind/payload pairing.
+- An arbitrary application event must not be mislabeled as a source event, gate transition, or command outcome merely to reuse the envelope.
+
+If Hermit, ServerApp, or another domain demonstrates a real cross-process need for application-owned event kinds, design that extension deliberately (including versioning, unknown-kind behavior, typed payload validation, and backward compatibility) before implementing it. Keep domain-specific task/session/world payload semantics in their owning repositories. Track the design question through ProtocolAi [Issue #13](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/issues/13); do not create duplicate work items.
 
 ## Cross-repository acceptance checklist
 
