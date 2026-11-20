@@ -17,6 +17,8 @@ Every envelope carries a schema identifier and version; unique message ID; work 
 
 The initial event kinds are observer registration requested/acknowledged, source event, observer evaluation, gate transition, downstream notification, and command accepted/rejected/completed. The serialized envelope is limited to 262,144 UTF-16 characters, and the embedded `payloadJson` string is limited to 196,608 UTF-16 characters. These are character limits, not transport-byte limits; hosts must apply their own byte, framing, and transport limits.
 
+**Scope:** Version 1 is a closed, typed set of event kinds—not a universal application event bus or an extension point for arbitrary domain lifecycle names. A Hermit task transition, ServerApp session event, Physics observation, or Gesture progression must not be mislabeled as a source event, gate transition, or command outcome just to reuse this envelope. Keep domain-specific event payloads in their owning repositories. If a real cross-process consumer needs application-owned event kinds, design and version that extension explicitly; do not add unrecognized enum values to v1.
+
 Evidence-bearing source events, evaluations, gate transitions, and downstream notifications require candidate provenance. Command outcome messages require an idempotency key. Gate transitions require a positive causal revision and may name the message they supersede. Downstream notifications require a positive causal revision matching their typed payload; no other event kind may carry causal revision metadata, and only gate transitions may carry supersession metadata.
 
 ## Schema compatibility rules
