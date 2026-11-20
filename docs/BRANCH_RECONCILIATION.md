@@ -7,66 +7,57 @@
 
 # Branch Reconciliation Ledger
 
-**Review date:** 2026-11-14 UTC  
-**Development branch tip at audit:** `04958cb5b34b740868c1a18ab1a0047539025314`  
-**Latest confirmed master commit:** `268952b09c8942d2b3e40049424ae6d41a14b0ef`  
-**Ref verification:** GitHub's branch API independently resolved both branch-tip SHAs during this audit; the values below are the live refs observed at that time.  
-**Disposition:** The live remote inventory contains exactly the two canonical branches. No noncanonical branches remain to classify. No branch deletion, PR closure, merge, reset, cherry-pick, release, deployment, or package publication was performed.
+**Review date:** 2026-11-20 UTC  
+**Canonical branch inventory:** exactly `master` and `development` (both search pages checked; second page empty).  
+**Development audit baseline:** `fb4e008935ad6c8bac9301d3b92292aa8e49160d`.  
+**Master audit baseline:** `d63d0edd725219eb549ee8878f2a9a70af26de27`.  
+**Compare at audit:** development 450 commits ahead and 25 behind master.  
+**Disposition:** preserve both branches. No branch deletion, merge, reset, cherry-pick, release, deployment, or package publication was performed.
 
-## Branch inventory
+## Branch inventory and policy
 
-The Sith policy requires exactly `master` and `development`. GitHub branch search returned:
+The permanent Sith target is exactly two branches:
 
-| Branch | Head SHA | Disposition |
-|---|---|---|
-| `development` | `04958cb5b34b740868c1a18ab1a0047539025314` (live branch tip at audit) | Active source branch; preserve. |
-| `master` | `268952b09c8942d2b3e40049424ae6d41a14b0ef` | Released/evidence baseline; preserve. |
+| Branch | Audit baseline | Meaning | Disposition |
+|---|---|---|---|
+| `development` | `fb4e008935ad6c8bac9301d3b92292aa8e49160d` | Active source and next candidate | Preserve; continue work here |
+| `master` | `d63d0edd725219eb549ee8878f2a9a70af26de27` | Published-package history / release baseline | Preserve; do not move to current development |
 
-The branch search returned a second-page cursor; the follow-up page was empty. The complete observed inventory is therefore exactly two branches. The compare endpoint reports the histories are diverged: `development` is 428 commits ahead and 19 commits behind `master`. Do not merge, reset, force-push, or rewrite `master` as a cleanup shortcut.
+These SHAs are the branch tips observed during this audit, before the documentation cleanup commits. Re-fetch the live refs before any future release operation.
 
-## Pull request disposition
+The compare endpoint reports the histories are diverged: development is 450 commits ahead and 25 behind master. This divergence is not a cleanup defect. Do not merge, reset, force-push, or rewrite master to make the graph look simpler.
 
-The previously audited PRs #8 (structural protocol compatibility checks) and #9 (development build badge) were subsequently observed closed without merge. Their former head branches are absent from the current remote branch inventory. No open noncanonical branch or associated PR remains in the current inventory.
+## Published package and source provenance
 
-This ledger does not authorize reopening or closing PRs, or changing either canonical branch.
+NuGet lists `TheSingularityWorkshop.ProtocolAi` version `0.1.0-alpha.2` as a published prerelease. The current development project declares `0.1.0-alpha.3`.
 
-## Sith policy evidence
+The repository contains release-named commit [`3a0bcc6f7b6c010d1e9598bd09f17ffd6c4e02de`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/3a0bcc6f7b6c010d1e9598bd09f17ffd6c4e02de), titled `release: ProtocolAI 0.1.0-alpha.2 with controlled publication`. Both master and development descend from that commit:
+- master is 34 commits beyond it;
+- development is 459 commits beyond it.
 
-The master-hosted `assets/sith-policy.json` observed by the live verifier records:
+This proves that the release-named commit is retained in both histories. It does **not** prove that the exact published `.nupkg` was built from that SHA. The package's source SHA and artifact digest must be recovered from authoritative publish workflow/artifact provenance before any branch reconciliation is considered.
 
-- Status: `COMPLIANT`
-- Actual branches: `development`, `master`
-- Branch count: `2`
-- Evaluation time: `2026-11-13T12:10:10Z`
-- Workflow run: [#43422877852](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43422877852)
-- Triggering commit: `c2d6527372fbb2fdc99b552b8c25232df4fdb69e`
+The previous ledger statement “No package was published” was incorrect and is superseded by the NuGet publication evidence. Do not repeat it.
 
-The Sith workflow [#43503630133](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43503630133) also completed successfully for the development-head update. The live gate independently fetched the complete remote inventory and validated this evidence during build workflow [#43533454758](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43533454758) at `2026-11-14T00:19Z`. Both evidence and live inventory are point-in-time observations; the gate must run immediately before any future publication attempt, and the evidence will expire under the 24-hour freshness rule.
+## Sith and build evidence
 
-## Build and publication status
+The latest previously verified development candidate is `fb4e008935ad6c8bac9301d3b92292aa8e49160d`, with [build workflow #43799124521](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43799124521). The build/test and live Sith compliance jobs passed; NuGet publication was skipped. This evidence is exact to that SHA and predates the cleanup commits in development.
 
-Development build [#43533454758](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43533454758), at `04958cb5b34b740868c1a18ab1a0047539025314`, completed successfully. Restore, build, tests/coverage, Codecov upload, pack, packaged-documentation verification, clean-consumer build, and artifact uploads all succeeded. The `publish_nuget` job was skipped.
+The live Sith gate independently checks the remote branch inventory and fresh master-hosted evidence. Its evidence is time-bound. Re-run the gate on the exact candidate before any future CiAi release operation; this ledger is not a substitute for live verification.
 
-The workflow's publication job remains hard-disabled with `if: \${{ false }}`. No package was published.
+The NuGet publication path remains disabled in the ProtocolAi workflow. Future publication is intended to be orchestrated through CiAi when explicitly directed by the owner. A successful build or Sith compliance result is not publication authorization.
 
-## Publish-gate implementation status
+## Event interoperability
 
-Issue #11's fail-closed verifier and independent CI job are implemented and live-CI-verified on `development`; the latest observed successful verification is build run [#43533454758](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43533454758) on branch tip `04958cb5b34b740868c1a18ab1a0047539025314`. The job runs 11 standard-library unit tests, fetches the live branch inventory with pagination, reads master-hosted Sith evidence, validates the referenced master workflow run, and emits a compliance output only after every check passes. The implementation is documented in [SITH_PUBLISH_GATE.md](SITH_PUBLISH_GATE.md).
+ProtocolAi's typed v1 envelope and payload contracts are implemented and documented in [EVENT_ENVELOPES.md](EVENT_ENVELOPES.md). ProtocolAi does not own producer authentication, evidence verification, durable inbox/outbox storage, delivery, retries, deduplication, replay, authorization, or workflow execution.
 
-**Latest live CI verification passed.** Build workflow [#43533454758](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43533454758) completed successfully on `04958cb5b34b740868c1a18ab1a0047539025314`. Its `Verify live Sith compliance` and independent `build-and-test` jobs both succeeded; `publish_nuget` was skipped. The separate Sith Policy workflow [#43533454740](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43533454740) also succeeded. The gate is verified as a compliance prerequisite; this does not enable or authorize publication.
-
-The workflow's `publish_nuget` job depends on build/test and compliance verification but remains unconditionally disabled with `if: ${{ false }}`. Build, test, and pack remain independent. Compliance is not owner authorization; no publication, merge, release, deployment, or branch deletion is authorized.
-
-## Event interoperability status
-
-ProtocolAi's typed v1 event envelope and payload contracts remain implemented and documented in [EVENT_ENVELOPES.md](EVENT_ENVELOPES.md). ProtocolAi does not own producer authentication, durable inbox/outbox storage, delivery, deduplication, evidence verification, authorization, or workflow execution.
-
-The cross-repository conformance plan is recorded in [CROSS_REPOSITORY_EVENT_CONFORMANCE.md](CROSS_REPOSITORY_EVENT_CONFORMANCE.md). Host-side proof remains outstanding in CommandAi, GrammarAi, and CiAi; ProtocolAi can provide shared fixtures and contract tests but must not absorb host responsibilities.
+The remaining host-side interoperability work is tracked in [Issue #13](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/issues/13) and [CROSS_REPOSITORY_EVENT_CONFORMANCE.md](CROSS_REPOSITORY_EVENT_CONFORMANCE.md). ProtocolAi may provide shared fixtures and contract guidance; implementation and operational proof belong in CommandAi, GrammarAi, CiAi, and the host repositories.
 
 ## Owner deletion readiness
 
-- **READY FOR OWNER DELETION:** None. There are no noncanonical branches in the live inventory.
+- **READY FOR OWNER DELETION:** None.
 - **Preserve:** `TrentBest/TheSingularityWorkshop.ProtocolAi:master` and `TrentBest/TheSingularityWorkshop.ProtocolAi:development`.
+- No noncanonical branches were found in the complete two-page branch inventory.
 
 No branch deletion is requested or required. This ledger is evidence and recommendation, not authorization to delete branches, merge histories, publish packages, or release.
 
