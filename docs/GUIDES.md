@@ -126,7 +126,7 @@ A good ProtocolAI document should explain:
 For the domain-wide gap analysis and priorities, see [Domain Audit and Roadmap](DOMAIN_AUDIT_AND_ROADMAP.md).
 Use [ProtocolAi Across the Workshop](ECOSYSTEM_USAGE_MAP.md) to find confirmed consumers, exact source paths, code excerpts, indirect boundaries, legacy implementations, and integration candidates. The map deliberately distinguishes current code from ideas that still need implementation.
 
-Use the [Ecosystem Adoption Guide](ECOSYSTEM_ADOPTION_GUIDE.md) for repository-by-repository recommendations, adoption levels, guardrails, and current cross-repository handoffs.
+Use the [Ecosystem Adoption Guide](ECOSYSTEM_ADOPTION_GUIDE.md) for repository-by-repository recommendations and guardrails. The evidence-based [Domain Integration Decisions](DOMAIN_INTEGRATION_DECISIONS.md) record distinguishes implemented consumers, source-pinned integrations, optional bridges, indirect carriers, candidates, and deliberate non-applications.
 
 ---
 
