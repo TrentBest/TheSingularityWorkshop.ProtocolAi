@@ -26,10 +26,7 @@ public sealed class ProtocolCandidateProvenance
         long workflowRunId, int workflowRunAttempt, string observedJobIdentity, string evidenceReference,
         string evidenceSha256)
     {
-        Repository = Required(repository, nameof(repository), 256);
-        var parts = Repository.Split('/');
-        if (parts.Length != 2 || parts.Any(string.IsNullOrWhiteSpace))
-            throw new ArgumentException("Repository must use canonical owner/name form.", nameof(repository));
+        Repository = ProtocolRepositoryIdentity.Validate(repository, nameof(repository));
         CandidateRef = Required(candidateRef, nameof(candidateRef), 512);
         CandidateSha = GitSha(candidateSha, nameof(candidateSha));
         EventSha = GitSha(eventSha, nameof(eventSha));
