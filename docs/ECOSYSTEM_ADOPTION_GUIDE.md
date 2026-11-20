@@ -1,3 +1,10 @@
+<!-- The Singularity Workshop moniker -->
+<p align="center">
+  <a href="https://github.com/TrentBest">
+    <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop animated moniker" width="720" />
+  </a>
+</p>
+
 # ProtocolAi — ecosystem adoption map
 
 **Status:** implementation guidance, not a release or dependency mandate.  
@@ -221,3 +228,8 @@ When a repository is notified, its LLM should:
 5. Add a runtime dependency only after the required ProtocolAi API is explicitly released and exact-revision consumer tests justify it.
 
 Notification does not authorize source changes, dependency additions, package publication, merges, deployment, or release.
+
+---
+
+<!-- THE SINGULARITY WORKSHOP FOOTER -->
+<p align="center"><img src="https://raw.githubusercontent.com/TrentBest/FSM_API/master/Documentation/Branding/TheSingularityWorkshop.png" alt="The Singularity Workshop" width="200" /></p>
