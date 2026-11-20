@@ -31,6 +31,7 @@ public static class ProtocolPayloadJson
         WriteIndented = false
     };
 
+    /// <summary>Serializes a protocol payload using the explicit symbol-reference or literal JSON representation.</summary>
     public static string Serialize(ProtocolPayload payload)
     {
         ArgumentNullException.ThrowIfNull(payload);
@@ -47,6 +48,7 @@ public static class ProtocolPayloadJson
         return json;
     }
 
+    /// <summary>Deserializes and validates a protocol payload without resolving it against a definition.</summary>
     public static ProtocolPayload Deserialize(string json)
     {
         if (string.IsNullOrWhiteSpace(json))
