@@ -359,4 +359,18 @@ public sealed class ProtocolEventPayloadTests
         Assert.Equal(ProtocolEvaluationState.True, restored.State);
     }
 
+    [Theory]
+    [InlineData("owner /repo")]
+    [InlineData("owner/re po")]
+    [InlineData("owner/repo name")]
+    [InlineData("owner/repo/extra")]
+    [InlineData("owner_name/repo")]
+    [InlineData("owner/repo?query")]
+    [InlineData("owner/repo\\name")]
+    public void Downstream_notification_rejects_noncanonical_repository_characters(string repository)
+    {
+        Assert.Throws<ArgumentException>(() => new ProtocolDownstreamNotification(
+            "n", repository, "await", "gate", "1", ProtocolGateState.Satisfied, 1, "m", "reason"));
+    }
+
 }
