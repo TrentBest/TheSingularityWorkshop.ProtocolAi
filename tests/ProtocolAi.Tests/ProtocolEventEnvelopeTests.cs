@@ -267,4 +267,37 @@ public sealed class ProtocolEventEnvelopeTests
         Assert.Equal(SourceEvent().MessageId, restored.MessageId);
     }
 
+    [Theory]
+    [InlineData("owner /repo")]
+    [InlineData("owner/re po")]
+    [InlineData("owner/repo name")]
+    [InlineData("owner/repo/extra")]
+    [InlineData("owner_name/repo")]
+    [InlineData("owner/repo?query")]
+    [InlineData("owner/repo\\name")]
+    [InlineData("owner/repo#fragment")]
+    [InlineData("/repo")]
+    [InlineData("owner/")]
+    public void Provenance_rejects_noncanonical_repository_identities(string repository)
+    {
+        Assert.Throws<ArgumentException>(() => new ProtocolCandidateProvenance(
+            repository, "refs/heads/main", new string('a', 40), new string('b', 40),
+            new string('c', 40), "refs/heads/main", new string('d', 40),
+            1, 1, "job", "evidence.json", new string('e', 64)));
+    }
+
+    [Theory]
+    [InlineData("TrentBest/TheSingularityWorkshop.ProtocolAi")]
+    [InlineData("owner-name/repo_name")]
+    [InlineData("owner/repo.name")]
+    public void Provenance_accepts_valid_repository_name_characters(string repository)
+    {
+        var provenance = new ProtocolCandidateProvenance(
+            repository, "refs/heads/main", new string('a', 40), new string('b', 40),
+            new string('c', 40), "refs/heads/main", new string('d', 40),
+            1, 1, "job", "evidence.json", new string('e', 64));
+
+        Assert.Equal(repository, provenance.Repository);
+    }
+
 }
