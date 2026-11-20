@@ -5,10 +5,12 @@ namespace TheSingularityWorkshop.ProtocolAi;
 /// This API guarantees the local pairing for the typed contracts. It does not validate remote scope,
 /// provenance authenticity, message ordering, replay, authorization, or execution.
 /// </remarks>
+    /// <summary>Creates and reads event envelopes whose payload types determine the event kind.</summary>
 public static class ProtocolTypedEventEnvelope
 {
     /// <summary>Deserializes a typed payload only when its event kind and envelope metadata agree.</summary>
     /// <exception cref="ArgumentException">The requested payload type does not match the envelope kind or metadata.</exception>
+    /// <summary>Reads the typed payload after verifying that its type matches the envelope's event kind.</summary>
     public static T DeserializePayload<T>(ProtocolEventEnvelope envelope) where T : class
     {
         ArgumentNullException.ThrowIfNull(envelope);
@@ -55,6 +57,7 @@ public static class ProtocolTypedEventEnvelope
             _ => throw new ArgumentOutOfRangeException(nameof(payload))
         };
 
+    /// <summary>Creates a versioned event envelope for a supported typed payload, binding its event kind and required metadata.</summary>
     public static ProtocolEventEnvelope Create(
         string messageId, string correlationId, string producerId,
         ProtocolObserverRegistrationRequest payload, DateTimeOffset occurredAt,
@@ -65,6 +68,7 @@ public static class ProtocolTypedEventEnvelope
             ProtocolEventKind.ObserverRegistrationRequested, payload, occurredAt, causationId);
     }
 
+    /// <summary>Creates a versioned event envelope for a supported typed payload, binding its event kind and required metadata.</summary>
     public static ProtocolEventEnvelope Create(
         string messageId, string correlationId, string producerId,
         ProtocolObserverRegistrationAcknowledgement payload, DateTimeOffset occurredAt,
@@ -75,6 +79,7 @@ public static class ProtocolTypedEventEnvelope
             ProtocolEventKind.ObserverRegistrationAcknowledged, payload, occurredAt, causationId);
     }
 
+    /// <summary>Creates a versioned event envelope for a supported typed payload, binding its event kind and required metadata.</summary>
     public static ProtocolEventEnvelope Create(
         string messageId, string correlationId, string producerId,
         ProtocolSourceEvent payload, DateTimeOffset occurredAt,
@@ -86,6 +91,7 @@ public static class ProtocolTypedEventEnvelope
             ProtocolEventKind.SourceEvent, payload, occurredAt, causationId, provenance);
     }
 
+    /// <summary>Creates a versioned event envelope for a supported typed payload, binding its event kind and required metadata.</summary>
     public static ProtocolEventEnvelope Create(
         string messageId, string correlationId, string producerId,
         ProtocolDownstreamNotification payload, DateTimeOffset occurredAt,
@@ -98,6 +104,7 @@ public static class ProtocolTypedEventEnvelope
             payload.CausalRevision);
     }
 
+    /// <summary>Creates a versioned event envelope for a supported typed payload, binding its event kind and required metadata.</summary>
     public static ProtocolEventEnvelope Create(
         string messageId, string correlationId, string producerId,
         ProtocolObserverEvaluation payload, DateTimeOffset occurredAt,
@@ -109,6 +116,7 @@ public static class ProtocolTypedEventEnvelope
             ProtocolEventKind.ObserverEvaluation, payload, occurredAt, causationId, provenance);
     }
 
+    /// <summary>Creates a versioned event envelope for a supported typed payload, binding its event kind and required metadata.</summary>
     public static ProtocolEventEnvelope Create(
         string messageId, string correlationId, string producerId,
         ProtocolGateTransition payload, DateTimeOffset occurredAt,
@@ -121,6 +129,7 @@ public static class ProtocolTypedEventEnvelope
             payload.CausalRevision, payload.SupersedesMessageId);
     }
 
+    /// <summary>Creates a versioned event envelope for a supported typed payload, binding its event kind and required metadata.</summary>
     public static ProtocolEventEnvelope Create(
         string messageId, string correlationId, string producerId,
         ProtocolCommandOutcome payload, DateTimeOffset occurredAt,
