@@ -1,7 +1,7 @@
 <!-- The Singularity Workshop moniker -->
 <p align="center">
   <a href="https://github.com/TrentBest">
-    <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop — animated workshop moniker" width="720" />
+    <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop — animated moniker" width="720" />
   </a>
 </p>
 
@@ -38,7 +38,7 @@ The **SVG Hello World** page uses a separate, real FSM_API two-state flow. Advan
 
 ## Run the interactive playground
 
-Requires the **.NET 8 SDK**. From the repository root:
+Requires the **.NET 10 SDK**. From the repository root:
 
 ~~~powershell
 dotnet run --project samples/ProtocolAi.Playground/ProtocolAi.Playground.csproj
