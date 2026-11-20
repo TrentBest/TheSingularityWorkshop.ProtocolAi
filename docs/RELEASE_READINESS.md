@@ -19,9 +19,9 @@
 
 ## Latest verified candidate evidence
 
-The latest previously verified development candidate is [`fb4e008935ad6c8bac9301d3b92292aa8e49160d`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/fb4e008935ad6c8bac9301d3b92292aa8e49160d), with exact-head [workflow run #43799124521](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43799124521).
+The latest verified implementation candidate is [`d82060ccf38821b2012e514360993d850162922c`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/d82060ccf38821b2012e514360993d850162922c), with exact-head [workflow run #44655345143](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44655345143).
 
-That run passed the development build/test job and live Sith compliance verification. Restore, Release build, tests/coverage, Codecov upload, package creation, packaged-documentation-path verification, clean-consumer installation/build, and artifact uploads succeeded. The NuGet publication job was skipped. This evidence applies only to that exact SHA; every later commit requires a new exact-head run.
+That run passed the live Sith compliance job and the complete development build/test job: .NET 10 restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, and clean-consumer installation/build. The NuGet publication job was skipped. It also passed after removing the `CS1591` suppression, so public XML documentation is now compiler-checked. Subsequent commits update only the integration/navigation documentation and README; those commits require their own exact-head workflow confirmation.
 
 ## Repository integrity
 
@@ -49,8 +49,8 @@ These are implemented foundations, not proof that the public API is ready to lea
 ### Public contract and correctness
 
 - [ ] Map every public type/member to purpose, validation, exceptions, invariants, XML documentation, and tests.
-- [ ] Resolve missing XML documentation on public constructors, properties, methods, and factories; do not suppress missing-member warnings as a substitute for API documentation.
-- [ ] Complete the focused repository-name validation review for provenance and downstream notifications. Existing validation checks slash shape but does not reject embedded whitespace in both segments. Add narrow tests and validation without rejecting valid GitHub owner/repository names.
+- [x] Add XML summaries for public constructors, properties, methods, event kinds, and factories; remove the `CS1591` suppression so missing public-member documentation is no longer hidden.
+- [x] Complete focused repository-name validation for provenance and downstream notifications. The shared validator rejects malformed owner/name shape, embedded whitespace, invalid characters, and invalid owner lengths while retaining valid punctuation in repository names; focused positive and negative tests cover both contracts.
 - [ ] Verify immutability, builder isolation, culture-independent matching, ordinal/case-sensitive behavior, Unicode handling, and all documented resource limits.
 - [ ] Decide permanent identity, ID reuse, semantic change, and definition-versioning policy before a stable contract.
 
