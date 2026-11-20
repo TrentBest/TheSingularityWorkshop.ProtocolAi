@@ -19,21 +19,21 @@
 
 ## Latest verified candidate evidence
 
-The latest verified implementation candidate is [`d82060ccf38821b2012e514360993d850162922c`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/d82060ccf38821b2012e514360993d850162922c), with exact-head [workflow run #44655345143](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44655345143).
+The latest verified implementation candidate is [`61aa751f90f18195332cfc0a4b1ca1a85ee20c75`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/61aa751f90f18195332cfc0a4b1ca1a85ee20c75), with exact-head [workflow run #44655795462](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44655795462).
 
-That run passed the live Sith compliance job and the complete development build/test job: .NET 10 restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, and clean-consumer installation/build. The NuGet publication job was skipped. It also passed after removing the `CS1591` suppression, so public XML documentation is now compiler-checked. Subsequent commits update only the integration/navigation documentation and README; those commits require their own exact-head workflow confirmation.
+That run passed the live Sith compliance job and the complete development build/test job: .NET 10 restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, and clean-consumer installation/build. The NuGet publication job was skipped. It also passed after removing the `CS1591` suppression, so public XML documentation is now compiler-checked. The verified candidate also includes the .NET 10 Blazor WebAssembly and DevServer 10.0.0 sample dependencies. The subsequent readiness-ledger edit is documentation-only and is being verified separately.
 
 ## Packed artifact inspection
 
-The CI artifact from [workflow run #44655345143](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44655345143) was downloaded and inspected directly.
+The CI artifact (artifact ID `14593297026`) from [workflow run #44655795462](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44655795462) was downloaded and inspected directly.
 
 - Package: `TheSingularityWorkshop.ProtocolAi.0.1.0-alpha.3.nupkg`
-- NuGet repository metadata: `commit="d82060ccf38821b2012e514360993d850162922c"`
+- NuGet repository metadata: `commit="61aa751f90f18195332cfc0a4b1ca1a85ee20c75"`
 - Target framework: `net10.0`
 - Dependencies: none declared
 - Package contents: assembly, generated XML API docs, README, MIT license, Markdown guides, and intended SVG/raster documentation assets
 - License entry: `LICENSE.txt`, with `Copyright (c) 2026 Trent Best`
-- Package SHA-256: `b8744c190c9c7c75534e154d16338e68f50421a1d9374a09af9b603788b89d66`
+- Package SHA-256: `cbb1e76f6f7c77061db157e4475c4229d0db113ec9f72900e8ed0ae0161f97ba`
 
 The package contains the new [Domain Integration Decisions](DOMAIN_INTEGRATION_DECISIONS.md) guide and the refreshed ecosystem map. The artifact is a CI build output only; it was not pushed to NuGet. A separate symbol/source package is not currently present and remains a package-quality decision.
 
