@@ -122,6 +122,27 @@ HeadlessAi core remains provider/runtime-neutral. Its planned in-repository brid
 
 The Architect currently contains a separate local `ProtocolAi` implementation with its own keyword, action, parameter, and surface tables. Its README describes it as part of the terminal AI context stream. This is not the ProtocolAi NuGet package and is not API parity evidence. Treat it as a parallel implementation requiring an explicit migration/interop decision; do not silently assume the IDs or behavior are interchangeable.
 
+### 10. Hermit — target semantic identity boundary; event integration deferred
+
+**Repository:** [TrentBest/TheSingularityWorkshop.Hermit](https://github.com/TrentBest/TheSingularityWorkshop.Hermit)  
+**Source evidence:** [Hermit README](https://github.com/TrentBest/TheSingularityWorkshop.Hermit/blob/development/README.md) lists ProtocolAi as deterministic semantic identity for application-owned concepts. [Hermit #5](https://github.com/TrentBest/TheSingularityWorkshop.Hermit/issues/5) evaluates cross-host task lifecycle events.
+
+Hermit is a plausible optional consumer of ProtocolAi vocabulary identity at an explicit semantic adapter. Its in-process deterministic core must remain independent. The current ProtocolAi event envelope v1 is not a generic task-lifecycle event bus; do not map task creation, planning, approval, or execution onto unrelated event kinds. Defer runtime event use until a real remote/durable consumer and a suitable generic event-kind contract exist.
+
+### 11. Ontology — explicit no-dependency boundary
+
+**Repository:** [TrentBest/TheSingularityWorkshop.Ontology](https://github.com/TrentBest/TheSingularityWorkshop.Ontology)  
+**Source evidence:** [Ontology README](https://github.com/TrentBest/TheSingularityWorkshop.Ontology/blob/development/README.md) explicitly says there is no ProtocolAi package reference and describes `OntologyIndex` as a protocol-neutral integer primitive. [Ontology #8](https://github.com/TrentBest/TheSingularityWorkshop.Ontology/issues/8) coordinates the separation.
+
+Ontology owns concepts, semantic addresses, indexes, and relationships. A consumer may map a ProtocolAi symbol ID into `OntologyIndex`; Ontology itself remains independent and does not need to know where that integer came from.
+
+### 12. ServerApp — candidate host boundary, no current ProtocolAi dependency
+
+**Repository:** [TrentBest/TheSingularityWorkshop.ServerApp](https://github.com/TrentBest/TheSingularityWorkshop.ServerApp)  
+**Source evidence:** [ServerApp README](https://github.com/TrentBest/TheSingularityWorkshop.ServerApp/blob/development/README.md) assigns server-role provisioning/hosting to ServerApp, composition to FSM_COS, and execution lifecycle to Foundry. [ServerApp #12](https://github.com/TrentBest/TheSingularityWorkshop.ServerApp/issues/12) asks for a concrete protocol/manifest boundary.
+
+ProtocolAi may provide stable identities for genuinely shared server-facing operations or messages; GrammarAi may validate structured manifests or session requests. ServerApp keeps server-role semantics, identity/context, persistence, trust, policy, authorization, network behavior, and execution. The current ProtocolAi event envelope v1 is not a generic event bus for arbitrary sessions, hangouts, worlds, or server lifecycle events, so defer until one concrete contract and consumer test exist.
+
 ## Integration candidates — not current direct dependencies
 
 | Area | Candidate use | Boundary rule |
@@ -136,6 +157,18 @@ The Architect currently contains a separate local `ProtocolAi` implementation wi
 | Renderer / Visualize | Animate a real semantic state transition in docs or a tool UI | Visualization must distinguish live state from illustrative SVG |
 
 These are **design opportunities**, not a claim that those repositories currently use ProtocolAi. Promote an entry only after checking the active branch, source path, API calls, tests, and dependency direction.
+
+## Explicit no-adoption decisions
+
+| Repository / domain | Decision | Why |
+|---|---|---|
+| FSM_API / FSM_Layer | No adoption | These are state/context and progression primitives. Semantic vocabulary belongs above them, in the host/domain layer. |
+| DataWarehouse | No adoption | It owns fixed-record storage, shelves, slots, and handles. Keep storage generic; a higher-level adapter may persist serialized definitions if a real need appears. |
+| FSM_NeuralNetworks | No model-core adoption | NeuralNetworks owns tensors, operations, graph/node/port identities, inference, and execution evidence. ProtocolAi may appear at a language-facing adapter, not inside model/tensor semantics. |
+| Economy | No core adoption | Economy owns money-like values, offers, transfer intent, fictional currency, and simulation ledger. Do not turn currency values or local commerce models into ProtocolAi symbols. |
+| Learning | Indirect carrier only | Learning routes campus actions through FSM_UserIO `SemanticIntent`; it does not need a direct ProtocolAi dependency or IDs for every lesson. |
+| Profiles | No adoption by default | Profiles owns entity/profile, claims, relationships, disclosure, and observer representation semantics. Map shared categories at an application boundary only if needed. |
+| MyVR | No adoption for artifact identity | MyVR uses `BundleId + Version + ContentHash` for artifact identity. A shared Experience intent may be carried at the host boundary, but artifact identity is not ProtocolAi identity. |
 
 ## What the cross-repository examples should consistently show
 
@@ -187,11 +220,14 @@ These candidates are based on repository architecture and concepts visible in in
 - **Confirmed direct package/source-mode references and API use:** AnyApp (`AnyApp.csproj`, `WorkshopSemanticExchange.cs`, runtime tests); package mode pins ProtocolAi alpha.2 and repository-source mode uses a ProjectReference.
 - **Confirmed source-pinned composition:** CiAi README pins ProtocolAi and GrammarAi immutable revisions; this is not yet proof of a completed runtime event path.
 - **Confirmed composition-level use:** WebPage (`AiExchangeCompositionBundle` and `SingularityHub.Tests/WorkshopCompositionTests.cs`); this is composition proof, not a direct application package reference.
-- **Confirmed identity seam, not direct dependency:** GrammarAi uses `GrammarProtocolReference(protocolId, symbolId)`; FSM_UserIO carries `SemanticIntent`; FSM_COS carries intent indirectly.
+- **Confirmed identity seam, not direct dependency:** GrammarAi uses `GrammarProtocolReference(protocolId, symbolId)`; FSM_UserIO carries `SemanticIntent`; FSM_COS carries intent indirectly; Learning routes campus actions through FSM_UserIO.
 - **Contract boundary, no runtime dependency:** CommandAi's issue #1 assigns ProtocolAi event envelopes to cross-host event exchange while CommandAi owns proposal semantics.
 - **Planned optional bridge:** HeadlessAi #2/#9; HeadlessAi core remains independent.
+- **Target optional identity boundary:** Hermit README lists ProtocolAi for semantic identity, but #5 and this audit defer generic runtime event use until a suitable event-kind contract exists.
+- **Explicit no dependency:** Ontology uses its own `OntologyIndex` and documents no ProtocolAi reference; consumers may map IDs into it.
+- **Candidate host boundary:** ServerApp #12; only add a contract after one concrete manifest/message consumer test, because event envelope v1 is not a generic server event bus.
 - **Parallel local implementation:** The/Architect has its own in-repo ProtocolAi implementation and requires an explicit migration/interop decision.
-- **Candidates / deliberate non-adoptions:** Gestures, Physics, GUI/GUI.SVG, FSM_REST, FSM_Serialization, MicroBundleDomain/Repository, Renderer/Visualize. Adopt only at a real shared semantic boundary; keep local simulation, presentation, transport, artifact, and execution concerns in their owning repositories.
+- **Deliberate non-adoptions:** FSM_API/FSM_Layer, DataWarehouse, NeuralNetworks model core, Economy core, Profiles, MyVR artifact identity, Gestures/Physics internals, GUI/GUI.SVG, FSM_REST, FSM_Serialization, MicroBundleDomain/Repository, Renderer/Visualize. Adopt only at a real shared semantic boundary; keep local simulation, presentation, transport, artifact, and execution concerns in their owning repositories.
 ## Audit limitations
 
 This map is based on source files and repository search inspected for this pass. GitHub code search indexes default branches and can be stale or incomplete. It is not proof that every private, unindexed, or locally unpushed repository has been examined. Re-run the search and inspect active source before promoting a candidate to confirmed usage.
