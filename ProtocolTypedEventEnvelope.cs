@@ -5,12 +5,10 @@ namespace TheSingularityWorkshop.ProtocolAi;
 /// This API guarantees the local pairing for the typed contracts. It does not validate remote scope,
 /// provenance authenticity, message ordering, replay, authorization, or execution.
 /// </remarks>
-    /// <summary>Creates and reads event envelopes whose payload types determine the event kind.</summary>
 public static class ProtocolTypedEventEnvelope
 {
-    /// <summary>Deserializes a typed payload only when its event kind and envelope metadata agree.</summary>
-    /// <exception cref="ArgumentException">The requested payload type does not match the envelope kind or metadata.</exception>
     /// <summary>Reads the typed payload after verifying that its type matches the envelope's event kind.</summary>
+    /// <exception cref="ArgumentException">The requested payload type does not match the envelope kind or metadata.</exception>
     public static T DeserializePayload<T>(ProtocolEventEnvelope envelope) where T : class
     {
         ArgumentNullException.ThrowIfNull(envelope);
