@@ -5,6 +5,7 @@ namespace TheSingularityWorkshop.ProtocolAi;
 /// </summary>
 public readonly record struct ProtocolReference
 {
+    /// <summary>Creates a qualified reference to one non-zero symbol within a non-zero protocol namespace.</summary>
     public ProtocolReference(ulong protocolId, ulong symbolId)
     {
         if (protocolId == 0) throw new ArgumentOutOfRangeException(nameof(protocolId));
@@ -13,6 +14,8 @@ public readonly record struct ProtocolReference
         SymbolId = symbolId;
     }
 
+    /// <summary>Gets the protocol namespace that owns the symbol.</summary>
     public ulong ProtocolId { get; }
+    /// <summary>Gets the symbol identity within the owning protocol namespace.</summary>
     public ulong SymbolId { get; }
 }
