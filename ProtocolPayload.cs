@@ -29,9 +29,6 @@ public sealed class ProtocolPayload
         _values = Array.AsReadOnly(materialized);
     }
 
-    /// <summary>
-    /// Identifies the vocabulary that owns the symbol IDs in this payload.
-    /// </summary>
     /// <summary>Gets the protocol namespace identity that owns the payload's symbol references.</summary>
     public ulong ProtocolId { get; }
 
