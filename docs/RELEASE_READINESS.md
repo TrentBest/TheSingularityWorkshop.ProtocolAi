@@ -23,6 +23,20 @@ The latest verified implementation candidate is [`d82060ccf38821b2012e514360993d
 
 That run passed the live Sith compliance job and the complete development build/test job: .NET 10 restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, and clean-consumer installation/build. The NuGet publication job was skipped. It also passed after removing the `CS1591` suppression, so public XML documentation is now compiler-checked. Subsequent commits update only the integration/navigation documentation and README; those commits require their own exact-head workflow confirmation.
 
+## Packed artifact inspection
+
+The CI artifact from [workflow run #44655345143](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44655345143) was downloaded and inspected directly.
+
+- Package: `TheSingularityWorkshop.ProtocolAi.0.1.0-alpha.3.nupkg`
+- NuGet repository metadata: `commit="d82060ccf38821b2012e514360993d850162922c"`
+- Target framework: `net10.0`
+- Dependencies: none declared
+- Package contents: assembly, generated XML API docs, README, MIT license, Markdown guides, and intended SVG/raster documentation assets
+- License entry: `LICENSE.txt`, with `Copyright (c) 2026 Trent Best`
+- Package SHA-256: `b8744c190c9c7c75534e154d16338e68f50421a1d9374a09af9b603788b89d66`
+
+The package contains the new [Domain Integration Decisions](DOMAIN_INTEGRATION_DECISIONS.md) guide and the refreshed ecosystem map. The artifact is a CI build output only; it was not pushed to NuGet. A separate symbol/source package is not currently present and remains a package-quality decision.
+
 ## Repository integrity
 
 The live branch inventory contains exactly two branches: `master` and `development`. At the audit snapshot, the compare endpoint reported development 450 commits ahead and 25 behind master. The current branch ledger records the preservation rationale and release-lineage evidence.
