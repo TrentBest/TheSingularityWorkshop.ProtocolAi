@@ -19,9 +19,9 @@
 
 ## Latest verified candidate evidence
 
-The latest verified implementation candidate is [`cc005f69d2aec817267ea713bad184dc36a4283b`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/cc005f69d2aec817267ea713bad184dc36a4283b), with exact-head [workflow run #44656283163](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44656283163).
+The current verified development candidate is [`f70a372e867b5ab445142f211453596cfffc5106`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/f70a372e867b5ab445142f211453596cfffc5106), with exact-head [build/test/package workflow #44678566065](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44678566065) and [Sith policy workflow #44678566059](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44678566059), both completed successfully on 2026-11-20 UTC.
 
-That run passed the live Sith compliance job and the complete development build/test job: .NET 10 restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, and clean-consumer installation/build. The NuGet publication job was skipped. It also passed after removing the `CS1591` suppression, so public XML documentation is now compiler-checked. The verified candidate also includes the .NET 10 Blazor WebAssembly and DevServer 10.0.0 sample dependencies. Subsequent changes to the integration map, event-envelope scope guidance, and readiness ledger are documentation-only; the current exact-head workflow is verifying those final documentation updates.
+The build workflow's `Verify live Sith compliance` and `build-and-test` jobs both passed. The latter completed .NET restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, clean-consumer installation/build, and artifact uploads. The separate `publish_nuget` job was skipped. The Sith workflow's `Evaluate permanent branch policy` job passed. The package artifact is `protocol-ai-nuget-package`, artifact ID `14603556235`, uploaded for this exact SHA; GitHub reports its ZIP artifact digest as `sha256:247d92c2b933f0b41d7bb6f68eecb985edf1dc4f34c98d0a97c69ea96025b3c2`. This is the Actions artifact archive digest, not the inner `.nupkg` digest. The package artifact has been produced and the clean-consumer check passed, but the current artifact contents have not yet been independently downloaded and inspected. Public XML documentation remains compiler-checked with the `CS1591` suppression removed.
 
 ## Packed artifact inspection
 
@@ -39,7 +39,7 @@ The package contains the current Domain Integration Decisions guide, expanded ec
 
 ## Repository integrity
 
-The live branch inventory contains exactly two branches: `master` and `development`. At the audit snapshot, the compare endpoint reported development 450 commits ahead and 25 behind master. The current branch ledger records the preservation rationale and release-lineage evidence.
+The live branch inventory contains exactly two branches: `master` (`d63d0edd725219eb549ee8878f2a9a70af26de27`) and `development` (`f70a372e867b5ab445142f211453596cfffc5106`). The current compare endpoint reports development 496 commits ahead and 25 behind master, with diverged histories. The current branch ledger records the preservation rationale and release-lineage evidence.
 
 No branch rewrite, merge, release, deployment, or package publication is part of this readiness work. The NuGet publication path remains disabled in CI. Future publication is intended to be driven by CiAi after the owner authorizes the specific release operation.
 
