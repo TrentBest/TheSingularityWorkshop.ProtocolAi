@@ -7,6 +7,7 @@ public sealed class ProtocolPayload
 {
     private readonly IReadOnlyList<ProtocolValue> _values;
 
+    /// <summary>Creates an immutable, ordered payload scoped to one non-zero protocol identity.</summary>
     public ProtocolPayload(ulong protocolId, IEnumerable<ProtocolValue> values)
     {
         if (protocolId == 0) throw new ArgumentOutOfRangeException(nameof(protocolId));
@@ -31,8 +32,11 @@ public sealed class ProtocolPayload
     /// <summary>
     /// Identifies the vocabulary that owns the symbol IDs in this payload.
     /// </summary>
+    /// <summary>Gets the protocol namespace identity that owns the payload's symbol references.</summary>
     public ulong ProtocolId { get; }
 
+    /// <summary>Gets the immutable ordered references and literals in the payload.</summary>
     public IReadOnlyList<ProtocolValue> Values => _values;
+    /// <summary>Returns a compact textual representation of the payload values.</summary>
     public override string ToString() => string.Join(" ", _values);
 }
