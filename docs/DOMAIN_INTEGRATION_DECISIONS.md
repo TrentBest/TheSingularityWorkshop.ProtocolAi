@@ -133,7 +133,7 @@ Do not add ProtocolAi merely because a repository uses integers, enums, JSON, ev
 
 ### Ontology — explicit no-dependency boundary
 
-<badge color="success">Documented no-dependency</badge>
+**Status: documented no-dependency**
 
 **Evidence:** [Ontology README](https://github.com/TrentBest/TheSingularityWorkshop.Ontology/blob/development/README.md) explicitly states there is no ProtocolAi package reference. Ontology owns concepts, semantic addresses, indexes, and relationships. Its `OntologyIndex` is a protocol-neutral integer primitive. [Ontology #8](https://github.com/TrentBest/TheSingularityWorkshop.Ontology/issues/8) coordinates this separation.
 
