@@ -261,6 +261,9 @@ The existing repository work items already provide the right coordination points
 - HeadlessAi [#2](https://github.com/TrentBest/TheSingularityWorkshop.HeadlessAi/issues/2): optional ProtocolAi/GrammarAi bridge.
 - HeadlessAi [#9](https://github.com/TrentBest/TheSingularityWorkshop.HeadlessAi/issues/9): resumable multi-provider exchange and optional semantic bridge.
 - CiAi [#56](https://github.com/TrentBest/TheSingularityWorkshop.CiAi/issues/56) and [#58](https://github.com/TrentBest/TheSingularityWorkshop.CiAi/issues/58): preserve CODE RED priority while integrating shared semantic contracts.
+- Hermit [#5](https://github.com/TrentBest/TheSingularityWorkshop.Hermit/issues/5): optional semantic identity and cross-host task-event assessment; generic event use is deferred pending a suitable ProtocolAi event contract.
+- Ontology [#8](https://github.com/TrentBest/TheSingularityWorkshop.Ontology/issues/8): preserve the explicit no-dependency boundary and consumer-side integer mapping.
+- ServerApp [#12](https://github.com/TrentBest/TheSingularityWorkshop.ServerApp/issues/12): identify one concrete manifest/message consumer test before any adoption.
 
 This record is the ProtocolAi-side map. Implementations belong in their owning repositories and should be coordinated with those repositories' agent instructions and existing work.
 
