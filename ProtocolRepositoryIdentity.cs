@@ -3,7 +3,7 @@ namespace TheSingularityWorkshop.ProtocolAi;
 /// <summary>Validates a GitHub-style owner/repository identity used in provenance contracts.</summary>
 internal static class ProtocolRepositoryIdentity
 {
-    public static string Validate(string value, string parameter)
+    internal static string Validate(string value, string parameter)
     {
         if (string.IsNullOrWhiteSpace(value) || value.Length > 256)
             throw new ArgumentException("A repository owner/name identity is required.", parameter);
