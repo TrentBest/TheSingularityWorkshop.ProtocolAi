@@ -40,7 +40,7 @@ Do not add ProtocolAi merely because a repository uses integers, enums, JSON, ev
 
 ### AnyApp — direct package consumer and host-owned vocabulary
 
-<badge color="success">Implemented</badge>
+**Status: implemented**
 
 **Evidence**
 - [WorkshopSemanticExchange.cs](https://github.com/TrentBest/AnyApp/blob/development/WorkshopSemanticExchange.cs) imports ProtocolAi and GrammarAi, defines the `WorkshopExperienceIntents` vocabulary, resolves `SemanticIntent` values, and checks grammar admission.
@@ -58,7 +58,7 @@ Do not add ProtocolAi merely because a repository uses integers, enums, JSON, ev
 
 ### CiAi — source-pinned semantic-stack integration and event-contract consumer
 
-<badge color="success">Source-pinned</badge>
+**Status: source-pinned**
 
 **Evidence**
 - The CiAi README records immutable ProtocolAi source pin `13e86c23c8eab6a33f3f124342b54598748e8756` alongside a GrammarAi source pin.
@@ -77,7 +77,7 @@ Do not add ProtocolAi merely because a repository uses integers, enums, JSON, ev
 
 ### GrammarAi — qualified identity seam, not a required dependency
 
-<badge color="success">Implemented boundary</badge>
+**Status: implemented boundary**
 
 **Evidence:** the GrammarAi README and agent instructions define `GrammarProtocolReference(protocolId, symbolId)` as the external identity seam. GrammarAi's project owns grammar definitions, node kinds, roles/slots, productions, cardinality, composition, and structural validation. Its host-supplied resolver checks external membership and exposure against the request's exact catalog/capability snapshot.
 
@@ -87,7 +87,7 @@ Do not add ProtocolAi merely because a repository uses integers, enums, JSON, ev
 
 ### CommandAi — event boundary where needed; proposal semantics stay local
 
-<badge color="info">Contract integration</badge>
+**Status: contract integration**
 
 **Evidence**
 - CommandAi's project targets .NET 10 and its README explicitly says it has no runtime dependency on sibling packages.
@@ -102,7 +102,7 @@ Do not add ProtocolAi merely because a repository uses integers, enums, JSON, ev
 
 ### HeadlessAi — optional semantic bridge, never a core dependency
 
-<badge color="warning">Planned optional bridge</badge>
+**Status: planned optional bridge**
 
 **Evidence**
 - HeadlessAi's README describes configured HTTP endpoint invocation and explicitly keeps host interpretation and authority outside HeadlessAi.
@@ -121,19 +121,19 @@ Do not add ProtocolAi merely because a repository uses integers, enums, JSON, ev
 
 ### FSM_UserIO — carry intent, do not own vocabulary
 
-<badge color="success">Indirect carrier</badge>
+**Status: indirect carrier**
 
 FSM_UserIO's `SemanticIntent` carries a name and optional `ProtocolId`. This is a deliberately small primitive seam. It lets a host carry a ProtocolAi identity without forcing every UserIO consumer to take a dependency on the ProtocolAi implementation.
 
 ### FSM_COS — compose and carry, do not interpret
 
-<badge color="success">Indirect carrier</badge>
+**Status: indirect carrier**
 
 FSM_COS may carry an intent through a RuntimeManifest into a RuntimeAssembly via FSM_UserIO. It should not depend on ProtocolAi or GrammarAi just because a manifest can contain an identity originating from either package. Composition is not semantic interpretation or authorization.
 
 ### WebPage — composition-level example
 
-<badge color="success">Composition proof</badge>
+**Status: composition proof**
 
 The ProtocolAi usage map records WebPage's `AiExchangeCompositionBundle` and `WorkshopCompositionTests` as composition-level proof that ProtocolAi and GrammarAi can be assembled through FSM_COS. This is not a claim that the WebPage application project directly references the ProtocolAi NuGet package. Keep Renderer and Visualization as MicroBundles, not ProtocolAi dependencies.
 
