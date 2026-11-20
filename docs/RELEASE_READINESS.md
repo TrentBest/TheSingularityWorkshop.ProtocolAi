@@ -1,100 +1,92 @@
 <!-- The Singularity Workshop moniker -->
 <p align="center">
   <a href="https://github.com/TrentBest">
-    <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop — animated workshop moniker" width="720" />
+    <img src="https://raw.githubusercontent.com/TrentBest/TheSingularityWorkshop.Visualize/development/docs/assets/moniker.svg" alt="The Singularity Workshop animated moniker" width="720" />
   </a>
 </p>
 
 # ProtocolAi Release Readiness
 
-## Branch reconciliation
+> **Purpose:** evidence ledger for the next package candidate. This document does not authorize publication. Future package publication will be orchestrated through CiAi when the owner directs that workflow.
 
-See [BRANCH_RECONCILIATION.md](BRANCH_RECONCILIATION.md) for the evidence-backed `master`/`development` comparison and preservation checklist. It is an audit record, not permission to merge or delete branches.
+## Current package state
 
+- NuGet lists `TheSingularityWorkshop.ProtocolAi` **0.1.0-alpha.2** as a published prerelease.
+- The current `development` project declares **0.1.0-alpha.3**.
+- The repository targets **.NET 10** (`net10.0`); the playground also targets `net10.0` and requires the .NET 10 SDK.
+- The alpha.2 release-named commit `3a0bcc6f7b6c010d1e9598bd09f17ffd6c4e02de` is an ancestor of both canonical branches. This proves the release lineage is retained, but does **not** prove that this exact commit produced the published package. The package's source SHA remains to be established from authoritative package/build provenance.
+- Preserve `master` as the published-package history until that exact source SHA is verified. Do not reconcile branches merely to reduce divergence.
 
+## Latest verified candidate evidence
 
-## Current review checkpoint — 2026-11-05 UTC
+The latest previously verified development candidate is [`fb4e008935ad6c8bac9301d3b92292aa8e49160d`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/fb4e008935ad6c8bac9301d3b92292aa8e49160d), with exact-head [workflow run #43799124521](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43799124521).
 
-Start with the [Release Review Brief](RELEASE_REVIEW_BRIEF.md) for the concise contract, package boundaries, top remaining risks, and guided reading order. It is a review aid, not authorization to publish.
+That run passed the development build/test job and live Sith compliance verification. Restore, Release build, tests/coverage, Codecov upload, package creation, packaged-documentation-path verification, clean-consumer installation/build, and artifact uploads succeeded. The NuGet publication job was skipped. This evidence applies only to that exact SHA; every later commit requires a new exact-head run.
 
-Current verified development checkpoint: [f6e2189b2f263a4a155e08edcc43c378f9a79f31](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/f6e2189b2f263a4a155e08edcc43c378f9a79f31). Exact-head CI evidence: [workflow run #41947386308](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/41947386308), conclusion **success**. Restore, build, tests/coverage, package creation, packaged-documentation-path verification, and clean-consumer installation passed. The NuGet publish job was skipped. This checkpoint verifies the code and documentation at that SHA; any subsequent commit requires a new exact-head run.
+## Repository integrity
 
-The previous 75% estimate is retired: it was a qualitative estimate from the October review and is not a current measured readiness metric.
+The live branch inventory contains exactly two branches: `master` and `development`. At the audit snapshot, the compare endpoint reported development 450 commits ahead and 25 behind master. The current branch ledger records the preservation rationale and release-lineage evidence.
 
-## Current package status
+No branch rewrite, merge, release, deployment, or package publication is part of this readiness work. The NuGet publication path remains disabled in CI. Future publication is intended to be driven by CiAi after the owner authorizes the specific release operation.
 
-The project file on development declares version **0.1.0-alpha.3**. Treat the repository as pre-1.0 until a release decision is made. This document does not publish a package or change the version.
+## Strong foundations already implemented
 
-ProtocolAi is small, but a small codebase is not automatically a stable contract. Moving to 1.0.0 means consumers can reasonably depend on the public API and its semantics.
-
-## Latest verified CI baseline — 2026-11-05 UTC
-
-Latest green `development` commit: `f6e2189b2f263a4a155e08edcc43c378f9a79f31`. [Workflow run #41947386308](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/41947386308) passed for this exact commit, including restore, build, tests/coverage, package creation, packaged documentation-path verification, and clean consumer installation. The publication job was skipped.
-
-This is not publication approval. Any update to this readiness document must itself pass CI before its new head is treated as verified.
-
-## Visual companion
-
-![Animated ProtocolAi lifecycle and known, literal, invalid outcomes.](images/protocol-ai-domain-lifecycle.svg)
-
-Release readiness is not just whether the happy path works: reviewers must verify each outcome, transport boundary, host-policy separation, and the claims made by the documentation.
-
-## What is already a strong foundation
-
-- Provider-neutral .NET library; no model SDK is required.
-- Application-owned vocabulary with nonzero protocol and symbol identities.
-- Duplicate symbol IDs, names, and values are rejected at definition build time.
-- Immutable definition snapshot after build.
+- Application-owned protocol and symbol identities with nonzero IDs.
+- Immutable protocol definitions built from validated symbols.
 - Known values encode as symbol references; unknown values remain explicit literals.
-- Payload validation checks protocol scope and rejects undefined symbol IDs.
-- Resolution preserves ordering and literals.
-- Deterministic self-description.
-- JSON transport has explicit reference-versus-literal representation.
-- Tests cover core mapping, duplicate definitions, invalid references, resolution, and JSON round trips.
-- README, guides, theory index, semantic identity chapter, payload transport/validation chapter, event-envelope chapter, mathematical foundations, and animated SVGs explain the boundaries.
+- Payload validation checks protocol scope and rejects undefined references.
+- Resolution preserves ordering and literal values.
+- Dependency-free JSON payload transport with explicit reference/literal representation.
+- Typed event envelope and payload contracts with event-kind binding, correlation, idempotency, provenance, and causal revision fields.
+- Duplicate JSON properties and unsupported schema versions are rejected by the relevant readers.
+- Structural compatibility reporting distinguishes additive symbols from removed or redefined identities.
+- Documentation describes the separation between identity, grammar, command semantics, provider communication, host policy, authorization, and execution.
 
-These are meaningful foundations, not proof of release readiness by themselves.
+These are implemented foundations, not proof that the public API is ready to leave alpha.
 
-## Before removing alpha
+## Remaining verification and design work
 
-### Correctness and API contract
+### Public contract and correctness
 
-- [x] Run full solution restore, Release build, and all tests in a clean environment (workflow run #39716469730).
-- [ ] Verify the playground builds and run the visible flows in a browser.
-- [ ] Review every public API for argument validation, exception types, XML docs, and naming consistency.
-- [ ] Confirm malformed, cross-protocol, undefined, and empty-input behavior is intentional and tested.
-- [ ] Review JSON compatibility: unknown fields, malformed shapes, numeric overflow, and compatibility expectations.
-- [ ] Confirm no mutable collection or builder mutation can change a previously built definition.
-- [x] The solution build includes the quick-start and playground projects; the clean consumer smoke test passed in workflow run #39716469730. Browser-level visual review remains outstanding.
+- [ ] Map every public type/member to purpose, validation, exceptions, invariants, XML documentation, and tests.
+- [ ] Resolve missing XML documentation on public constructors, properties, methods, and factories; do not suppress missing-member warnings as a substitute for API documentation.
+- [ ] Complete the focused repository-name validation review for provenance and downstream notifications. Existing validation checks slash shape but does not reject embedded whitespace in both segments. Add narrow tests and validation without rejecting valid GitHub owner/repository names.
+- [ ] Verify immutability, builder isolation, culture-independent matching, ordinal/case-sensitive behavior, Unicode handling, and all documented resource limits.
+- [ ] Decide permanent identity, ID reuse, semantic change, and definition-versioning policy before a stable contract.
 
-### Package and consumer experience
+### Serialization and event interoperability
 
-- [ ] Review target frameworks against intended consumers; the current project declares .NET 8 only.
-- [ ] Inspect the generated NuGet package, including README, license, symbols, and intended documentation assets.
-- [ ] Verify package metadata and release notes describe current behavior rather than aspirations.
-- [ ] Check every install snippet and package-version reference for staleness.
-- [ ] Decide the compatibility/versioning policy for protocol IDs and symbol meanings.
-- [x] Build, tests, package creation, packaged documentation-path verification, and clean consumer installation passed in exact-head workflow run #41947386308.
-- [x] NuGet publication is explicitly disabled in the workflow pending the owner's authorization.
+- [ ] Keep the JSON wire contract, typed event-kind mapping, and compatibility rules aligned with tests and shared fixtures.
+- [ ] Exercise real host-side producer/consumer paths in CommandAi, GrammarAi, and CiAi. ProtocolAi owns only the reusable contract and fixtures.
+- [ ] Verify host-side authentication, durable inbox/outbox, delivery/retry, deduplication, replay, causal-gap handling, and authorization in the owning host repositories.
+- [ ] Keep CiAi CODE RED / self-development priorities in front of generalized adoption work. ProtocolAi must not become a CI verdict engine or workflow runner.
 
-### Evidence and claims
+### Samples, package, and documentation
 
-- [ ] Keep mathematical guarantees aligned with implementation and tests.
-- [ ] Do not claim fewer hallucinations, improved task success, or token savings without controlled measurements.
-- [ ] State clearly that valid identity is not authorization and integer output alone is not safe execution.
-- [ ] Keep animated diagrams labelled as illustrative unless driven by live sample state.
+- [ ] Browser-test the local playground's primary flow, invalid-reference path, reset/step behavior, and `/hello` route under .NET 10.
+- [ ] Inspect the generated `.nupkg` and `.snupkg` contents, including README, license, XML docs, symbols, and intended documentation assets.
+- [ ] Verify a clean consumer against the exact packed artifact and record package hash and test evidence.
+- [ ] Verify all documentation links, badges, image/SVG paths, sample commands, package-version guidance, and cross-repository source references.
+- [x] Replace the placeholder MIT copyright line with `Copyright (c) 2026 Trent Best`.
+- [x] Align the playground README SDK requirement with its `net10.0` project target.
+
+### Ecosystem fit
+
+- [ ] Maintain a source-verified integration matrix distinguishing direct package use, source-pinned use, fixture-only conformance, indirect carrier boundaries, candidates, and deliberate non-applications.
+- [ ] Confirm whether HeadlessAi needs ProtocolAi only at its host integration edge; do not add a mandatory dependency for simple HTTP request/response communication.
+- [ ] Keep GrammarAi's qualified external reference seam lightweight; do not add a dependency unless it needs ProtocolAi behavior rather than the identity pair.
+- [ ] Keep CommandAi's proposal/codec semantics in CommandAi; use ProtocolAi event contracts only where a real event boundary exists.
+- [ ] Record explicit no-adoption decisions for repositories whose IDs are local implementation details or whose responsibilities are transport, rendering, physics, composition, or execution.
 
 ## Release decision
 
-**Recommendation: not yet enough evidence to remove the alpha label.** The conceptual scope is focused and the implementation is approachable; the missing confidence is release verification and explicit API/compatibility review, not a need to turn ProtocolAi into a large framework.
+**Disposition: remain alpha; no publication action.** The next candidate must be judged from its exact source SHA, exact-head CI, package artifact, public API review, and cross-repository evidence. A completed checklist or green build is not publication authorization.
 
-1. Close the checklist, starting with clean CI and browser verification.
-2. Make behavior-changing API corrections before stabilizing.
-3. Decide supported target frameworks and the identity/versioning contract.
-4. If the checks pass and the API is intentionally stable, prepare a reviewed 1.0.0 package.
-5. Publish only after explicit authorization.
-
-No item should be marked complete merely because a workflow exists or a document says it should work.
+1. Finish source/API and provenance validation review.
+2. Complete source-verified ecosystem mapping and the real host conformance work that is appropriate to this alpha.
+3. Verify playground and package artifact on .NET 10.
+4. Reconcile package provenance and branch preservation evidence.
+5. Hand the verified candidate to the CiAi release workflow when the owner directs it.
 
 ---
 
