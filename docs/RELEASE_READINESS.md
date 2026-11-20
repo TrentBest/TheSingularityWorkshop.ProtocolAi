@@ -19,21 +19,21 @@
 
 ## Latest verified candidate evidence
 
-The current verified development candidate is [`60e2345a621075e655a6f997f3cfeac059c77d79`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/60e2345a621075e655a6f997f3cfeac059c77d79), with exact-head [build/test/package workflow #44684930869](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44684930869) and [Sith policy workflow #44684930810](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44684930810), both completed successfully on 2026-11-20 UTC.
+The current verified development candidate is [`95568ab61a9375bd854873e87ef7ca46f4581f87`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/95568ab61a9375bd854873e87ef7ca46f4581f87), with exact-head [build/test/package workflow #44695017135](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44695017135) and [Sith policy workflow #44695017159](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44695017159), both completed successfully on 2026-11-20 UTC.
 
-The build workflow's `Verify live Sith compliance` and `build-and-test` jobs both passed. The latter completed .NET restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, clean-consumer installation/build, and artifact uploads. The separate `publish_nuget` job was skipped. The Sith workflow's `Evaluate permanent branch policy` job passed. The package artifact is `protocol-ai-nuget-package`, artifact ID `14605832731`, uploaded for this exact SHA; GitHub reports its ZIP artifact digest as `sha256:80add133c9b966868c425aa08b15ff556ffab6e39ead1f49d480723c9a0ed6df`. This is the Actions artifact archive digest, not the inner `.nupkg` digest. The artifact was downloaded and independently inspected; see the packed-artifact section below. Public XML documentation remains compiler-checked with the `CS1591` suppression removed.
+The build workflow's `Verify live Sith compliance` and `build-and-test` jobs both passed. The latter completed .NET restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, clean-consumer installation/build, and artifact uploads. The separate `publish_nuget` job was skipped. The Sith workflow's `Evaluate permanent branch policy` job passed. The package artifact is `protocol-ai-nuget-package`, artifact ID `14609898666`, uploaded for this exact SHA; GitHub reports its ZIP artifact digest as `sha256:34d113d17101fbccee23dc700dbbdfa17455f95f5f5383e2156498564c882c8b`. This is the Actions artifact archive digest, not the inner `.nupkg` digest. The artifact was downloaded and independently inspected; see the packed-artifact section below. Public XML documentation remains compiler-checked with the `CS1591` suppression removed.
 
 ## Packed artifact inspection
 
-The package artifact `protocol-ai-nuget-package` (artifact ID `14605832731`) from [exact-head workflow run #44684930869](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44684930869) was downloaded and inspected directly. Its embedded NuGet repository metadata identifies the same source commit as the workflow candidate.
+The package artifact `protocol-ai-nuget-package` (artifact ID `14609898666`) from [exact-head workflow run #44695017135](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44695017135) was downloaded and inspected directly. Its embedded NuGet repository metadata identifies the same source commit as the workflow candidate.
 
 - Package: `TheSingularityWorkshop.ProtocolAi.0.1.0-alpha.3.nupkg`
-- Repository metadata commit: `60e2345a621075e655a6f997f3cfeac059c77d79`
+- Repository metadata commit: `95568ab61a9375bd854873e87ef7ca46f4581f87`
 - Target framework: `net10.0` only
 - Dependencies: none declared
-- Package size: 2,471,563 bytes
-- Inner `.nupkg` SHA-256: `1db854b63cc665d01ae52294e8e7e82fdc6250bec300ff38bdc97b552462d034`
-- Actions ZIP archive SHA-256: `80add133c9b966868c425aa08b15ff556ffab6e39ead1f49d480723c9a0ed6df`
+- Package size: 2,471,635 bytes
+- Inner `.nupkg` SHA-256: `0078f1ff5ec24213e15755784cddefcad54d9eaea8af625cfd3d86d2a52cf19a`
+- Actions ZIP archive SHA-256: `34d113d17101fbccee23dc700dbbdfa17455f95f5f5383e2156498564c882c8b`
 - Package contents: library assembly, generated XML API documentation, README, MIT license, Markdown guides, and SVG/raster documentation assets
 - License entry: `LICENSE.txt`, with `Copyright (c) 2026 Trent Best`
 - No package dependencies are declared. The artifact contains no separate `.snupkg`; symbol-package support remains an explicit package-quality decision.
