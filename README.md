@@ -153,6 +153,7 @@ Follow the [ProtocolAi theory learning path](https://github.com/TrentBest/TheSin
 - [ProtocolAi Examples](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/EXAMPLES.md) — practical domain examples.
 - [Ecosystem Integration](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/ECOSYSTEM_INTEGRATION.md) — boundaries with FSM_UserIO, GrammarAi, FSM_COS, GUI, serialization, and ontology.
 - [Ecosystem Adoption Guide](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/ECOSYSTEM_ADOPTION_GUIDE.md) — repository-by-repository adoption levels, explicit non-goals, and current handoffs.
+- [Domain Integration Decisions](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/DOMAIN_INTEGRATION_DECISIONS.md) — source-verified integrations, optional bridges, indirect carriers, candidates, and deliberate non-applications.
 - [Semantic Payload JSON](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/PROTOCOL_PAYLOAD_JSON.md) — dependency-free wire representation and transport limits.
 - [Event Envelopes](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/EVENT_ENVELOPES.md) — versioned correlation, candidate provenance, idempotency metadata, and causal gate revisions.
 - [Guides for every starting point](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/blob/development/docs/GUIDES.md) — plain-language, beginner, C# integration, and developer guides.
