@@ -3,17 +3,27 @@ using System.Text.Json.Serialization;
 
 namespace TheSingularityWorkshop.ProtocolAi;
 
+/// <summary>Identifies the kind of event carried by a ProtocolAi event envelope.</summary>
 [JsonConverter(typeof(JsonStringEnumConverter<ProtocolEventKind>))]
 public enum ProtocolEventKind
 {
+    /// <summary>Identifies a request to register or change an observer.</summary>
     ObserverRegistrationRequested,
+    /// <summary>Identifies a host acknowledgement of an observer registration.</summary>
     ObserverRegistrationAcknowledged,
+    /// <summary>Identifies a completed event reported by an external source system.</summary>
     SourceEvent,
+    /// <summary>Identifies an observer's explicit evaluation result.</summary>
     ObserverEvaluation,
+    /// <summary>Identifies a versioned gate state transition.</summary>
     GateTransition,
+    /// <summary>Identifies a notice asking a downstream consumer to reevaluate.</summary>
     DownstreamNotification,
+    /// <summary>Identifies a host acceptance of a command proposal.</summary>
     CommandAccepted,
+    /// <summary>Identifies a host rejection of a command proposal.</summary>
     CommandRejected,
+    /// <summary>Identifies a reported command completion.</summary>
     CommandCompleted
 }
 
@@ -21,6 +31,7 @@ public enum ProtocolEventKind
 /// <remarks>These fields are claims carried by a message, not proof of producer authenticity or evidence validity.</remarks>
 public sealed class ProtocolCandidateProvenance
 {
+    /// <summary>Creates validated provenance claims for one repository candidate and its evidence.</summary>
     public ProtocolCandidateProvenance(string repository, string candidateRef, string candidateSha,
         string eventSha, string testedCheckoutSha, string workflowDefinitionRef, string workflowDefinitionSha,
         long workflowRunId, int workflowRunAttempt, string observedJobIdentity, string evidenceReference,
@@ -42,17 +53,29 @@ public sealed class ProtocolCandidateProvenance
         EvidenceSha256 = HexDigest(evidenceSha256, nameof(evidenceSha256));
     }
 
+    /// <summary>Gets the canonical owner/repository identity to which the provenance claims apply.</summary>
     public string Repository { get; }
+    /// <summary>Gets the candidate Git reference associated with the observed work.</summary>
     public string CandidateRef { get; }
+    /// <summary>Gets the full Git object ID of the candidate revision.</summary>
     public string CandidateSha { get; }
+    /// <summary>Gets the full Git object ID reported by the source event.</summary>
     public string EventSha { get; }
+    /// <summary>Gets the full Git object ID of the checkout that was actually tested.</summary>
     public string TestedCheckoutSha { get; }
+    /// <summary>Gets the reference containing the workflow definition.</summary>
     public string WorkflowDefinitionRef { get; }
+    /// <summary>Gets the full Git object ID of the workflow definition revision.</summary>
     public string WorkflowDefinitionSha { get; }
+    /// <summary>Gets the authoritative provider workflow-run identifier claimed by the producer.</summary>
     public long WorkflowRunId { get; }
+    /// <summary>Gets the provider workflow-run attempt number.</summary>
     public int WorkflowRunAttempt { get; }
+    /// <summary>Gets the identity of the job whose result is being reported.</summary>
     public string ObservedJobIdentity { get; }
+    /// <summary>Gets the reference or URL for the associated evidence artifact.</summary>
     public string EvidenceReference { get; }
+    /// <summary>Gets the SHA-256 digest claimed for the evidence artifact.</summary>
     public string EvidenceSha256 { get; }
 
     private static string Required(string value, string parameter, int max)
@@ -87,11 +110,16 @@ public sealed class ProtocolCandidateProvenance
 /// </remarks>
 public sealed class ProtocolEventEnvelope
 {
+    /// <summary>Identifies the current event-envelope wire schema.</summary>
     public const string CurrentSchema = "TheSingularityWorkshop.ProtocolAi.EventEnvelope";
+    /// <summary>Identifies the current version of the event-envelope wire schema.</summary>
     public const int CurrentSchemaVersion = 1;
+    /// <summary>Defines the maximum serialized event-envelope character count.</summary>
     public const int MaxEnvelopeCharacters = 262_144;
+    /// <summary>Defines the maximum embedded event-payload character count.</summary>
     public const int MaxPayloadCharacters = 196_608;
 
+    /// <summary>Creates a versioned event envelope and validates its message, payload, and causal metadata.</summary>
     public ProtocolEventEnvelope(string messageId, string correlationId, string producerId, ProtocolEventKind kind,
         DateTimeOffset occurredAt, string payloadJson, string? idempotencyKey = null, string? causationId = null,
         ProtocolCandidateProvenance? provenance = null, long? causalRevision = null, string? supersedesMessageId = null)
@@ -142,18 +170,31 @@ public sealed class ProtocolEventEnvelope
             throw new ArgumentException("Command outcome messages require an idempotency key.", nameof(idempotencyKey));
     }
 
+    /// <summary>Gets the event-envelope schema identifier.</summary>
     public string Schema => CurrentSchema;
+    /// <summary>Gets the event-envelope schema version.</summary>
     public int SchemaVersion => CurrentSchemaVersion;
+    /// <summary>Gets the unique identity of this message.</summary>
     public string MessageId { get; }
+    /// <summary>Gets the identity that groups messages belonging to the same logical operation.</summary>
     public string CorrelationId { get; }
+    /// <summary>Gets the optional identity of the message that caused this message.</summary>
     public string? CausationId { get; }
+    /// <summary>Gets the optional operation identity used by the host for its idempotency policy.</summary>
     public string? IdempotencyKey { get; }
+    /// <summary>Gets the producer identity asserted by the message.</summary>
     public string ProducerId { get; }
+    /// <summary>Gets the typed event kind that determines the payload contract.</summary>
     public ProtocolEventKind Kind { get; }
+    /// <summary>Gets the UTC occurrence timestamp asserted by the producer.</summary>
     public DateTimeOffset OccurredAt { get; }
+    /// <summary>Gets the optional exact-candidate provenance claims required by selected event kinds.</summary>
     public ProtocolCandidateProvenance? Provenance { get; }
+    /// <summary>Gets the optional positive revision used by gate-transition and downstream-notification events.</summary>
     public long? CausalRevision { get; }
+    /// <summary>Gets the optional prior message identity superseded by a gate transition.</summary>
     public string? SupersedesMessageId { get; }
+    /// <summary>Gets the JSON object containing the event-kind-specific payload.</summary>
     public string PayloadJson { get; }
 
     private static bool RequiresProvenance(ProtocolEventKind kind) =>
@@ -189,6 +230,7 @@ public static class ProtocolEventEnvelopeJson
         WriteIndented = false
     };
 
+    /// <summary>Serializes an event envelope using the current versioned JSON wire schema.</summary>
     public static string Serialize(ProtocolEventEnvelope envelope)
     {
         ArgumentNullException.ThrowIfNull(envelope);
@@ -206,6 +248,7 @@ public static class ProtocolEventEnvelopeJson
         return json;
     }
 
+    /// <summary>Deserializes and validates an event envelope from its versioned JSON wire representation.</summary>
     public static ProtocolEventEnvelope Deserialize(string json)
     {
         if (string.IsNullOrWhiteSpace(json)) throw new ArgumentException("Event envelope JSON is required.", nameof(json));
