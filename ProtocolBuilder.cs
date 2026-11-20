@@ -8,6 +8,7 @@ public sealed class ProtocolBuilder
     private readonly List<ProtocolSymbol> _symbols = [];
     private long _totalSymbolTextCharacters;
 
+    /// <summary>Creates a builder for one application-owned protocol identity and name.</summary>
     public ProtocolBuilder(ulong id, string name)
     {
         if (id == 0) throw new ArgumentOutOfRangeException(nameof(id));
@@ -17,9 +18,12 @@ public sealed class ProtocolBuilder
         Name = name;
     }
 
+    /// <summary>Gets the stable, non-zero identity of the protocol being defined.</summary>
     public ulong Id { get; }
+    /// <summary>Gets the human-readable name of the protocol being defined.</summary>
     public string Name { get; }
 
+    /// <summary>Adds one application-owned symbol identity, name, and literal value to the definition.</summary>
     public ProtocolBuilder Define(ulong symbolId, string name, string value)
     {
         if (_symbols.Count >= ProtocolLimits.MaxSymbols) throw new InvalidOperationException($"A protocol cannot define more than {ProtocolLimits.MaxSymbols} symbols.");
@@ -32,5 +36,6 @@ public sealed class ProtocolBuilder
         return this;
     }
 
+    /// <summary>Builds an immutable protocol definition from the symbols added to this builder.</summary>
     public ProtocolDefinition Build() => new(Id, Name, _symbols);
 }
