@@ -24,13 +24,13 @@ The diagram separates implemented behavior from a future direction. The solid pa
 - **Theory:** mathematical foundations state narrow determinism and validation properties while explicitly not proving model correctness, authorization, or safe execution.
 - **Visual learning:** the money shot, living flow, three-outcome comparison, and new lifecycle diagram explain different levels of the abstraction.
 - **Executable learning:** the local Blazor WebAssembly playground calls the real C# library; candidate cloud responses are fixtures, not live LLM output. Its FSM_API-driven stage progression is a sample, not a hosted production service.
-- **Ecosystem orientation:** [ECOSYSTEM_USAGE_MAP.md](ECOSYSTEM_USAGE_MAP.md) distinguishes confirmed source usage, indirect carrier boundaries, candidate integrations, and legacy code.
+- **Ecosystem orientation:** [ECOSYSTEM_USAGE_MAP.md](ECOSYSTEM_USAGE_MAP.md) provides source navigation; [DOMAIN_INTEGRATION_DECISIONS.md](DOMAIN_INTEGRATION_DECISIONS.md) records evidence-backed adoption and non-adoption decisions.
 
 ## Findings: what is missing or needs a decision
 
 ### P0 — contract correctness and evidence
 
-- [ ] Run a clean .NET 8 restore, Release build, and full test suite on the current development commit; record exact results and commit.
+- [ ] Run a clean .NET 10 restore, Release build, and full test suite on the current development commit; record exact results and commit.
 - [ ] Browser-test the playground's primary flow, invalid-reference path, reset/step behavior, and /hello route.
 - [ ] Check every public API against its tests and XML documentation: null handling, empty inputs, exception types, duplicate names/IDs/values, ordinal matching, numeric overflow, and wrong-protocol references.
 - [ ] Review ProtocolPayloadJson for malformed shapes, missing fields, unknown fields, integer overflow, duplicate values, and round-trip compatibility.
@@ -87,13 +87,13 @@ The diagram separates implemented behavior from a future direction. The solid pa
 5. Consider hosting the playground after the static deployment is actually configured and validated.
 6. Make a release decision from evidence; do not treat documentation completeness as proof of API stability.
 
-## Latest development evidence — 2026-11-07
+## Latest verified baseline before the current documentation cleanup — 2026-11-17
 
-The current `development` head is [2877496](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/28774960b59bec539b0cf978790ea64993d212c7). Its full development workflow [#402](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/42422758183) completed successfully: restore, Release build, tests with coverage, Codecov upload, package creation, packaged-documentation path verification, clean-consumer installation, and artifact uploads all passed. The NuGet publication job was skipped. This is build/package evidence, not authorization to publish.
+The latest previously verified development candidate is [fb4e008935ad6c8bac9301d3b92292aa8e49160d](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/fb4e008935ad6c8bac9301d3b92292aa8e49160d). Its exact-head workflow [#43799124521](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/43799124521) passed the build/test and live Sith compliance jobs, including restore, Release build, tests/coverage, package creation, packaged-documentation verification, and clean-consumer installation. NuGet publication was skipped. This is not evidence for the documentation cleanup commits made after that SHA; those commits require a new exact-head run.
 
-Structural compatibility is already implemented on `development` in `ProtocolDefinition.CompareCompatibility`, `ProtocolCompatibilityReport`, and the associated tests. Historical PR [#8](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/pull/8) is closed and unmerged; it is not outstanding work. The current open-PR inventory is empty. The only maintained branches are `master` and `development`.
+Structural compatibility is implemented in `ProtocolDefinition.CompareCompatibility`, `ProtocolCompatibilityReport`, and associated tests. Historical PR [#8](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/pull/8) is closed and unmerged; it is not outstanding work. The live branch inventory contains exactly `master` and `development`.
 
-The next verification work remains the source-to-documentation contract audit, consumer-boundary review, browser-level playground verification, and explicit decisions about permanent identity, semantic versioning, canonicalization, and unknown-value registration. No release or publication is implied.
+The remaining work is the source-to-documentation contract audit, browser-level playground verification, complete public API documentation, focused provenance validation, identity/version lifecycle decisions, and real host-side conformance where it unblocks the domain. Package publication is reserved for the CiAi release process when the owner directs it.
 
 ## Status language
 
