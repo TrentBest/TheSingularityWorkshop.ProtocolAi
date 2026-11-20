@@ -17,7 +17,8 @@ This is a source-navigation document, not a claim that every suggested integrati
 2. Run the [local playground](../README.md#-04-see-it-in-a-minute).
 3. Read the [API and usage guides](GUIDES.md).
 4. Follow the [mathematical contract](MATHEMATICAL_FOUNDATIONS.md).
-5. Use this map to inspect the actual consumers.
+5. Use this map to inspect actual consumers and indirect boundaries.
+6. Read the evidence-backed [Domain Integration Decisions](DOMAIN_INTEGRATION_DECISIONS.md) for adoption and non-adoption rationale.
 
 ## Confirmed usage map
 
@@ -27,9 +28,9 @@ For the domain questions and ordered remaining work, see [Domain Audit and Roadm
 
 **Repository:** [TrentBest/AnyApp](https://github.com/TrentBest/AnyApp)
 
-**Source path:** [WorkshopSemanticExchange.cs](https://github.com/TrentBest/AnyApp/blob/master/WorkshopSemanticExchange.cs)  
-**Package reference:** [AnyApp.csproj](https://github.com/TrentBest/AnyApp/blob/master/AnyApp.csproj)  
-**Test coverage:** [AnyAppRuntimeTests.cs](https://github.com/TrentBest/AnyApp/blob/master/tests/TheSingularityWorkshop.AnyApp.Tests/AnyAppRuntimeTests.cs) includes assertions around resolved protocol/symbol IDs and manifest-carried SemanticIntent.  
+**Source path:** [WorkshopSemanticExchange.cs](https://github.com/TrentBest/AnyApp/blob/development/WorkshopSemanticExchange.cs)  
+**Package reference:** [AnyApp.csproj](https://github.com/TrentBest/AnyApp/blob/development/AnyApp.csproj)  
+**Test coverage:** [AnyAppRuntimeTests.cs](https://github.com/TrentBest/AnyApp/blob/development/tests/TheSingularityWorkshop.AnyApp.Tests/AnyAppRuntimeTests.cs) includes assertions around resolved protocol/symbol IDs and manifest-carried SemanticIntent.  
 **Host overview:** [AnyApp README — Semantic intent exchange](https://github.com/TrentBest/AnyApp#semantic-intent-exchange)
 
 The host defines its own protocol and symbols; GrammarAi defines which symbol references are admitted; FSM_UserIO carries the resulting intent. The foundation packages do not need to depend on the host or on each other.
@@ -92,6 +93,35 @@ WebPage is therefore a confirmed **composition-level example** of ProtocolAi and
 
 **Why this matters:** the host can compose the vocabulary and grammar as runtime capabilities without turning FSM_COS into the owner of semantic identity. Keep the ProtocolAi and GrammarAi definitions in their own bundles and preserve the host policy boundary.
 
+### 6. CiAi — source-pinned semantic-stack composition
+
+**Repository:** [TrentBest/TheSingularityWorkshop.CiAi](https://github.com/TrentBest/TheSingularityWorkshop.CiAi)  
+**Source evidence:** [CiAi README](https://github.com/TrentBest/TheSingularityWorkshop.CiAi/blob/development/README.md) records ProtocolAi source pin `13e86c23c8eab6a33f3f124342b54598748e8756` and GrammarAi source pin `028b1d1f707e3e0614c680d6fc4a556424e2e02a`.  
+**Coordination:** [CiAi #58](https://github.com/TrentBest/TheSingularityWorkshop.CiAi/issues/58).
+
+CiAi's README establishes source-pinned composition: ProtocolAi supplies stable category/member identity primitives; GrammarAi validates the typed workflow/evidence graph; CiAi owns CI vocabulary and workflow semantics. This is stronger than a mere candidate, but it is **not yet proof of a completed runtime event path**. Keep exact-revision conformance, evidence verification, and host delivery/replay proof separate.
+
+### 7. CommandAi — event contract boundary, no sibling runtime dependency
+
+**Repository:** [TrentBest/TheSingularityWorkshop.CommandAi](https://github.com/TrentBest/TheSingularityWorkshop.CommandAi)  
+**Source evidence:** [CommandAi project](https://github.com/TrentBest/TheSingularityWorkshop.CommandAi/blob/development/TheSingularityWorkshop.CommandAi.csproj) has no ProtocolAi project/package reference. [CommandAi #1](https://github.com/TrentBest/TheSingularityWorkshop.CommandAi/issues/1) explicitly assigns ProtocolAi the correlated event-envelope boundary.
+
+CommandAi owns atomic proposals, proposal codecs, address-space exchanges, and command outcome meaning. ProtocolAi may carry accepted/rejected/completed outcomes across a real host boundary. Do not add a runtime dependency just to encode local proposals, and do not treat an idempotency field as durable idempotency.
+
+### 8. HeadlessAi — planned optional semantic bridge
+
+**Repository:** [TrentBest/TheSingularityWorkshop.HeadlessAi](https://github.com/TrentBest/TheSingularityWorkshop.HeadlessAi)  
+**Coordination:** [HeadlessAi #2](https://github.com/TrentBest/TheSingularityWorkshop.HeadlessAi/issues/2) and [#9](https://github.com/TrentBest/TheSingularityWorkshop.HeadlessAi/issues/9).
+
+HeadlessAi core remains provider/runtime-neutral. Its planned in-repository bridge may reference ProtocolAi and GrammarAi to provide a common semantic exchange path for manual/clipboard and connected-provider use. The bridge should reuse ProtocolAi's current JSON payload/identity contracts and GrammarAi's structural validation; it must not introduce provider transport, credentials, UI, host policy, or authorization into ProtocolAi. This is planned work, not an implemented consumer.
+
+### 9. The / Architect — parallel in-repository implementation
+
+**Repository:** [TrentBest/The](https://github.com/TrentBest/The)  
+**Source:** [Architect/Workshop/Ai/ProtocolAi.cs](https://github.com/TrentBest/The/blob/master/Architect/Workshop/Ai/ProtocolAi.cs).
+
+The Architect currently contains a separate local `ProtocolAi` implementation with its own keyword, action, parameter, and surface tables. Its README describes it as part of the terminal AI context stream. This is not the ProtocolAi NuGet package and is not API parity evidence. Treat it as a parallel implementation requiring an explicit migration/interop decision; do not silently assume the IDs or behavior are interchangeable.
+
 ## Integration candidates — not current direct dependencies
 
 | Area | Candidate use | Boundary rule |
@@ -134,7 +164,7 @@ These candidates are based on repository architecture and concepts visible in in
 
 | Priority | Repository / boundary | Proposed use | ProtocolAi contribution | GrammarAi contribution | Guardrail / acceptance test |
 |---|---|---|---|---|---|
-| **P1** | **HeadlessAi and its AnyApp example** | Define a provider-neutral request/response envelope for semantic operations and structured results | Stable operation, field, result, and error identities; literals remain literals | Optional schema/sequence constraints for requests and responses | Provider adapter still owns HTTP, credentials, model-specific formatting, retries, and safety policy. Demonstrate round-trip and reject malformed structures without invoking a provider. |
+| **P1** | **HeadlessAi optional bridge** | Compose provider-neutral semantic requests and validated responses for manual and connected-provider flows | Stable vocabulary identities and deterministic payload transport | Optional structural constraints and proposal validation | Keep core HeadlessAi independent; prove the same contract for clipboard and provider adapters without adding provider or host policy to ProtocolAi. |
 | **P1** | **AnyApp / WebApp / Experience manifests** | Evolve the current host-owned intent example into a versioned, cross-manifest identity convention where multiple hosts genuinely share intents | Protocol and symbol identity across host boundaries | Grammar for allowed intent shapes or capability combinations | Host owns vocabulary and policy. Structural admission is not authorization. Add compatibility tests before standardizing shared IDs. |
 | **P1** | **ProtocolAi + GrammarAi + FSM_COS living example** | Make the existing WebPage composition example a canonical executable demonstration of vocabulary → grammar → host policy | Demonstrate definitions, qualified references, literals, and resolution outcomes | Demonstrate rule construction, valid structure, and invalid structure | Keep FSM_COS a composition boundary; verify docs/tests exercise real APIs and never imply FSM_COS executes AI requests. |
 | **P2** | **GUI / GUI.SVG** | Build a small inspector/editor for protocol definitions and grammar rules, with a live representation of valid, literal, and invalid references | Inspect symbol IDs, names, values, protocol ownership, and resolution | Inspect start symbols, rules, terminals, nonterminals, and validation failures | Visualization is a view over real definitions, not the source of truth. Keep GUI optional. |
@@ -154,11 +184,14 @@ These candidates are based on repository architecture and concepts visible in in
 
 ### Cross-repository audit status
 
-- **Confirmed direct package references and API use:** AnyApp (`AnyApp.csproj`, `WorkshopSemanticExchange.cs`, runtime tests).
-- **Confirmed composition-level use:** WebPage (`AiExchangeCompositionBundle` and `SingularityHub.Tests/WorkshopCompositionTests.cs`); verify exact source and test paths on the active branch before using this as a release claim.
-- **Confirmed carrier boundary, not direct dependency:** FSM_UserIO (`SemanticIntent`); FSM_COS carries intent indirectly and should not acquire semantic-domain dependencies by default.
-- **Legacy local implementation:** The (`Architect/Workshop/Ai/ProtocolAi.cs`, `GrammarAi.cs`, `CommandAi.cs`, `TerminalAi.cs`). This is a separate implementation and needs a deliberate migration decision.
-- **Not yet confirmed as consumers:** HeadlessAi, Gestures, Physics, GUI/GUI.SVG, FSM_REST, FSM_Serialization, MicroBundleDomain/Repository, Renderer/Visualize. They remain candidates pending direct source and dependency inspection.
+- **Confirmed direct package/source-mode references and API use:** AnyApp (`AnyApp.csproj`, `WorkshopSemanticExchange.cs`, runtime tests); package mode pins ProtocolAi alpha.2 and repository-source mode uses a ProjectReference.
+- **Confirmed source-pinned composition:** CiAi README pins ProtocolAi and GrammarAi immutable revisions; this is not yet proof of a completed runtime event path.
+- **Confirmed composition-level use:** WebPage (`AiExchangeCompositionBundle` and `SingularityHub.Tests/WorkshopCompositionTests.cs`); this is composition proof, not a direct application package reference.
+- **Confirmed identity seam, not direct dependency:** GrammarAi uses `GrammarProtocolReference(protocolId, symbolId)`; FSM_UserIO carries `SemanticIntent`; FSM_COS carries intent indirectly.
+- **Contract boundary, no runtime dependency:** CommandAi's issue #1 assigns ProtocolAi event envelopes to cross-host event exchange while CommandAi owns proposal semantics.
+- **Planned optional bridge:** HeadlessAi #2/#9; HeadlessAi core remains independent.
+- **Parallel local implementation:** The/Architect has its own in-repo ProtocolAi implementation and requires an explicit migration/interop decision.
+- **Candidates / deliberate non-adoptions:** Gestures, Physics, GUI/GUI.SVG, FSM_REST, FSM_Serialization, MicroBundleDomain/Repository, Renderer/Visualize. Adopt only at a real shared semantic boundary; keep local simulation, presentation, transport, artifact, and execution concerns in their owning repositories.
 ## Audit limitations
 
 This map is based on source files and repository search inspected for this pass. GitHub code search indexes default branches and can be stale or incomplete. It is not proof that every private, unindexed, or locally unpushed repository has been examined. Re-run the search and inspect active source before promoting a candidate to confirmed usage.
