@@ -19,21 +19,21 @@
 
 ## Latest verified candidate evidence
 
-The current verified development candidate is [`20b5e080c1636df92ea3945aaede628be157afaa`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/20b5e080c1636df92ea3945aaede628be157afaa), with exact-head [build/test/package workflow #44695257556](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44695257556) and [Sith policy workflow #44695257540](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44695257540), both completed successfully on 2026-11-20 UTC.
+The latest exact-head package-verified candidate is [`2ea06ef531203b519cf6bea98097be65599000d1`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/2ea06ef531203b519cf6bea98097be65599000d1), with [build/test/package workflow #44845089638](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845089638) and [Sith policy workflow #44845089653](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845089653), both completed successfully on 2026-11-21 UTC.
 
-The build workflow's `Verify live Sith compliance` and `build-and-test` jobs both passed. The latter completed .NET restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, clean-consumer installation/build, and artifact uploads. The separate `publish_nuget` job was skipped. The Sith policy workflow's `Evaluate permanent branch policy` job also passed. The latest package artifact is `protocol-ai-nuget-package`, artifact ID `14610203429`, uploaded for this exact SHA; GitHub reports its ZIP artifact digest as `sha256:b6d7c6dd9a1e8b165a7f80a37b3e34bb97496ca6dbeba991b65c84f12dc8fa98`. This is the Actions artifact archive digest, not the inner `.nupkg` digest. The newest artifact has not yet been downloaded and independently inspected; do not reuse the prior candidate's inner package hash as evidence for this commit. Public XML documentation remains compiler-checked with the `CS1591` suppression removed.
+The build workflow's `Verify live Sith compliance` and `build-and-test` jobs both passed. The latter completed .NET restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, clean-consumer installation/build, and artifact uploads. The separate `publish_nuget` job was skipped. The Sith policy workflow's `Evaluate permanent branch policy` job also passed. The package artifact is `protocol-ai-nuget-package`, artifact ID `14681818732`, uploaded for this exact SHA; GitHub reports its ZIP artifact digest as `sha256:3c167d45e56dec5a08ca1abdca375786caf5894534c5655f34315c5658824150`. This is the Actions artifact archive digest, not the inner `.nupkg` digest. The artifact was downloaded and independently inspected; the inner package hash and metadata are recorded below. Public XML documentation remains compiler-checked with the `CS1591` suppression removed.
 
 ## Packed artifact inspection
 
-The previously inspected package artifact `protocol-ai-nuget-package` (artifact ID `14609898666`) from [exact-head workflow run #44695017135](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44695017135) belongs to the preceding candidate [`95568ab61a9375bd854873e87ef7ca46f4581f87`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/95568ab61a9375bd854873e87ef7ca46f4581f87), not the current `20b5e080...` head. Its embedded NuGet repository metadata identifies that earlier source commit. The current candidate's artifact is listed above and remains awaiting independent package inspection.
+The package artifact `protocol-ai-nuget-package` (artifact ID `14681818732`) from [exact-head workflow run #44845089638](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845089638) was downloaded and inspected directly. Its embedded NuGet repository metadata identifies the exact source candidate `2ea06ef531203b519cf6bea98097be65599000d1`.
 
 - Package: `TheSingularityWorkshop.ProtocolAi.0.1.0-alpha.3.nupkg`
 - Repository metadata commit: `95568ab61a9375bd854873e87ef7ca46f4581f87`
 - Target framework: `net10.0` only
 - Dependencies: none declared
-- Package size: 2,471,635 bytes
-- Inner `.nupkg` SHA-256: `0078f1ff5ec24213e15755784cddefcad54d9eaea8af625cfd3d86d2a52cf19a`
-- Actions ZIP archive SHA-256: `34d113d17101fbccee23dc700dbbdfa17455f95f5f5383e2156498564c882c8b`
+- Package size: 2,471,798 bytes
+- Inner `.nupkg` SHA-256: `684f2f6c37d9b36bcaed984b020729ae80d28b045f1c9c804f7d89725d48b8bb`
+- Actions ZIP archive SHA-256: `3c167d45e56dec5a08ca1abdca375786caf5894534c5655f34315c5658824150`
 - Package contents: library assembly, generated XML API documentation, README, MIT license, Markdown guides, and SVG/raster documentation assets
 - License entry: `LICENSE.txt`, with `Copyright (c) 2026 Trent Best`
 - No package dependencies are declared. The artifact contains no separate `.snupkg`; symbol-package support remains an explicit package-quality decision.
@@ -42,7 +42,7 @@ The three packaged raster documentation images account for approximately 2.3 MB 
 
 ## Repository integrity
 
-The live branch inventory contains exactly two branches: `master` (`657b3980f1f234cfcd71d65f3aff3af213e632b1`) and `development` (`20b5e080c1636df92ea3945aaede628be157afaa`). The current compare endpoint reports development 501 commits ahead and 26 behind master, with diverged histories. The current branch ledger records the preservation rationale and release-lineage evidence.
+The live branch inventory contains exactly two branches: `master` (`657b3980f1f234cfcd71d65f3aff3af213e632b1`) and `development` (`2ea06ef531203b519cf6bea98097be65599000d1`). The current compare endpoint reports development 501 commits ahead and 26 behind master, with diverged histories. The current branch ledger records the preservation rationale and release-lineage evidence.
 
 No branch rewrite, merge, release, deployment, or package publication is part of this readiness work. The NuGet publication path remains disabled in CI. Future publication is intended to be driven by CiAi after the owner authorizes the specific release operation.
 
