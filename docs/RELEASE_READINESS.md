@@ -19,34 +19,36 @@
 
 ## Compatibility correction — preserve the published .NET 8 consumer target
 
-The published alpha.2 package targeted .NET 8. The intervening alpha.3 development project had narrowed the package to `net10.0`, which would have dropped the earlier consumer target. This change restores `net8.0` while retaining `net10.0`; CI now builds and tests the library for both frameworks and installs/builds the packed package in clean consumers targeting each framework. The playground remains .NET 10. The multi-target artifact is pending exact-head CI and is not yet verified by the earlier `net10.0`-only package evidence below.
+The published alpha.2 package targeted .NET 8. The intervening alpha.3 development project had narrowed the package to `net10.0`. The current candidate restores `net8.0` while retaining `net10.0`; exact-head CI built both target frameworks, passed all 166 library tests on each, packed both target assets, verified the README/license/guides/images, and built clean consumer projects for both frameworks. The playground remains .NET 10.
 
 ## Latest verified candidate evidence
 
-The latest exact-head package-verified candidate is [`2ea06ef531203b519cf6bea98097be65599000d1`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/2ea06ef531203b519cf6bea98097be65599000d1), with [build/test/package workflow #44845089638](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845089638) and [Sith policy workflow #44845089653](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845089653), both completed successfully on 2026-11-21 UTC.
+The latest exact-head package-verified candidate is [`c3826982afe2bac6b064d70e137c21075586ee1a`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/c3826982afe2bac6b064d70e137c21075586ee1a), with [build/test/package workflow #44845893139](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845893139) and [Sith policy workflow #44845893149](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845893149), both completed successfully on 2026-11-21 UTC.
 
-The build workflow's `Verify live Sith compliance` and `build-and-test` jobs both passed. The latter completed .NET restore/build, tests with coverage, Codecov upload, package creation, packaged-documentation-path verification, clean-consumer installation/build, and artifact uploads. The separate `publish_nuget` job was skipped. The Sith policy workflow's `Evaluate permanent branch policy` job also passed. The package artifact is `protocol-ai-nuget-package`, artifact ID `14681818732`, uploaded for this exact SHA; GitHub reports its ZIP artifact digest as `sha256:3c167d45e56dec5a08ca1abdca375786caf5894534c5655f34315c5658824150`. This is the Actions artifact archive digest, not the inner `.nupkg` digest. The artifact was downloaded and independently inspected; the inner package hash and metadata are recorded below. Public XML documentation remains compiler-checked with the `CS1591` suppression removed.
+The build workflow's `Verify live Sith compliance` and `build-and-test` jobs both passed. The latter completed restore/build for `net8.0` and `net10.0`, the .NET 8 library test run, the full .NET 10 solution test run with coverage, Codecov upload, pack, documentation-path and target-framework verification, clean-consumer install/build for both frameworks, and artifact uploads. The separate `publish_nuget` job remains skipped. The separate Sith policy workflow's `Evaluate permanent branch policy` job also passed. The package and test artifact hashes and results are recorded below. Public XML documentation remains compiler-checked with the `CS1591` suppression removed.
 
 ## Packed artifact inspection
 
-The package artifact `protocol-ai-nuget-package` (artifact ID `14681818732`) from [exact-head workflow run #44845089638](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845089638) was downloaded and inspected directly. Its embedded NuGet repository metadata identifies the exact source candidate `2ea06ef531203b519cf6bea98097be65599000d1`.
+The package artifact `protocol-ai-nuget-package` (artifact ID `14682408982`) from [exact-head workflow run #44845893139](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845893139) was downloaded and inspected directly. Its embedded NuGet repository metadata identifies the exact source candidate `c3826982afe2bac6b064d70e137c21075586ee1a`.
 
 - Package: `TheSingularityWorkshop.ProtocolAi.0.1.0-alpha.3.nupkg`
-- Repository metadata commit: `2ea06ef531203b519cf6bea98097be65599000d1`
-- Target framework in this historical pre-restoration artifact: `net10.0` only
-- Dependencies: none declared
-- Package size: 2,471,798 bytes
-- Inner `.nupkg` SHA-256: `684f2f6c37d9b36bcaed984b020729ae80d28b045f1c9c804f7d89725d48b8bb`
-- Actions ZIP archive SHA-256: `3c167d45e56dec5a08ca1abdca375786caf5894534c5655f34315c5658824150`
-- Package contents: library assembly, generated XML API documentation, README, MIT license, Markdown guides, and SVG/raster documentation assets
+- Repository metadata commit: `c3826982afe2bac6b064d70e137c21075586ee1a`
+- Target frameworks: `net8.0` and `net10.0`
+- Dependencies: none declared for either target
+- Package size: 2,506,267 bytes
+- Inner `.nupkg` SHA-256: `659f3d32079664725ae9df98809529aa58b5743f7b8dc316fe0e75b901c7fc34`
+- Actions ZIP archive SHA-256: `2c018d7e19730533f649e1993c55b83ace466d12920d7888002c3a198d945225`
+- Package contents: both target assemblies and generated XML API docs, README, MIT license, Markdown guides, and SVG/raster documentation assets
 - License entry: `LICENSE.txt`, with `Copyright (c) 2026 Trent Best`
-- No package dependencies are declared. The artifact contains no separate `.snupkg`; symbol-package support remains an explicit package-quality decision.
+- No separate `.snupkg` was generated; symbol-package support remains an explicit package-quality decision.
 
-The three packaged raster documentation images account for approximately 2.3 MB of the 2.47 MB package. The project explicitly packs `docs/images/**`; these are documentation assets, not runtime dependencies. The clean-consumer install/build and packaged-documentation-path checks passed in the same exact-head workflow. The artifact is a CI build output only; it was not pushed to NuGet.
+The test artifact is `protocol-ai-test-results` (artifact ID `14682518648`), with Actions ZIP SHA-256 `3244087bbd1425296de9c97bc4da37e3b2bab47bd69672f8abf847ccb8f3b0f2`. Its TRX files report **166/166 passed on .NET 8** and **166/166 passed on .NET 10**, with zero failures. The Cobertura report records 698/721 lines covered (96.8%) and 371/431 branches covered (86.1%) for the .NET 10 run.
+
+The three packaged raster documentation images account for approximately 2.3 MB of the package. They are intentional documentation assets, not runtime dependencies. The package target groups, documentation paths, and clean-consumer installs/builds for both frameworks passed in the same exact-head workflow. The artifact is a CI build output only; it was not pushed to NuGet.
 
 ## Repository integrity
 
-At the branch-audit baseline `50cc84ccfd6258d24766593c9dd20a9f5a6d38db`, the live branch inventory contained exactly two branches: `master` (`657b3980f1f234cfcd71d65f3aff3af213e632b1`) and `development` (`50cc84ccfd6258d24766593c9dd20a9f5a6d38db`). The compare endpoint reported development 505 commits ahead and 26 behind master, with diverged histories. The multi-target restoration is a subsequent development-only change. The current branch ledger records the preservation rationale and release-lineage evidence.
+At the branch-audit baseline `c3826982afe2bac6b064d70e137c21075586ee1a`, the live branch inventory contained exactly two branches: `master` (`657b3980f1f234cfcd71d65f3aff3af213e632b1`) and `development` (`c3826982afe2bac6b064d70e137c21075586ee1a`). The compare endpoint reported development 508 commits ahead and 26 behind master, with diverged histories. The two-branch inventory was verified across both search pages. The current branch ledger records the preservation rationale and release-lineage evidence.
 
 No branch rewrite, merge, release, deployment, or package publication is part of this readiness work. The NuGet publication path remains disabled in CI. Future publication is intended to be driven by CiAi after the owner authorizes the specific release operation.
 
@@ -86,7 +88,7 @@ These are implemented foundations, not proof that the public API is ready to lea
 
 - [ ] Browser-test the local playground's primary flow, invalid-reference path, reset/step behavior, and `/hello` route under .NET 10.
 - [ ] Inspect the generated `.nupkg` and `.snupkg` contents, including README, license, XML docs, symbols, and intended documentation assets.
-- [ ] Verify a clean consumer against the exact packed artifact and record package hash and test evidence.
+- [x] Verify a clean consumer against the exact packed artifact for both target frameworks and record package hash and test evidence.
 - [ ] Verify all documentation links, badges, image/SVG paths, sample commands, package-version guidance, and cross-repository source references.
 - [x] Replace the placeholder MIT copyright line with `Copyright (c) 2026 Trent Best`.
 - [x] Align the playground README SDK requirement with its `net10.0` project target.

@@ -9,9 +9,9 @@
 
 **Review date:** 2026-11-21 UTC  
 **Canonical branch inventory:** exactly `master` and `development` (both search pages checked; second page empty).  
-**Development audit baseline:** `50cc84ccfd6258d24766593c9dd20a9f5a6d38db`.  
+**Development audit baseline:** `c3826982afe2bac6b064d70e137c21075586ee1a`.  
 **Master audit baseline:** `657b3980f1f234cfcd71d65f3aff3af213e632b1`.  
-**Compare at audit:** development 505 commits ahead and 26 behind master.  
+**Compare at audit:** development 508 commits ahead and 26 behind master.  
 **Disposition:** preserve both branches. No branch deletion, merge, reset, cherry-pick, release, deployment, or package publication was performed.
 
 ## Branch inventory and policy
@@ -20,12 +20,12 @@ The permanent Sith target is exactly two branches:
 
 | Branch | Audit baseline | Meaning | Disposition |
 |---|---|---|---|
-| `development` | `50cc84ccfd6258d24766593c9dd20a9f5a6d38db` | Active source and next candidate | Preserve; continue work here |
+| `development` | `c3826982afe2bac6b064d70e137c21075586ee1a` | Active source and next candidate | Preserve; continue work here |
 | `master` | `657b3980f1f234cfcd71d65f3aff3af213e632b1` | Published-package history / release baseline | Preserve; do not move to current development |
 
 These SHAs are the live branch tips verified on 2026-11-21 UTC. The exact branch inventory was fetched from GitHub and contains only these two refs.
 
-The compare endpoint reports the histories are diverged: development is 505 commits ahead and 26 behind master. This divergence is not a cleanup defect. Do not merge, reset, force-push, or rewrite master to make the graph look simpler.
+The compare endpoint reports the histories are diverged: development is 508 commits ahead and 26 behind master. This divergence is not a cleanup defect. Do not merge, reset, force-push, or rewrite master to make the graph look simpler.
 
 ## Published package and source provenance
 
@@ -41,7 +41,7 @@ The previous ledger statement “No package was published” was incorrect and i
 
 ## Sith and build evidence
 
-The last verified pre-restoration candidate was [`2ea06ef531203b519cf6bea98097be65599000d1`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/2ea06ef531203b519cf6bea98097be65599000d1), tested by [build/test/package workflow #44845089638](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845089638) and [Sith policy workflow #44845089653](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845089653). That artifact was `net10.0`-only. The current development change restores `net8.0` and retains `net10.0`; its exact-head CI must pass both framework tests and clean-consumer installs before it replaces the previous candidate. The current live inventory is exactly `master` and `development`; do not infer that passing policy means the histories should be reconciled.
+The current candidate [`c3826982afe2bac6b064d70e137c21075586ee1a`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/c3826982afe2bac6b064d70e137c21075586ee1a) passed exact-head [build/test/package workflow #44845893139](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845893139) and [Sith policy workflow #44845893149](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845893149). The package contains `net8.0` and `net10.0`; 166 tests passed on each target, and the exact packed artifact installed and built in clean consumers for both. The previous candidate `2ea06ef...` was `net10.0`-only and is superseded. The current live inventory is exactly `master` and `development`; do not infer that passing policy means the histories should be reconciled.
 
 The live Sith gate independently checks the remote branch inventory and fresh master-hosted evidence. Its evidence is time-bound. Re-run the gate on the exact candidate before any future CiAi release operation; this ledger is not a substitute for live verification.
 
