@@ -113,13 +113,18 @@ jobs:
           for framework in net8.0 net10.0; do
             if ! grep -Fq "<group targetFramework=\"$framework\"" <<< "$nuspec"; then
               echo "The package is missing its $framework target."
-              printf '%s\\n' "$nuspec"
+              printf '%s\n' "$nuspec"
               exit 1
             fi
           done
           if ! grep -Eq '^docs/.+\.md$' <<< "$entries"; then
             echo "Expected Markdown guides under docs/ in the NuGet package."
             printf '%s\n' "$entries"
+            exit 1
+          fi
+          if ! grep -q '^docs/images/.\\+' <<< "$entries"; then
+            echo "Expected documentation images under docs/images/ in the NuGet package."
+            printf '%s\\n' "$entries"
             exit 1
           fi
           if grep -q '^docs/images/docs/images/' <<< "$entries"; then
