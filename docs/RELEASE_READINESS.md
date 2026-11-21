@@ -13,7 +13,7 @@
 
 - NuGet lists `TheSingularityWorkshop.ProtocolAi` **0.1.0-alpha.2** as a published prerelease.
 - The current `development` project declares **0.1.0-alpha.3**.
-- The library is being restored to multi-target **.NET 8** (`net8.0`) and **.NET 10** (`net10.0`) to preserve the earlier published alpha.2 target. The playground remains `net10.0` and requires the .NET 10 SDK.
+- The library targets **.NET 8** (`net8.0`) and **.NET 10** (`net10.0`), preserving the earlier published alpha.2 target. The playground remains `net10.0` and requires the .NET 10 SDK.
 - The alpha.2 release-named commit `3a0bcc6f7b6c010d1e9598bd09f17ffd6c4e02de` is an ancestor of both canonical branches. This proves the release lineage is retained, but does **not** prove that this exact commit produced the published package. The package's source SHA remains to be established from authoritative package/build provenance.
 - Preserve `master` as the published-package history until that exact source SHA is verified. Do not reconcile branches merely to reduce divergence.
 
