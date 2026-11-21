@@ -9,7 +9,7 @@
 
 **Review date:** 2026-11-21 UTC  
 **Canonical branch inventory:** exactly `master` and `development` (both search pages checked; second page empty).  
-**Development audit baseline:** `20b5e080c1636df92ea3945aaede628be157afaa`.  
+**Development audit baseline:** `2ea06ef531203b519cf6bea98097be65599000d1`.  
 **Master audit baseline:** `657b3980f1f234cfcd71d65f3aff3af213e632b1`.  
 **Compare at audit:** development 501 commits ahead and 26 behind master.  
 **Disposition:** preserve both branches. No branch deletion, merge, reset, cherry-pick, release, deployment, or package publication was performed.
@@ -20,7 +20,7 @@ The permanent Sith target is exactly two branches:
 
 | Branch | Audit baseline | Meaning | Disposition |
 |---|---|---|---|
-| `development` | `20b5e080c1636df92ea3945aaede628be157afaa` | Active source and next candidate | Preserve; continue work here |
+| `development` | `2ea06ef531203b519cf6bea98097be65599000d1` | Active source and next candidate | Preserve; continue work here |
 | `master` | `657b3980f1f234cfcd71d65f3aff3af213e632b1` | Published-package history / release baseline | Preserve; do not move to current development |
 
 These SHAs are the live branch tips verified on 2026-11-20 UTC. The exact branch inventory was fetched from GitHub and contains only these two refs.
@@ -41,7 +41,7 @@ The previous ledger statement “No package was published” was incorrect and i
 
 ## Sith and build evidence
 
-The current development candidate is [`20b5e080c1636df92ea3945aaede628be157afaa`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/20b5e080c1636df92ea3945aaede628be157afaa). Exact-head [build/test/package workflow #44695257556](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44695257556) passed both `Verify live Sith compliance` and `build-and-test`; the latter completed restore, build, tests with coverage, Codecov upload, pack, packaged-documentation-path verification, and clean-consumer installation/build. The NuGet publication job was skipped. Separate [Sith policy workflow #44695257540](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44695257540) also passed. The current live inventory is exactly `master` and `development`; do not infer that passing policy means the histories should be reconciled.
+The current development candidate is [`2ea06ef531203b519cf6bea98097be65599000d1`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/2ea06ef531203b519cf6bea98097be65599000d1). Exact-head [build/test/package workflow #44845089638](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845089638) passed both `Verify live Sith compliance` and `build-and-test`; the latter completed restore, build, tests with coverage, Codecov upload, pack, packaged-documentation-path verification, and clean-consumer installation/build. The NuGet publication job was skipped. Separate [Sith policy workflow #44845089653](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845089653) also passed. The current live inventory is exactly `master` and `development`; do not infer that passing policy means the histories should be reconciled.
 
 The live Sith gate independently checks the remote branch inventory and fresh master-hosted evidence. Its evidence is time-bound. Re-run the gate on the exact candidate before any future CiAi release operation; this ledger is not a substitute for live verification.
 
