@@ -7,11 +7,11 @@
 
 # Branch Reconciliation Ledger
 
-**Review date:** 2026-11-20 UTC  
+**Review date:** 2026-11-21 UTC  
 **Canonical branch inventory:** exactly `master` and `development` (both search pages checked; second page empty).  
-**Development audit baseline:** `f70a372e867b5ab445142f211453596cfffc5106`.  
-**Master audit baseline:** `d63d0edd725219eb549ee8878f2a9a70af26de27`.  
-**Compare at audit:** development 496 commits ahead and 25 behind master.  
+**Development audit baseline:** `20b5e080c1636df92ea3945aaede628be157afaa`.  
+**Master audit baseline:** `657b3980f1f234cfcd71d65f3aff3af213e632b1`.  
+**Compare at audit:** development 501 commits ahead and 26 behind master.  
 **Disposition:** preserve both branches. No branch deletion, merge, reset, cherry-pick, release, deployment, or package publication was performed.
 
 ## Branch inventory and policy
@@ -20,12 +20,12 @@ The permanent Sith target is exactly two branches:
 
 | Branch | Audit baseline | Meaning | Disposition |
 |---|---|---|---|
-| `development` | `f70a372e867b5ab445142f211453596cfffc5106` | Active source and next candidate | Preserve; continue work here |
-| `master` | `d63d0edd725219eb549ee8878f2a9a70af26de27` | Published-package history / release baseline | Preserve; do not move to current development |
+| `development` | `20b5e080c1636df92ea3945aaede628be157afaa` | Active source and next candidate | Preserve; continue work here |
+| `master` | `657b3980f1f234cfcd71d65f3aff3af213e632b1` | Published-package history / release baseline | Preserve; do not move to current development |
 
 These SHAs are the live branch tips verified on 2026-11-20 UTC. The exact branch inventory was fetched from GitHub and contains only these two refs.
 
-The compare endpoint reports the histories are diverged: development is 496 commits ahead and 25 behind master. This divergence is not a cleanup defect. Do not merge, reset, force-push, or rewrite master to make the graph look simpler.
+The compare endpoint reports the histories are diverged: development is 501 commits ahead and 26 behind master. This divergence is not a cleanup defect. Do not merge, reset, force-push, or rewrite master to make the graph look simpler.
 
 ## Published package and source provenance
 
@@ -41,7 +41,7 @@ The previous ledger statement “No package was published” was incorrect and i
 
 ## Sith and build evidence
 
-The current development candidate is [`f70a372e867b5ab445142f211453596cfffc5106`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/f70a372e867b5ab445142f211453596cfffc5106). Exact-head [build/test/package workflow #44678566065](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44678566065) passed both `Verify live Sith compliance` and `build-and-test`; the latter completed restore, build, tests with coverage, Codecov upload, pack, packaged-documentation-path verification, and clean-consumer installation/build. The NuGet publication job was skipped. Separate [Sith policy workflow #44678566059](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44678566059) also passed. The current live inventory is exactly `master` and `development`; do not infer that passing policy means the histories should be reconciled.
+The current development candidate is [`20b5e080c1636df92ea3945aaede628be157afaa`](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/commit/20b5e080c1636df92ea3945aaede628be157afaa). Exact-head [build/test/package workflow #44695257556](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44695257556) passed both `Verify live Sith compliance` and `build-and-test`; the latter completed restore, build, tests with coverage, Codecov upload, pack, packaged-documentation-path verification, and clean-consumer installation/build. The NuGet publication job was skipped. Separate [Sith policy workflow #44695257540](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44695257540) also passed. The current live inventory is exactly `master` and `development`; do not infer that passing policy means the histories should be reconciled.
 
 The live Sith gate independently checks the remote branch inventory and fresh master-hosted evidence. Its evidence is time-bound. Re-run the gate on the exact candidate before any future CiAi release operation; this ledger is not a substitute for live verification.
 
