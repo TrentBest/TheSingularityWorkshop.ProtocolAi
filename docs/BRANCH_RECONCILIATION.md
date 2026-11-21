@@ -78,3 +78,8 @@ No branch deletion is requested or required. This ledger is evidence and recomme
 </p>
 
 <p align="center"><em>The Singularity Workshop — Tools for the curious, the bold, and the systemically inclined.</em><br><strong>Because state shouldn't be a mess.</strong><br><em>And because static boundaries are invitations to cause trouble.</em></p>
+
+
+## Superseding target-framework decision — 2026-11-21
+
+The dual-target package evidence above is retained as historical evidence for the previous candidate. It is superseded for active development by the owner's ecosystem-wide .NET 10 baseline. The active ProtocolAi candidate is being aligned to `net10.0` only. Do not interpret the historical `net8.0` test/package results as validation of the new candidate; record fresh exact-head CI and package evidence after the target change. The published alpha.2 package and the `master` branch remain untouched.
