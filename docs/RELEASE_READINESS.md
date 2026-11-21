@@ -13,13 +13,13 @@
 
 - NuGet lists `TheSingularityWorkshop.ProtocolAi` **0.1.0-alpha.2** as a published prerelease.
 - The current `development` project declares **0.1.0-alpha.3**.
-- The library targets **.NET 8** (`net8.0`) and **.NET 10** (`net10.0`), preserving the earlier published alpha.2 target. The playground remains `net10.0` and requires the .NET 10 SDK.
+- The published alpha.2 package remains historical .NET 8 evidence. The active development candidate is being aligned to the ecosystem baseline: **.NET 10 (`net10.0`) only**. The playground remains `net10.0` and requires the .NET 10 SDK.
 - The alpha.2 release-named commit `3a0bcc6f7b6c010d1e9598bd09f17ffd6c4e02de` is an ancestor of both canonical branches. This proves the release lineage is retained, but does **not** prove that this exact commit produced the published package. The package's source SHA remains to be established from authoritative package/build provenance.
 - Preserve `master` as the published-package history until that exact source SHA is verified. Do not reconcile branches merely to reduce divergence.
 
-## Compatibility correction — preserve the published .NET 8 consumer target
+## Target-framework alignment — .NET 10 development baseline
 
-The published alpha.2 package targeted .NET 8. The intervening alpha.3 development project had narrowed the package to `net10.0`. The current candidate restores `net8.0` while retaining `net10.0`; exact-head CI built both target frameworks, passed all 166 library tests on each, packed both target assets, verified the README/license/guides/images, and built clean consumer projects for both frameworks. The playground remains .NET 10.
+The published alpha.2 package targeted .NET 8; that published artifact is not modified by this repository change. The previous alpha.3 candidate temporarily dual-targeted `net8.0` and `net10.0` as a conservative compatibility measure. The owner clarified that the ecosystem is moving to .NET 10, so the active candidate should target `net10.0` only rather than carrying forward .NET 8 solely for the old prerelease. The prior dual-target build/test/package evidence below remains historical and is superseded as candidate evidence by the .NET-10-only change. New exact-head CI and package inspection must pass before this candidate is considered verified.
 
 ## Latest verified candidate evidence
 
@@ -88,7 +88,7 @@ These are implemented foundations, not proof that the public API is ready to lea
 
 - [ ] Browser-test the local playground's primary flow, invalid-reference path, reset/step behavior, and `/hello` route under .NET 10.
 - [ ] Inspect the generated `.nupkg` and `.snupkg` contents, including README, license, XML docs, symbols, and intended documentation assets.
-- [x] Verify a clean consumer against the exact packed artifact for both target frameworks and record package hash and test evidence.
+- [ ] Verify a clean .NET 10 consumer against the exact packed artifact and record package hash and test evidence.
 - [ ] Verify all documentation links, badges, image/SVG paths, sample commands, package-version guidance, and cross-repository source references.
 - [x] Replace the placeholder MIT copyright line with `Copyright (c) 2026 Trent Best`.
 - [x] Align the playground README SDK requirement with its `net10.0` project target.
@@ -107,7 +107,7 @@ These are implemented foundations, not proof that the public API is ready to lea
 
 1. Finish source/API and provenance validation review.
 2. Complete source-verified ecosystem mapping and the real host conformance work that is appropriate to this alpha.
-3. Verify the library package and clean consumers on .NET 8 and .NET 10; verify the playground on .NET 10.
+3. Verify the library package and clean consumer on .NET 10; verify the playground on .NET 10.
 4. Reconcile package provenance and branch preservation evidence.
 5. Hand the verified candidate to the CiAi release workflow when the owner directs it.
 
@@ -128,3 +128,8 @@ These are implemented foundations, not proof that the public API is ready to lea
 </p>
 
 <p align="center"><em>The Singularity Workshop — Tools for the curious, the bold, and the systemically inclined.</em><br><strong>Because state shouldn't be a mess.</strong><br><em>And because static boundaries are invitations to cause trouble.</em></p>
+
+
+## Superseding candidate — .NET 10 only
+
+The dual-target alpha.3 candidate documented above is historical and no longer represents the active target-framework policy. The current development candidate is being changed to `net10.0` only across the library, tests, CI package verification, clean-consumer verification, and consuming documentation. The prior .NET 8 test and package results must not be presented as evidence for this candidate. Record the exact new commit, workflow runs, test counts, package target group, package hash, and clean-consumer result here only after those checks pass. NuGet publication remains disabled and unauthorized.
