@@ -122,7 +122,7 @@ jobs:
             printf '%s\n' "$entries"
             exit 1
           fi
-          if ! grep -q '^docs/images/.\\+' <<< "$entries"; then
+          if ! grep -q '^docs/images/.' <<< "$entries"; then
             echo "Expected documentation images under docs/images/ in the NuGet package."
             printf '%s\\n' "$entries"
             exit 1
