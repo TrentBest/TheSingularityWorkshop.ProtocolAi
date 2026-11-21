@@ -13,9 +13,13 @@
 
 - NuGet lists `TheSingularityWorkshop.ProtocolAi` **0.1.0-alpha.2** as a published prerelease.
 - The current `development` project declares **0.1.0-alpha.3**.
-- The repository targets **.NET 10** (`net10.0`); the playground also targets `net10.0` and requires the .NET 10 SDK.
+- The library is being restored to multi-target **.NET 8** (`net8.0`) and **.NET 10** (`net10.0`) to preserve the earlier published alpha.2 target. The playground remains `net10.0` and requires the .NET 10 SDK.
 - The alpha.2 release-named commit `3a0bcc6f7b6c010d1e9598bd09f17ffd6c4e02de` is an ancestor of both canonical branches. This proves the release lineage is retained, but does **not** prove that this exact commit produced the published package. The package's source SHA remains to be established from authoritative package/build provenance.
 - Preserve `master` as the published-package history until that exact source SHA is verified. Do not reconcile branches merely to reduce divergence.
+
+## Compatibility correction — preserve the published .NET 8 consumer target
+
+The published alpha.2 package targeted .NET 8. The intervening alpha.3 development project had narrowed the package to `net10.0`, which would have dropped the earlier consumer target. This change restores `net8.0` while retaining `net10.0`; CI now builds and tests the library for both frameworks and installs/builds the packed package in clean consumers targeting each framework. The playground remains .NET 10. The multi-target artifact is pending exact-head CI and is not yet verified by the earlier `net10.0`-only package evidence below.
 
 ## Latest verified candidate evidence
 
@@ -28,8 +32,8 @@ The build workflow's `Verify live Sith compliance` and `build-and-test` jobs bot
 The package artifact `protocol-ai-nuget-package` (artifact ID `14681818732`) from [exact-head workflow run #44845089638](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/runs/44845089638) was downloaded and inspected directly. Its embedded NuGet repository metadata identifies the exact source candidate `2ea06ef531203b519cf6bea98097be65599000d1`.
 
 - Package: `TheSingularityWorkshop.ProtocolAi.0.1.0-alpha.3.nupkg`
-- Repository metadata commit: `95568ab61a9375bd854873e87ef7ca46f4581f87`
-- Target framework: `net10.0` only
+- Repository metadata commit: `2ea06ef531203b519cf6bea98097be65599000d1`
+- Target framework in this historical pre-restoration artifact: `net10.0` only
 - Dependencies: none declared
 - Package size: 2,471,798 bytes
 - Inner `.nupkg` SHA-256: `684f2f6c37d9b36bcaed984b020729ae80d28b045f1c9c804f7d89725d48b8bb`
@@ -42,7 +46,7 @@ The three packaged raster documentation images account for approximately 2.3 MB 
 
 ## Repository integrity
 
-The live branch inventory contains exactly two branches: `master` (`657b3980f1f234cfcd71d65f3aff3af213e632b1`) and `development` (`2ea06ef531203b519cf6bea98097be65599000d1`). The current compare endpoint reports development 501 commits ahead and 26 behind master, with diverged histories. The current branch ledger records the preservation rationale and release-lineage evidence.
+At the branch-audit baseline `50cc84ccfd6258d24766593c9dd20a9f5a6d38db`, the live branch inventory contained exactly two branches: `master` (`657b3980f1f234cfcd71d65f3aff3af213e632b1`) and `development` (`50cc84ccfd6258d24766593c9dd20a9f5a6d38db`). The compare endpoint reported development 505 commits ahead and 26 behind master, with diverged histories. The multi-target restoration is a subsequent development-only change. The current branch ledger records the preservation rationale and release-lineage evidence.
 
 No branch rewrite, merge, release, deployment, or package publication is part of this readiness work. The NuGet publication path remains disabled in CI. Future publication is intended to be driven by CiAi after the owner authorizes the specific release operation.
 
@@ -101,7 +105,7 @@ These are implemented foundations, not proof that the public API is ready to lea
 
 1. Finish source/API and provenance validation review.
 2. Complete source-verified ecosystem mapping and the real host conformance work that is appropriate to this alpha.
-3. Verify playground and package artifact on .NET 10.
+3. Verify the library package and clean consumers on .NET 8 and .NET 10; verify the playground on .NET 10.
 4. Reconcile package provenance and branch preservation evidence.
 5. Hand the verified candidate to the CiAi release workflow when the owner directs it.
 

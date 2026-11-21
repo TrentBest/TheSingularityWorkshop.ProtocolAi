@@ -30,11 +30,11 @@ The diagram separates implemented behavior from a future direction. The solid pa
 
 ### P0 — contract correctness and evidence
 
-- [ ] Run a clean .NET 10 restore, Release build, and full test suite on the current development commit; record exact results and commit.
+- [ ] Run a clean .NET 8 and .NET 10 restore, Release build, and full test suite on the current development commit; record exact results and commit.
 - [ ] Browser-test the playground's primary flow, invalid-reference path, reset/step behavior, and /hello route.
 - [ ] Check every public API against its tests and XML documentation: null handling, empty inputs, exception types, duplicate names/IDs/values, ordinal matching, numeric overflow, and wrong-protocol references.
 - [ ] Review ProtocolPayloadJson for malformed shapes, missing fields, unknown fields, integer overflow, duplicate values, and round-trip compatibility.
-- [ ] Confirm generated NuGet package contents: README, license, symbols/source package policy, target framework support, examples, and whether docs/images are included intentionally.
+- [ ] Confirm generated NuGet package contents: README, license, symbols/source package policy, both `net8.0` and `net10.0` targets, examples, and whether docs/images are included intentionally.
 - [ ] Reconcile install instructions with the actually published NuGet version. The development project declares 0.1.0-alpha.3; this does not prove the same version is published.
 - [ ] Keep NuGet publication disabled until explicitly authorized.
 

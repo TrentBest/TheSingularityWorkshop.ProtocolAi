@@ -53,25 +53,37 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: |
+            8.0.x
+            10.0.x
       - name: Restore
         run: dotnet restore TheSingularityWorkshop.ProtocolAi.slnx
       - name: Build
         run: dotnet build TheSingularityWorkshop.ProtocolAi.slnx --configuration Release --no-restore
-      - name: Test with coverage
+      - name: Test .NET 8 library target
+        run: >
+          dotnet test tests/ProtocolAi.Tests/ProtocolAi.Tests.csproj
+          --configuration Release
+          --framework net8.0
+          --no-build
+          --verbosity normal
+          --results-directory ./TestResults/net8
+          --logger "trx;LogFileName=protocolai-net8.trx"
+      - name: Test .NET 10 solution with coverage
         run: >
           dotnet test TheSingularityWorkshop.ProtocolAi.slnx
           --configuration Release
+          --framework net10.0
           --no-build
           --verbosity normal
           --collect:"XPlat Code Coverage;Format=cobertura"
-          --results-directory ./TestResults
-          --logger "trx;LogFileName=testresults.trx"
+          --results-directory ./TestResults/net10
+          --logger "trx;LogFileName=protocolai-net10.trx"
       - name: Prepare coverage report
         shell: bash
         run: |
           set -euo pipefail
-          coverage_file="$(find ./TestResults -type f -name 'coverage.cobertura.xml' -print -quit)"
+          coverage_file="$(find ./TestResults/net10 -type f -name 'coverage.cobertura.xml' -print -quit)"
           if [[ -z "$coverage_file" ]]; then
             echo "No coverage.cobertura.xml file was produced."
             find ./TestResults -maxdepth 4 -type f -print || true
@@ -97,6 +109,14 @@ jobs:
             exit 1
           fi
           entries="$(unzip -Z1 "$package")"
+          nuspec="$(unzip -p "$package" '*.nuspec')"
+          for framework in net8.0 net10.0; do
+            if ! grep -Fq "<group targetFramework=\"$framework\"" <<< "$nuspec"; then
+              echo "The package is missing its $framework target."
+              printf '%s\\n' "$nuspec"
+              exit 1
+            fi
+          done
           if ! grep -Eq '^docs/.+\.md$' <<< "$entries"; then
             echo "Expected Markdown guides under docs/ in the NuGet package."
             printf '%s\n' "$entries"
@@ -118,11 +138,14 @@ jobs:
             echo "Could not read package ID/version from the generated NuGet package."
             exit 1
           fi
-          consumer_dir="$(mktemp -d)"
-          trap 'rm -rf "$consumer_dir"' EXIT
-          dotnet new console --framework net10.0 --output "$consumer_dir" --no-restore
-          dotnet add "$consumer_dir" package "$package_id" --version "$package_version" --source "$PWD/artifacts"
-          dotnet build "$consumer_dir" --configuration Release
+          consumer_root="$(mktemp -d)"
+          trap 'rm -rf "$consumer_root"' EXIT
+          for framework in net8.0 net10.0; do
+            consumer_dir="$consumer_root/$framework"
+            dotnet new console --framework "$framework" --output "$consumer_dir" --no-restore
+            dotnet add "$consumer_dir" package "$package_id" --version "$package_version" --source "$PWD/artifacts"
+            dotnet build "$consumer_dir" --configuration Release
+          done
       - name: Upload NuGet package artifact
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:

@@ -36,7 +36,7 @@ The idea in one line:
 
 ## 🟦 01 — What
 
-**TheSingularityWorkshop.ProtocolAi** is a small, provider-neutral .NET library for defining application-owned vocabularies.
+**TheSingularityWorkshop.ProtocolAi** is a small, provider-neutral .NET library for defining application-owned vocabularies. The NuGet package targets **.NET 8 (`net8.0`) and .NET 10 (`net10.0`)**; the interactive playground remains on .NET 10 and requires the .NET 10 SDK.
 
 - A recognized value maps to a stable, protocol-qualified integer reference.
 - A reference is checked against the vocabulary that owns its meaning.

@@ -7,6 +7,8 @@
 
 # Consuming ProtocolAI
 
+**Supported package targets:** .NET 8 (`net8.0`) and .NET 10 (`net10.0`). The interactive playground requires the .NET 10 SDK.
+
 This guide is for the person who has a working .NET application and wants to **use ProtocolAI**, not build ProtocolAI.
 
 If you remember only one thing, remember this:
