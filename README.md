@@ -8,6 +8,11 @@
 
 # ✳️ 00 The Singularity Workshop — ProtocolAi
 
+[![ProtocolAi Pages](https://img.shields.io/website?url=https%3A%2F%2Ftrentbest.github.io%2FTheSingularityWorkshop.ProtocolAi%2F&label=Pages&style=flat-square)](https://trentbest.github.io/TheSingularityWorkshop.ProtocolAi/)
+[![Pages workflow](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.ProtocolAi/pages.yml?branch=development&style=flat-square&label=Pages%20build)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/pages.yml)
+
+**Explore the [ProtocolAi identity portal](https://trentbest.github.io/TheSingularityWorkshop.ProtocolAi/)** — stable vocabulary identities, explicit unknowns, and the host's authorization boundary.
+
 [![Build](https://img.shields.io/github/actions/workflow/status/TrentBest/TheSingularityWorkshop.ProtocolAi/build.yml?branch=development&style=flat-square&logo=github)](https://github.com/TrentBest/TheSingularityWorkshop.ProtocolAi/actions/workflows/build.yml)
 [![NuGet version](https://img.shields.io/nuget/v/TheSingularityWorkshop.ProtocolAi?style=flat-square&logo=nuget&logoColor=white)](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi)
 [![NuGet downloads](https://img.shields.io/nuget/dt/TheSingularityWorkshop.ProtocolAi?style=flat-square&logo=nuget&logoColor=white)](https://www.nuget.org/packages/TheSingularityWorkshop.ProtocolAi)
